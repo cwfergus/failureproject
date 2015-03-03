@@ -42,8 +42,8 @@ clean_failure_reassign_msokay <- failure_aggregation()
 
 failures_reassign_msokay_count <- nrow(clean_failure_reassign_msokay)
 
-clean_failure_reassign_msokay$Failure_Reason <- gsub("Reassigned", NA, clean_failure_reassigns$Failure_Reason)
-clean_failure_msokay <- filter(clean_failure_reassigns, !is.na(Failure_Reason))
+clean_failure_reassign_msokay$Failure_Reason <- gsub("Reassigned", NA, clean_failure_reassign_msokay$Failure_Reason)
+clean_failure_msokay <- filter(clean_failure_reassign_msokay, !is.na(Failure_Reason))
 
 
 failures_msokay_count <- nrow(clean_failure_msokay)
@@ -51,7 +51,7 @@ failures_msokay_count <- nrow(clean_failure_msokay)
 clean_failure_msokay$Failure_Reason <- gsub("Ms Okay", NA, clean_failure_msokay$Failure_Reason)
 clean_failure <- filter(clean_failure_msokay, !is.na(Failure_Reason))
 
-failures_count <- nrow(clean_failure)
+failed_count <- nrow(clean_failure)
 
 reason_counts <-
         clean_failure %>%
