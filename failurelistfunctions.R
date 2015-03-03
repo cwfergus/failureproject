@@ -148,23 +148,33 @@ failure_aggregation <- function(){
 }
 
 data_summary <- function () {
-        summaries <- c("Total number of sequences analyzed:",
+        Catagory <- c("Total number of sequences analyzed:",
+                       "---",
                        "Not passed amount:",
                        "Percent Not Passed",
+                       "---",
                        "Total number of failures and reassigns found:",
-                       "Percent failures and reassigns:",
+                       "Percent failures, reassigns, and Ms Okays:",
+                       "---",
                        "# of Reassigns:",
+                       "# of Ms Okays",
+                       "---",
                        "Total failed:",
                        "Percent Failed")
-        numbers <- c(seq_amount, 
+        Result <- c(seq_amount, 
+                     " ",
                      not_passed_amount,
                      not_passed_amount/seq_amount*100,
-                     failures_and_reassigns,
-                     failures_and_reassigns/seq_amount*100,
-                     failures_and_reassigns-failed_count,
+                     " ",
+                     failures_reassign_msokay_count,
+                     failures_reassign_msokay_count/seq_amount*100,
+                     " ",
+                     failures_reassign_msokay_count-failures_msokay_count,
+                     failures_msokay_count-failed_count,
+                     " ",
                      failed_count,
                      failed_count/seq_amount*100)
-        data.frame(summaries, numbers)
+        data.frame(Catagory, Result)
 }
 
 write_outtest <- function(variablename, outputname="test.xlsx", sheetname="test"){
