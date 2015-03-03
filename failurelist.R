@@ -1,11 +1,10 @@
-## Code to convert exported FM file to find failure reasons.
-# Needs to grab just failures
-# sort via reason
-# calculate percent of each reason
 library(dplyr)
 library(xlsx)
 library(stringr)
-filename <- readline("What is the file called? Don't forget the extension... ")
+source('failurelistfunctions.R')
+
+filename <- readline("What is the data file called?... ")
+filename <- paste(filename, ".tab", sep="")
 
 outputname <- readline("What is the output file called?...  ")
 outputname <- paste(outputname, ".xlsx", sep="")
@@ -13,85 +12,116 @@ outputname <- paste(outputname, ".xlsx", sep="")
 rawdata <- read.table(filename, 
                       sep="\t", 
                       stringsAsFactors=FALSE, 
-                      na.strings = "",
-                      quote="")
+                      na.strings = c("", " "),
+                      quote="",
+                      comment.char="")
 
 colnames(rawdata) <- c("Failure_Reason", 
                        "Five_Prime_mod", 
                        "Three_Prime_mod", 
-                       "sequence")
-#converts to tbl_df to enable advanced data manipulation
+                       "sequence",
+                       "sequence_ID")
 raw_tbl_df <- tbl_df(rawdata)
 
-#converts all characters to lower case to enable easy manipulation
-raw_tbl_df$Failure_Reason <- tolower(raw_tbl_df$Failure_Reason)
-#Removes double spaces to enable easy manipulation
-raw_tbl_df$Failure_Reason <- gsub("  ", " ", raw_tbl_df$Failure_Reason)
-#turns all see SS number for syn info notes into NA to enable removal
-raw_tbl_df$Failure_Reason <- gsub("see", NA, raw_tbl_df$Failure_Reason)
-#turns all good wobbles into NA to enable removal
+seq_amount <- nrow(raw_tbl_df)
 
-###raw_tbl_df$Failure_Reason <- gsub("wobble okay", NA, raw_tbl_df$Failure_Reason)
+not_passed <- filter(raw_tbl_df, !is.na(Failure_Reason))
 
-#turns all reassign notes to NA's to enable removal
-raw_tbl_df$Failure_Reason <- gsub("reassign", NA, raw_tbl_df$Failure_Reason)
+not_passed_amount <- nrow(not_passed)
 
-#turns all material notes to NA's to enable removal
-raw_tbl_df$Failure_Reason <- gsub("material", NA, raw_tbl_df$Failure_Reason)
+#rm(rawdata)
 
-#turns all collection plates notes to NA's to enable removal
-raw_tbl_df$Failure_Reason <- gsub("collection", NA, raw_tbl_df$Failure_Reason)
+not_passed <- clean_up()
 
-#removes Na values: passed, wobble, reassign, material, etc
-failures <- filter(raw_tbl_df, !is.na(Failure_Reason))
 
-#removes blank space at beginning or end of failure reason.
-failures$Failure_Reason <- str_trim(failures$Failure_Reason)
+only_failed <- not_failed()
 
-#rename ms not okay notes to be the same
-failures$Failure_Reason <- gsub("ms n", NA, failures$Failure_Reason)
-failures$Failure_Reason[is.na(failures[,1])] <- "ms NOT okay"
+#rm(raw_tbl_df)
 
-#rename ms okay notes to be the same
-failures$Failure_Reason <- gsub("ms o", NA, failures$Failure_Reason)
-failures$Failure_Reason[is.na(failures[,1])] <- "ms okay"
+clean_failure_reassigns <- failure_aggregation()
 
-#rename un checked Low yield notes to be all the same
-failures$Failure_Reason <- gsub("low y", NA, failures$Failure_Reason)
-failures$Failure_Reason[is.na(failures[,1])] <- "low yield"
+failures_and_reassigns <- nrow(clean_failure_reassigns)
 
-#rename all wrong mass to be the same
+clean_failure_reassigns$Failure_Reason <- gsub("Reassigned", NA, clean_failure_reassigns$Failure_Reason)
+clean_failure <- filter(clean_failure_reassigns, !is.na(Failure_Reason))
 
-sorted <- arrange(failures, Failure_Reason, Three_Prime_mod, Five_Prime_mod)
+failed_count <- nrow(clean_failure)
 
-by_Reason <- group_by(sorted, Failure_Reason)
-reason_counts <- summarize(by_Reason, number_of_failures = n())
-class(reason_counts) <- "data.frame"
-class(sorted) <- "data.frame"
+reason_counts <-
+        clean_failure %>%
+        group_by(Failure_Reason) %>%
+        summarize(number_of_failures = n()) %>%
+        arrange(desc(number_of_failures), Failure_Reason)
 
-by_reason_mods <- group_by(sorted, Failure_Reason, Five_Prime_mod, Three_Prime_mod)
-reason_mod_counts <- summarize(by_reason_mods, failure_per_mod = n())
+seqID_counts <- 
+        clean_failure %>%
+        group_by(sequence_ID) %>%
+        summarize(number_of_failures_by_ID = n()) %>%
+        arrange(desc(number_of_failures_by_ID))
 
-reason_count_arranged <- arrange(reason_counts, desc(number_of_failures))
+seqID_quantile <- quantile(seqID_counts$number_of_failures_by_ID, c(1, 0.98, .9))
+       
+seqID_top2percent <- filter(seqID_counts, number_of_failures_by_ID >= seqID_quantile[2])
+
+mod_reason_counts <- 
+        clean_failure %>%
+        group_by(Five_Prime_mod, Three_Prime_mod) %>%
+        summarize(failure_per_mod = n()) %>%
+        group_by() %>%
+        arrange(desc(failure_per_mod))
+
+#rm(clean_failure)
+
+failure_list <- 
+        only_failed %>%
+        arrange(Failure_Reason)
+
 
 date <- Sys.Date()
+countedname <- paste("Reason Counts for", date, sep=" ")
+seqname <- paste("Sequence ID counts for", date, sep=" ")
+modname <- paste("Mod Counts for", date, sep=" ")
+listname <- paste("Failure list for", date, sep=" ")
 
+class(reason_counts) <- "data.frame"
+class(mod_reason_counts) <- "data.frame"
+class(seqID_top2percent) <- "data.frame"
+class(failure_list) <- "data.frame"
 
-countedname <- paste("Counted", "for", date, sep=" ")
-rawname <- paste("Raw", "for", date, sep=" ")
+summary <- data_summary()
 
-write.xlsx(reason_count_arranged,
+write.xlsx(summary,
            file=outputname, 
-           sheetName=countedname,
+           sheetName="summary",
            row.names=FALSE,
            append=FALSE)
 
-write.xlsx(sorted, 
-           outputname,
-           sheetName=rawname,
+write.xlsx(reason_counts,
+           file=outputname, 
+           sheetName=countedname,
            row.names=FALSE,
            append=TRUE)
 
+write.xlsx(seqID_top2percent,
+           file=outputname, 
+           sheetName=seqname,
+           row.names=FALSE,
+           append=TRUE)
+
+write.xlsx(mod_reason_counts,
+           file=outputname,
+           sheetName=modname,
+           row.names=FALSE,
+           append=TRUE)
+
+#write.xlsx(failure_list, 
+ #          outputname,
+  #         sheetName=listname,
+   #        row.names=FALSE,
+    #       append=TRUE)
+
+
+#rm(list=ls())
 
 
 

@@ -49,7 +49,7 @@ failure_aggregation <- function(){
         only_failed$Failure_Reason <- gsub("stellaris f", NA, only_failed$Failure_Reason)
         only_failed$Failure_Reason <- gsub("more then three", NA, only_failed$Failure_Reason)
         only_failed$Failure_Reason <- gsub("more than 3", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed[,1])] <- "More than three stellaris failures"
+        only_failed$Failure_Reason[is.na(only_failed[,1])] <- "Stellaris failures"
         
         only_failed$Failure_Reason <- gsub("extra tet", NA, only_failed$Failure_Reason)
         only_failed$Failure_Reason[is.na(only_failed[,1])] <- "Extra TET coupled"
