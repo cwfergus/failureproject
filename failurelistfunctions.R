@@ -7,7 +7,7 @@ clean_up <- function(){
 }
 
 #None Failure removal
-not_failed <- function(){
+#not_failed <- function(){
         not_passed$Failure_Reason <- gsub("see", NA, not_passed$Failure_Reason)
         #not_passed$Failure_Reason <- gsub("reass", NA, not_passed$Failure_Reason)
         not_passed$Failure_Reason <- gsub("material", NA, not_passed$Failure_Reason)
