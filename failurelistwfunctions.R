@@ -3,7 +3,8 @@ library(xlsx)
 library(stringr)
 source('failurelistfunctions.R')
 
-filename <- readline("What is the data file called? Don't forget the extension... ")
+filename <- readline("What is the data file called?... ")
+filename <- paste(filename, ".tab", sep="")
 
 outputname <- readline("What is the output file called?...  ")
 outputname <- paste(outputname, ".xlsx", sep="")
