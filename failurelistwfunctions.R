@@ -58,6 +58,10 @@ seqID_counts <-
         summarize(number_of_failures_by_ID = n()) %>%
         arrange(desc(number_of_failures_by_ID))
 
+seqID_quantile <- quantile(seqID_counts$number_of_failures_by_ID, c(1, 0.98, .9))
+       
+seqID_top2percent <- filter(seqID_counts, number_of_failures_by_ID >= seqID_quantile[2])
+
 mod_reason_counts <- 
         clean_failure %>%
         group_by(Five_Prime_mod, Three_Prime_mod) %>%
@@ -80,7 +84,7 @@ listname <- paste("Failure list for", date, sep=" ")
 
 class(reason_counts) <- "data.frame"
 class(mod_reason_counts) <- "data.frame"
-class(seqID_counts) <- "data.frame"
+class(seqID_top2percent) <- "data.frame"
 class(failure_list) <- "data.frame"
 
 summary <- data_summary()
@@ -97,7 +101,7 @@ write.xlsx(reason_counts,
            row.names=FALSE,
            append=TRUE)
 
-write.xlsx(seqID_counts,
+write.xlsx(seqID_top2percent,
            file=outputname, 
            sheetName=seqname,
            row.names=FALSE,
