@@ -1,6 +1,21 @@
-library(dplyr)
-library(xlsx)
-library(stringr)
+if (require(dplyr)==FALSE){
+        install.packages(dplyr)
+        library(dplyr)
+} else {
+        library(dplyr)
+}
+if (require(xlsx)==FALSE){
+        install.packages("xlsx")
+        library(xlsx)
+} else {
+        library(xlsx)
+}
+if (require(stringr)==FALSE) {
+        install.packages("stringr")
+        library(stringr)
+} else {
+        library(stringr)
+}
 source('failurelistfunctions.R')
 
 filename <- readline("What is the data file called?... ")
