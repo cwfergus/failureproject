@@ -6,3 +6,5 @@
 ~$lastyearonlyfailed.xlsx
 ~$yeartimetest.
 .gitignore
+test.xlsx
+~$test.xlsx
