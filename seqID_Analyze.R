@@ -30,11 +30,17 @@ seqID_FR_Mods <-
         select(c(1,2,3,6,4,5)) %>%
         filter(failure_rate != 1)
         
-seqID_10percent <- quantile(seqID_FR_Mods$failure_rate, probs=0.9)
+seqID_FR_2percent <- quantile(seqID_FR_Mods$failure_rate, probs=0.98)
 
-seqID_top10percent <- filter(seqID_FR_Mods, failure_rate>= seqID_10percent)
+seqID_FR_top2percent <- filter(seqID_FR_Mods, failure_rate>= seqID_FR_2percent)
 
-class(seqID_top10percent) <- "data.frame"
+class(seqID_FR_top2percent) <- "data.frame"
+
+write.xlsx(seqID_FR_top2percent,
+           file=outputname, 
+           sheetName="Top 2 percent of SeqID failures",
+           row.names=FALSE,
+           append=TRUE)
 
 #testing region
 

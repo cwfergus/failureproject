@@ -60,7 +60,6 @@ source('seqID_Analyze.R')
 
 date <- Sys.Date()
 countedname <- paste("Reason Counts for", date, sep=" ")
-seqname <- paste("Sequence ID counts for", date, sep=" ")
 
 class(reason_counts) <- "data.frame"
 
@@ -71,13 +70,7 @@ write.xlsx(reason_counts,
            row.names=FALSE,
            append=TRUE)
 
-write.xlsx(seqID_top10percent,
-           file=outputname, 
-           sheetName=seqname,
-           row.names=FALSE,
-           append=TRUE)
-
-
+source('seqID_Analyze.R')
 
 source('bothmod_Analyze.R')
 
