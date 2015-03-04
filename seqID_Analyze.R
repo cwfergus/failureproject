@@ -13,30 +13,28 @@ seqID_failure_counts <-
         summarize(number_of_failures = n()) %>%
         arrange(desc(number_of_failures))
 
-seqID_merged <- merge(seqID_counts, seqID_failure_counts, by="sequence_ID")
-
-seqID_fail_rate <-
-        seqID_merged %>%
-        mutate(failure_rate = number_of_failures/times_made) %>%
-        arrange(desc(failure_rate)) %>%
-        filter(failure_rate != 1)
-        
-modlist <- 
+seqID_Mods <-
         clean_failure %>%
-        group_by(sequence_ID)%>%
+        group_by(sequence_ID, Five_Prime_mod, Three_Prime_mod) %>%
+        summarise_each(funs(n())) %>%
         select(sequence_ID, Five_Prime_mod, Three_Prime_mod)
 
+seqID_FR_raw <- merge(seqID_counts, seqID_failure_counts, by="sequence_ID")
 
+seqID_FR_raw_Mods <- merge(seqID_FR_raw, seqID_Mods, by="sequence_ID")
 
-seqID_10percent <- quantile(seqID_fail_rate$failure_rate, probs=0.9)
+seqID_FR_Mods <-
+        seqID_FR_raw_Mods %>%
+        mutate(failure_rate = number_of_failures/times_made) %>%
+        arrange(desc(failure_rate)) %>%
+        select(c(1,2,3,6,4,5)) %>%
+        filter(failure_rate != 1)
+        
+seqID_10percent <- quantile(seqID_FR_Mods$failure_rate, probs=0.9)
 
-seqID_top10percent <- filter(seqID_fail_rate, failure_rate>= seqID_10percent)
+seqID_top10percent <- filter(seqID_FR_Mods, failure_rate>= seqID_10percent)
 
 class(seqID_top10percent) <- "data.frame"
 
 #testing region
 
-seqID_failure_counts <-
-        clean_failure %>%
-        group_by(sequence_ID, Five_Prime_mod, Three_Prime_mod) %>%
-        summarise_each(funs(n()))
