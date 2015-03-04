@@ -46,9 +46,9 @@ only_failed <- not_failed()
 
 clean_failure_reassign_msokay <- failure_aggregation()
 
+clean_failure_msokay <- reason_remover(clean_failure_reassign_msokay, "Reassigned")
 
-clean_failure_reassign_msokay$Failure_Reason <- gsub("Reassigned", NA, clean_failure_reassign_msokay$Failure_Reason)
-clean_failure_msokay <- filter(clean_failure_reassign_msokay, !is.na(Failure_Reason))
+clean_failure <- reason_remover(clean_failure_msokay, "Ms Okay")
 
 
 clean_failure_msokay$Failure_Reason <- gsub("Ms Okay", NA, clean_failure_msokay$Failure_Reason)

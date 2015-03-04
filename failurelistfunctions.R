@@ -23,6 +23,11 @@ not_failed <- function(){
         filter(not_passed, !is.na(Failure_Reason))
 }
  
+reason_remover <- function(dataframe, reason) {
+        dataframe$Failure_Reason <- gsub(reason, NA, dataframe$Failure_Reason)
+        filter(dataframe, !is.na(Failure_Reason))
+}
+
 #Failure aggregation
 failure_aggregation <- function(){
         only_failed$Failure_Reason <- gsub("ms n", NA, only_failed$Failure_Reason)
