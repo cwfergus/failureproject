@@ -56,12 +56,6 @@ reason_counts <-
         summarize(number_of_failures = n()) %>%
         arrange(desc(number_of_failures), Failure_Reason)
 
-mod_reason_counts <- 
-        clean_failure %>%
-        group_by(Five_Prime_mod, Three_Prime_mod) %>%
-        summarize(failure_per_mod = n()) %>%
-        group_by() %>%
-        arrange(desc(failure_per_mod))
 failure_list <- 
         only_failed %>%
         arrange(Failure_Reason)
@@ -71,11 +65,9 @@ source('seqID_Analyze.R')
 date <- Sys.Date()
 countedname <- paste("Reason Counts for", date, sep=" ")
 seqname <- paste("Sequence ID counts for", date, sep=" ")
-modname <- paste("Mod Counts for", date, sep=" ")
 listname <- paste("Failure list for", date, sep=" ")
 
 class(reason_counts) <- "data.frame"
-class(mod_reason_counts) <- "data.frame"
 class(failure_list) <- "data.frame"
 
 
@@ -91,11 +83,6 @@ write.xlsx(seqID_top10percent,
            row.names=FALSE,
            append=TRUE)
 
-write.xlsx(mod_reason_counts,
-           file=outputname,
-           sheetName=modname,
-           row.names=FALSE,
-           append=TRUE)
 
 #write.xlsx(failure_list, 
  #          outputname,
@@ -103,6 +90,7 @@ write.xlsx(mod_reason_counts,
    #        row.names=FALSE,
     #       append=TRUE)
 
+source('bothmod_Analyze.R')
 
 #rm(list=ls())
 
