@@ -50,20 +50,20 @@ clean_failure_msokay <- reason_remover(clean_failure_reassign_msokay, "Reassigne
 
 clean_failure <- reason_remover(clean_failure_msokay, "Ms Okay")
 
-reason_counts <-
+Failurelist_by_Reason <-
         clean_failure %>%
         group_by(Failure_Reason) %>%
         summarize(number_of_failures = n()) %>%
         arrange(desc(number_of_failures), Failure_Reason)
 
+source('summary.R')
 
 date <- Sys.Date()
 countedname <- paste("Reason Counts for", date, sep=" ")
 
-class(reason_counts) <- "data.frame"
+class(Failurelist_by_Reason) <- "data.frame"
 
-
-write.xlsx(reason_counts,
+write.xlsx(Failurelist_by_Reason,
            file=outputname, 
            sheetName=countedname,
            row.names=FALSE,
@@ -73,7 +73,7 @@ source('seqID_Analyze.R')
 
 source('bothmod_Analyze.R')
 
-#rm(list=ls())
+rm(list=ls())
 
 
 
