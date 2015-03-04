@@ -56,19 +56,13 @@ reason_counts <-
         summarize(number_of_failures = n()) %>%
         arrange(desc(number_of_failures), Failure_Reason)
 
-failure_list <- 
-        only_failed %>%
-        arrange(Failure_Reason)
-
 source('seqID_Analyze.R')
 
 date <- Sys.Date()
 countedname <- paste("Reason Counts for", date, sep=" ")
 seqname <- paste("Sequence ID counts for", date, sep=" ")
-listname <- paste("Failure list for", date, sep=" ")
 
 class(reason_counts) <- "data.frame"
-class(failure_list) <- "data.frame"
 
 
 write.xlsx(reason_counts,
@@ -84,11 +78,6 @@ write.xlsx(seqID_top10percent,
            append=TRUE)
 
 
-#write.xlsx(failure_list, 
- #          outputname,
-  #         sheetName=listname,
-   #        row.names=FALSE,
-    #       append=TRUE)
 
 source('bothmod_Analyze.R')
 
