@@ -50,9 +50,6 @@ clean_failure_msokay <- reason_remover(clean_failure_reassign_msokay, "Reassigne
 
 clean_failure <- reason_remover(clean_failure_msokay, "Ms Okay")
 
-
-clean_failure_msokay$Failure_Reason <- gsub("Ms Okay", NA, clean_failure_msokay$Failure_Reason)
-clean_failure <- filter(clean_failure_msokay, !is.na(Failure_Reason))
 reason_counts <-
         clean_failure %>%
         group_by(Failure_Reason) %>%
