@@ -56,7 +56,6 @@ reason_counts <-
         summarize(number_of_failures = n()) %>%
         arrange(desc(number_of_failures), Failure_Reason)
 
-source('seqID_Analyze.R')
 
 date <- Sys.Date()
 countedname <- paste("Reason Counts for", date, sep=" ")
