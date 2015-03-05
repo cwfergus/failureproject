@@ -1,0 +1,11 @@
+CodeBook for Failure List Project
+Cameron Ferguson
+Last updated 3/4/15
+----------------------------------------------------------------------------
+This CodeBook provides insight into the raw data, the precursor data and how it
+is made, and the final data.
+
+------------------------------------------------
+Raw Data
+
+
