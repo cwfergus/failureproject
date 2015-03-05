@@ -158,5 +158,5 @@ test_write_out <- function(variablename, outputname="test.xlsx", sheetname="test
                    file=outputname, 
                    sheetName=sheetname,
                    row.names=FALSE,
-                   append=FALSE)
+                   append=TRUE)
 }
