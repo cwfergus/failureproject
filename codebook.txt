@@ -120,6 +120,28 @@ seqID_FR_top2percent: is only the seqID_FR_mods observations whose failure rate 
 	the seqID_FR_2percent number. This is the data frame that is written to the excel
 	file.
 
+----
+mod_Analyze.R intermediates
+
+mod_counts: a data frame that contains every unique mod combination in the raw file, and the 
+	number of times they were made.
+
+mod_failure_counts: a data frame that contains every unique mod combination in the failure
+	list, and the number of times they failed.
+
+mod_FR_raw: a data frame with the two above files merged, any that never fail remain, and
+	after the next line, the failure number is changed to 0
+
+mod_FR: is similar to the mod_FR_raw file but contains a fifth column, that is the failure
+	rate of each mod combination, calulated by taking the number_of_failures/times_made
+	Then all failure rates of 1 are removed, and the file is ordered by failure rate
+		Failure rates of 1 are similar to the seqID failure rate of 1 issue,
+		IE it has to do with naming... doesn't everything??
+
+Also in this script are variations of the above variables that are for only five prime mods
+or only three prime mods. The type of file is the same, but instead of mod combos only one
+mod is found.
+
 
 
 
