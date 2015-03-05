@@ -14,7 +14,7 @@ seqID_failure_counts <-
         arrange(desc(number_of_failures))
 
 seqID_Mods <-
-        clean_failure %>%
+        raw_tbl_df %>%
         group_by(sequence_ID, Five_Prime_mod, Three_Prime_mod) %>%
         summarise_each(funs(n())) %>%
         select(sequence_ID, Five_Prime_mod, Three_Prime_mod)
