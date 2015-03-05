@@ -42,5 +42,4 @@ write.xlsx(seqID_FR_top2percent,
            row.names=FALSE,
            append=TRUE)
 
-#testing region
 
