@@ -66,7 +66,7 @@ write.xlsx(Failurelist_by_Reason,
 
 source('seqID_Analyze.R')
 
-source('bothmod_Analyze.R')
+source('mod_Analyze.R')
 
 rm(list=ls())
 
