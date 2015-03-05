@@ -152,7 +152,7 @@ failure_aggregation <- function(){
         
 }
 
-write_outtest <- function(variablename, outputname="test.xlsx", sheetname="test"){
+test_write_out <- function(variablename, outputname="test.xlsx", sheetname="test"){
         class(variablename) <- "data.frame"
         write.xlsx(variablename,
                    file=outputname, 
