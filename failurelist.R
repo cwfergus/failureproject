@@ -60,8 +60,8 @@ source('summary.R')
 class(Failurelist_by_Reason) <- "data.frame"
 
 write.xlsx(Failurelist_by_Reason,
-           file="Top Failure Reasons", 
-           sheetName=countedname,
+           file=outputname, 
+           sheetName="Top Failure Reasons",
            row.names=FALSE,
            append=TRUE)
 
