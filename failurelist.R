@@ -56,13 +56,10 @@ Failurelist_by_Reason <-
 
 source('summary.R')
 
-date <- Sys.Date()
-countedname <- paste("Reason Counts for", date, sep=" ")
-
 class(Failurelist_by_Reason) <- "data.frame"
 
 write.xlsx(Failurelist_by_Reason,
-           file=outputname, 
+           file="Top Failure Reasons", 
            sheetName=countedname,
            row.names=FALSE,
            append=TRUE)
