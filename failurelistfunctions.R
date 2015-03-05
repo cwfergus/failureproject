@@ -1,16 +1,27 @@
 #Character Clean up function
+#This function is used to clean up the raw data to enable easy manipulation
 clean_up <- function(){
-        not_passed$Failure_Reason <- tolower(not_passed$Failure_Reason)
+        #converts failure reasons to lower case
+        not_passed$Failure_Reason <- tolower(not_passed$Failure_Reason) 
+        #turns accidental double spaces into single spaces
         not_passed$Failure_Reason <- gsub("  ", " ", not_passed$Failure_Reason)
+        #removes any extra space at the beginning or end of notes
         not_passed$Failure_Reason <- str_trim(not_passed$Failure_Reason)
         not_passed
 }
 
 #None Failure removal
+#Intended to remove most sequences that did not actually failed by have notes in their
+#failure Reason section.
 not_failed <- function(){
+        #changes any notes with the letters "see" to NA
         not_passed$Failure_Reason <- gsub("see", NA, not_passed$Failure_Reason)
+        #changes any  notes with the letters "reass" to NA. Currently stoped to enable
+        #counting of the reassign notes.
         #not_passed$Failure_Reason <- gsub("reass", NA, not_passed$Failure_Reason)
+        #changes any notes with the letters "material" to NA.
         not_passed$Failure_Reason <- gsub("material", NA, not_passed$Failure_Reason)
+        #etc etc etc
         not_passed$Failure_Reason <- gsub("collection", NA, not_passed$Failure_Reason)
         not_passed$Failure_Reason <- gsub("stellaris o", NA, not_passed$Failure_Reason)
         not_passed$Failure_Reason <- gsub("pass", NA, not_passed$Failure_Reason)
@@ -20,19 +31,23 @@ not_failed <- function(){
         not_passed$Failure_Reason <- gsub("relot", NA, not_passed$Failure_Reason)
         not_passed$Failure_Reason <- gsub("re-lot", NA, not_passed$Failure_Reason)
         not_passed$Failure_Reason <- gsub("comb", NA, not_passed$Failure_Reason)
+        #removes any that have NA for the failure reason.
         filter(not_passed, !is.na(Failure_Reason))
 }
- 
+ # this function is used to remove specific failure reasons from the data
 reason_remover <- function(dataframe, reason) {
         dataframe$Failure_Reason <- gsub(reason, NA, dataframe$Failure_Reason)
         filter(dataframe, !is.na(Failure_Reason))
 }
 
 #Failure aggregation
+#Used to attempt to provide common failure reason notes to divergent failure reason notes.
 failure_aggregation <- function(){
+        # finds anything with the characters "ms n" and changes the note to NA
         only_failed$Failure_Reason <- gsub("ms n", NA, only_failed$Failure_Reason)
+        #changes any notes that are NA to "Ms NOT Okay"
         only_failed$Failure_Reason[is.na(only_failed[,1])] <- "Ms NOT Okay"
-        
+        #etc #etc #etc
         only_failed$Failure_Reason <- gsub("ms o", NA, only_failed$Failure_Reason)
         only_failed$Failure_Reason[is.na(only_failed[,1])] <- "Ms Okay"
         
