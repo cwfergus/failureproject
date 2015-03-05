@@ -33,8 +33,6 @@ rawdata <- read.table(filename,
 
 colnames(rawdata) <- c("Failure_Reason", 
                        "Five_Prime_mod", 
-                       "Three_Prime_mod", 
-                       "sequence",
                        "sequence_ID")
 raw_tbl_df <- tbl_df(rawdata)
 
