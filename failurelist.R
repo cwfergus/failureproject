@@ -33,6 +33,7 @@ rawdata <- read.table(filename,
 
 colnames(rawdata) <- c("Failure_Reason", 
                        "Five_Prime_mod", 
+                       "Three_Prime_mod",
                        "sequence_ID")
 raw_tbl_df <- tbl_df(rawdata)
 
@@ -68,7 +69,7 @@ source('seqID_Analyze.R')
 
 source('mod_Analyze.R')
 
-rm(list=ls())
+#rm(list=ls())
 
 
 
