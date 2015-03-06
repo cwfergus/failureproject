@@ -33,13 +33,13 @@ seqName_FR_Mods <-
         filter(failure_rate != 1)
 
 # find the value that represents the highest 2% cut off for failure_rate
-seqName_FR_2percent <- quantile(seqName_FR_Mods$failure_rate, probs=0.98) 
+seqName_FR_10percent <- quantile(seqName_FR_Mods$failure_rate, probs=0.90) 
 #removes all seqID's with a failure_rate lower than the 2% cut off
-seqName_FR_top2percent <- filter(seqName_FR_Mods, failure_rate> 0)
+seqName_FR_top10percent <- filter(seqName_FR_Mods, failure_rate>=seqName_FR_10percent)
 
-class(seqName_FR_top2percent) <- "data.frame"
+class(seqName_FR_top10percent) <- "data.frame"
 #write out the data to the excel file
-write.xlsx(seqName_FR_top2percent,#data file
+write.xlsx(seqName_FR_top10percent,#data file
            file=outputname, #file name specified by user in failurelist.R
            sheetName="Sequence Name Failure Rate", #sheet name
            row.names=FALSE,#prevent row names
