@@ -5,7 +5,7 @@
 #Generates a list of the unique sequence ID's and the number of times made
 seqID_counts <-
         raw_tbl_df %>% #the data to pull from
-        group_by(sequence_ID) %>% #group the data by sequence ID
+        group_by(Sequence_ID) %>% #group the data by sequence ID
         summarize(times_made = n()) %>% #Count each time a unique Sequence ID exists and
                                         #make a new variable with that info
         arrange(desc(times_made)) #arrange via the number of times made
@@ -13,7 +13,7 @@ seqID_counts <-
 #Generates a list of the unique sequence ID's and the number of times failed
 seqID_failure_counts <-
         clean_failure %>% #the data to pull from
-        group_by(sequence_ID) %>% #group by sequence ID
+        group_by(Sequence_ID) %>% #group by sequence ID
         summarize(number_of_failures = n()) %>% #count each time a SeqID exists and
                                                 #make a new variable w/ that info
         arrange(desc(number_of_failures)) #arrange via the number of failures
@@ -21,14 +21,14 @@ seqID_failure_counts <-
 #Generates a list of the unique sequence ID's and their modifications
 seqID_Mods <-
         raw_tbl_df %>% #data to pull from
-        group_by(sequence_ID, Five_Prime_mod, Three_Prime_mod) %>% #group by seqID, 5'mod, 3'
+        group_by(Sequence_ID, Five_Prime_mod, Three_Prime_mod) %>% #group by seqID, 5'mod, 3'
         summarise_each(funs(n())) %>% #collapse the data by seqID, so no duplicates
-        select(sequence_ID, Five_Prime_mod, Three_Prime_mod) #select just certain variables
+        select(Sequence_ID, Five_Prime_mod, Three_Prime_mod) #select just certain variables
 
 #merge the made counts and failure counts by sequence ID
-seqID_FR_raw <- merge(seqID_counts, seqID_failure_counts, by="sequence_ID")
+seqID_FR_raw <- merge(seqID_counts, seqID_failure_counts, by="Sequence_ID")
 #Add each sequence ID's mods
-seqID_FR_raw_Mods <- merge(seqID_FR_raw, seqID_Mods, by="sequence_ID")
+seqID_FR_raw_Mods <- merge(seqID_FR_raw, seqID_Mods, by="Sequence_ID")
 #Create a new failure rate vairalbe, reorder the columns, filter out bad data, and reorder
 seqID_FR_Mods <-
         seqID_FR_raw_Mods %>% #data to use
