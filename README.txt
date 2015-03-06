@@ -1,6 +1,10 @@
 Failure List
 Cameron Ferguson
-last updated: 3/04/15
+last updated: 3/06/15
+-------------------------------------------------------------------------------------
+UPDATES:
+Export items and order is different, in order to make a more logical export order, and
+enable the new seqName sheet. See Raw File section, exporting step 11
 -------------------------------------------------------------------------------------
 Script Summary
 
@@ -61,10 +65,11 @@ To generate the Raw File
 	9) Hit File>Export Records...
 	10) Save the data in the same folder as the script, or at least remember where you put it. You must also remember the name you choose.
 	11) Select the following Fields from the box on the left, and MOVE them to the box on the right. They must be in the following order:
-		a)Sets SSID Track::Notes
-		b)Sets SSID Track::Five Mod
-		c)Sets SSID Track::Three Mod
-		d)Sets SSID Track::Sequence ID
+		a)Sets SSID Track::Sequence ID
+		b)Sets SSID Track::Sequence Name
+		c)Sets SSID Track::Five Mod
+		d)Sets SSID Track::Three Mod
+                e)Sets SSID Track::Notes
 	12) Hit export
 	13) Wait for filemaker to export the data. This can take up to 10 minuites!
 

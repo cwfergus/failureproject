@@ -40,10 +40,11 @@ rawdata <- read.table(filename, #user specified name
                       comment.char="") #prevents reading in # as a comment, not a variable
 
 #appends colnames to the data frame
-colnames(rawdata) <- c("Failure_Reason", 
-                       "Five_Prime_mod", 
+colnames(rawdata) <- c("Sequence_ID", 
+                       "Sequence_Name", 
+                       "Five_Prime_mod",
                        "Three_Prime_mod",
-                       "sequence_ID")
+                       "Failure_Reason")
 # converts the data frame to the special tbl_df class, necessary for use with DPLYR functions
 raw_tbl_df <- tbl_df(rawdata)
 #removes any observations that contain an NA in the Failure_Reason Variable.
@@ -81,8 +82,11 @@ write.xlsx(Failurelist_by_Reason,#the data
 
 #Generates the seqID sheets, see the seqID_Analyze.R script for details
 source('seqID_Analyze.R')
+#Generates the seqName Sheet, see seqName_Analyze.R script for details.
+source('seqName_Analyze.R')
 #Generates the mod analysis sheets, see the mod_analyze.R script for details.
 source('mod_Analyze.R')
+
 
 #Removes everything from R memory.
 #rm(list=ls())
