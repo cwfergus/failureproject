@@ -20,8 +20,9 @@ not_failed <- function(){
         #counting of the reassign notes.
         #not_passed$Failure_Reason <- gsub("reass", NA, not_passed$Failure_Reason)
         #changes any notes with the letters "material" to NA.
-        not_passed$Failure_Reason <- gsub("material", NA, not_passed$Failure_Reason)
+        not_passed$Failure_Reason <- gsub("extra material", NA, not_passed$Failure_Reason)
         #etc etc etc
+        not_passed$Failure_Reason <- gsub("archive material", NA, not_passed$Failure_Reason)
         not_passed$Failure_Reason <- gsub("collection", NA, not_passed$Failure_Reason)
         not_passed$Failure_Reason <- gsub("stellaris o", NA, not_passed$Failure_Reason)
         not_passed$Failure_Reason <- gsub("pass", NA, not_passed$Failure_Reason)
