@@ -86,19 +86,20 @@ class(mod5_FR) <- "data.frame"
 class(mod3_FR) <- "data.frame"
 
 write.xlsx(mod_FR,
-           file=outputname,
+           file=outputnamexlsx,
            sheetName="Both Mod Failure Rate",
            row.names=FALSE,
            append=TRUE)
 
 write.xlsx(mod5_FR,
-           file=outputname,
+           file=outputnamexlsx,
            sheetName="Five Prime Mod Failure Rate",
            row.names=FALSE,
            append=TRUE)
 
 write.xlsx(mod3_FR,
-           file=outputname,
+           file=outputnamexlsx,
            sheetName="Three Prime Mod Failure Rate",
            row.names=FALSE,
            append=TRUE)
+

@@ -6,10 +6,13 @@
 seq_amount <- nrow(raw_tbl_df)
 #counts the number of rows in the not_passed data frame
 not_passed_amount <- nrow(not_passed)
+
 #counts the number of rows in the failures+reassigns+ms okay data frame
 failures_reassign_msokay_amount <- nrow(clean_failure_reassign_msokay)
+
 #counts the number of rows in the failures+ms okay data frame
 failures_msokay_amount <- nrow(clean_failure_msokay)
+
 #counts the number of rows in the failures data frame.
 failed_amount <- nrow(clean_failure)
 
@@ -47,7 +50,7 @@ Result <- c(seq_amount,
 summary <- data.frame(Catagory, Result)
 # writes the data frame to an excel file
 write.xlsx(summary, #the data
-           file=outputname, #the user specified name w/ .xlsx (from failurelist.R)
+           file=outputnamexlsx, #the user specified name w/ .xlsx (from failurelist.R)
            sheetName="summary", #the sheet name
            row.names=FALSE, #prevents attempting to assign row names
            append=TRUE) #append to an existing file.

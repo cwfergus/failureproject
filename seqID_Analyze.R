@@ -36,19 +36,21 @@ seqID_FR_Mods <-
                                                 #the number of failures variable / times made
         arrange(desc(failure_rate)) %>% #arrange by this new Failure Rate variable
         select(c(1,2,3,6,4,5)) %>% # Reorder the columns to look better
-        filter(failure_rate != 1) #remove bad data, ie failure rate =1 (not likely!)
+        filter(failure_rate != 1, failure_rate != 0) #remove bad data, ie failure rate =1 (not likely!)
 
-# find the value that represents the highest 2% cut off for failure_rate
-seqID_FR_2percent <- quantile(seqID_FR_Mods$failure_rate, probs=0.98) 
-#removes all seqID's with a failure_rate lower than the 2% cut off
-seqID_FR_top2percent <- filter(seqID_FR_Mods, failure_rate>= seqID_FR_2percent)
+
 #convert the data frame to a normal data frame
-class(seqID_FR_top2percent) <- "data.frame"
-#write out the data to the excel file
-write.xlsx(seqID_FR_top2percent,#data file
-           file=outputname, #file name specified by user in failurelist.R
-           sheetName="Top 2 percent of SeqID failures", #sheet name
-           row.names=FALSE,#prevent row names
-           append=TRUE)#allow it to append to existing excel file.
-
-
+class(seqID_FR_Mods) <- "data.frame"
+if (data_size == 1) {
+        outputname3 <- paste("seqID", outputname, ".csv", sep="")
+        write.csv(seqID_FR_Mods,
+                  file=outputname3,
+                  row.names=FALSE,
+                  na = "")
+} else {
+        write.xlsx(seqID_FR_Mods,#data file
+                   file=outputnamexlsx, #file name specified by user in failurelist.R
+                   sheetName="Sequence ID Failure Rate", #sheet name
+                   row.names=FALSE,#prevent row names
+                   append=TRUE)#allow it to append to existing excel file.
+}
