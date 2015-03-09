@@ -29,7 +29,10 @@ filename <- paste(filename, ".tab", sep="")
 
 #Asks the user for their desired output name, and appends the name with the xlsx extension
 outputname <- readline("What is the output file called?...  ")
-outputname <- paste(outputname, ".xlsx", sep="")
+outputnamexlsx <- paste(outputname, ".xlsx", sep="")
+
+data_size <- readline("Is this a year or more of data? If so, multiple excel files will be made
+                      enter 1 (for yes) or 2 (for no)... ")
 
 #reads in the raw data file
 rawdata <- read.table(filename, #user specified name
@@ -75,7 +78,7 @@ source('summary.R')
 class(Failurelist_by_Reason) <- "data.frame"
 #writes out the data to an excel sheet
 write.xlsx(Failurelist_by_Reason,#the data
-           file=outputname, #the users specified outputname with the .xlsx extension
+           file=outputnamexlsx, #the users specified outputname with the .xlsx extension
            sheetName="Top Failure Reasons",#the sheet name
            row.names=FALSE, #It won't try to add row names
            append=TRUE) # It will add this sheet to an exsisting file if necessary.
