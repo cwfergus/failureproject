@@ -1,3 +1,5 @@
+#Updated 3/10/15
+
 seqName_counts <-
         raw_tbl_df %>% #the data to pull from
         group_by(Sequence_Name) %>% #group the data by sequence ID
@@ -33,17 +35,17 @@ seqName_FR_Mods <-
         arrange(desc(failure_rate)) %>% #arrange by this new Failure Rate variable
         select(c(1,4,5,2,3,6)) %>% # Reorder the columns to look better
         filter(failure_rate != 1, failure_rate != 0)
-
+# converts to regular Data.Frame
 class(seqName_FR_Mods) <- "data.frame"
-
-if (data_size == 1) {
-        outputname2 <- paste("seqName", outputname, ".csv", sep="")
-        write.csv(seqName_FR_Mods,
+#Writes out in two ways depending on data size
+if (data_size == 1) {#if Large
+        outputname2 <- paste("seqName", outputname, ".csv", sep="") #.csv file
+        write.csv(seqName_FR_Mods, #uses write.csv as way faster
                   file=outputname2,
                   row.names=FALSE,
                   na = "")
         
-} else {
+} else { #else small data:
         write.xlsx(seqName_FR_Mods,#data file
                    file=outputnamexlsx, #file name specified by user in failurelist.R
                    sheetName="Sequence Name Failure Rate", #sheet name

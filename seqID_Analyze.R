@@ -1,3 +1,5 @@
+#Updated 3/10/15
+
 #Sequence ID failure DATA script
 #The script generates the Sequence ID failure rate sheet in the final excel file
 #It requires the failurelist.R script to have run before it.
@@ -41,13 +43,15 @@ seqID_FR_Mods <-
 
 #convert the data frame to a normal data frame
 class(seqID_FR_Mods) <- "data.frame"
-if (data_size == 1) {
-        outputname3 <- paste("seqID", outputname, ".csv", sep="")
-        write.csv(seqID_FR_Mods,
+
+#Writes out in two different ways depending on Data Size. 
+if (data_size == 1) { #if large:
+        outputname3 <- paste("seqID", outputname, ".csv", sep="") #.csv ext
+        write.csv(seqID_FR_Mods, #uses write.csv as it is WAY faster
                   file=outputname3,
                   row.names=FALSE,
-                  na = "")
-} else {
+                  na = "") #converts NA's to blank boxes
+} else { #if small data file:
         write.xlsx(seqID_FR_Mods,#data file
                    file=outputnamexlsx, #file name specified by user in failurelist.R
                    sheetName="Sequence ID Failure Rate", #sheet name

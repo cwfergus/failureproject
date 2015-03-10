@@ -1,3 +1,5 @@
+#Updated 3/10/15
+
 #Failure List function
 
 #The below portion checks for exsistance of packages, and either downloads or loads them
@@ -22,6 +24,9 @@ if (require(stringr)==FALSE) {
 
 #Sourcing the unqiue functions that are used in this script
 source('failurelistfunctions.R')
+#Makes user aware of any changes, and asks for acknowledgement.
+print("This Script was updated on 3/9/15, New export order is needed")
+readline("Please read the readme, and then hit enter...")
 
 #Asks the user for the name of the raw data file, and appends the name with its extension
 filename <- readline("What is the data file called?... ")
@@ -31,6 +36,7 @@ filename <- paste(filename, ".tab", sep="")
 outputname <- readline("What is the output file called?...  ")
 outputnamexlsx <- paste(outputname, ".xlsx", sep="")
 
+#Asks the size of the data, to prevent over loading system + speed up
 data_size <- readline("Is this a year or more of data? If so, multiple excel files will be made
                       enter 1 (for yes) or 2 (for no)... ")
 
@@ -83,12 +89,13 @@ write.xlsx(Failurelist_by_Reason,#the data
            row.names=FALSE, #It won't try to add row names
            append=TRUE) # It will add this sheet to an exsisting file if necessary.
 
+#Generates the mod analysis sheets, see the mod_analyze.R script for details.
+source('mod_Analyze.R')
 #Generates the seqID sheets, see the seqID_Analyze.R script for details
 source('seqID_Analyze.R')
 #Generates the seqName Sheet, see seqName_Analyze.R script for details.
 source('seqName_Analyze.R')
-#Generates the mod analysis sheets, see the mod_analyze.R script for details.
-source('mod_Analyze.R')
+
 
 
 #Removes everything from R memory.
