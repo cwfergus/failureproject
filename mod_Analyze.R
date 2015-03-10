@@ -25,7 +25,7 @@ mod_FR <-
         mod_FR_raw %>% #data fraome to work on
         mutate(failure_rate = number_of_failures/times_made) %>% #new failure rate variable
         #its the number_of_failures variable/times_made variable
-        arrange(desc(failure_rate)) %>% #arrange by failure rate
+        arrange(desc(failure_rate))  #arrange by failure rate
         #remove failure-rate = 1 mod combos
 
 #the below scripts are almost carbon copies of the one above, but instead of working
@@ -51,7 +51,7 @@ mod5_FR_raw$number_of_failures[is.na(mod5_FR_raw[,3])] <- 0
 mod5_FR <-
         mod5_FR_raw %>%
         mutate(failure_rate = number_of_failures/times_made) %>%
-        arrange(desc(failure_rate)) %>%
+        arrange(desc(failure_rate))
 
 
 ###
@@ -75,7 +75,7 @@ mod3_FR_raw$number_of_failures[is.na(mod3_FR_raw[,3])] <- 0
 mod3_FR <-
         mod3_FR_raw %>%
         mutate(failure_rate = number_of_failures/times_made) %>%
-        arrange(desc(failure_rate)) %>%
+        arrange(desc(failure_rate)) 
 
 
 ###
