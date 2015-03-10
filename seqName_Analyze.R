@@ -23,7 +23,7 @@ seqName_Mods <-
 seqName_FR_raw <- merge(seqName_counts, seqName_failure_counts, by="Sequence_Name", all.x=TRUE)
 
 seqName_FR_raw_Mods <- merge(seqName_FR_raw, seqName_Mods, by="Sequence_Name")
-seqName_FR_raw_Mods$number_of_failures[is.na(seqName_FR_raw_Mods[,3])] <- 0
+seqName_FR_raw_Mods$number_of_failures[is.na(seqName_FR_raw_Mods$number_of_failures)] <- 0
 
 
 
@@ -33,8 +33,8 @@ seqName_FR_Mods <-
         mutate(failure_rate = number_of_failures/times_made) %>% #add new variable that is
         #the number of failures variable / times made
         arrange(desc(failure_rate)) %>% #arrange by this new Failure Rate variable
-        select(c(1,4,5,2,3,6)) %>% # Reorder the columns to look better
-        filter(failure_rate != 1, failure_rate != 0)
+        select(c(1,4,5,2,3,6))  # Reorder the columns to look better
+        
 # converts to regular Data.Frame
 class(seqName_FR_Mods) <- "data.frame"
 #Writes out in two ways depending on data size

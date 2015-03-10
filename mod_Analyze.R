@@ -26,7 +26,7 @@ mod_FR <-
         mutate(failure_rate = number_of_failures/times_made) %>% #new failure rate variable
         #its the number_of_failures variable/times_made variable
         arrange(desc(failure_rate)) %>% #arrange by failure rate
-        filter(failure_rate != 1) #remove failure-rate = 1 mod combos
+        #remove failure-rate = 1 mod combos
 
 #the below scripts are almost carbon copies of the one above, but instead of working
 #on mod combos they simply work on 5' mod or 3' mod.
@@ -52,7 +52,7 @@ mod5_FR <-
         mod5_FR_raw %>%
         mutate(failure_rate = number_of_failures/times_made) %>%
         arrange(desc(failure_rate)) %>%
-        filter(failure_rate != 1)
+
 
 ###
 
@@ -76,7 +76,6 @@ mod3_FR <-
         mod3_FR_raw %>%
         mutate(failure_rate = number_of_failures/times_made) %>%
         arrange(desc(failure_rate)) %>%
-        filter(failure_rate != 1)
 
 
 ###

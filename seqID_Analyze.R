@@ -28,17 +28,19 @@ seqID_Mods <-
         select(Sequence_ID, Five_Prime_mod, Three_Prime_mod) #select just certain variables
 
 #merge the made counts and failure counts by sequence ID
-seqID_FR_raw <- merge(seqID_counts, seqID_failure_counts, by="Sequence_ID")
+seqID_FR_raw <- merge(seqID_counts, seqID_failure_counts, by="Sequence_ID", all.x=TRUE)
 #Add each sequence ID's mods
-seqID_FR_raw_Mods <- merge(seqID_FR_raw, seqID_Mods, by="Sequence_ID")
+seqID_FR_raw_Mods <- merge(seqID_FR_raw, seqID_Mods, by="Sequence_ID", all.x=TRUE)
+
+seqID_FR_raw_Mods$number_of_failures[is.na(seqID_FR_raw_Mods$number_of_failures)] <- 0
 #Create a new failure rate vairalbe, reorder the columns, filter out bad data, and reorder
 seqID_FR_Mods <-
         seqID_FR_raw_Mods %>% #data to use
         mutate(failure_rate = number_of_failures/times_made) %>% #add new variable that is
                                                 #the number of failures variable / times made
         arrange(desc(failure_rate)) %>% #arrange by this new Failure Rate variable
-        select(c(1,2,3,6,4,5)) %>% # Reorder the columns to look better
-        filter(failure_rate != 1, failure_rate != 0) #remove bad data, ie failure rate =1 (not likely!)
+        select(c(1,2,3,6,4,5))  # Reorder the columns to look better
+
 
 
 #convert the data frame to a normal data frame
