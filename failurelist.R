@@ -40,6 +40,7 @@ outputnamexlsx <- paste(outputname, ".xlsx", sep="")
 data_size <- readline("Is this a year or more of data? If so, multiple excel files will be made
                       enter 1 (for yes) or 2 (for no)... ")
 
+print("Script is Running, please wait. May take up to 5 min for large data sets")
 #reads in the raw data file
 rawdata <- read.table(filename, #user specified name
                       sep="\t", #says that variables are seperated by TABS
@@ -96,7 +97,7 @@ source('seqID_Analyze.R')
 #Generates the seqName Sheet, see seqName_Analyze.R script for details.
 source('seqName_Analyze.R')
 
-
+print("Finished! Check the folder for your excel files!")
 
 #Removes everything from R memory.
 #rm(list=ls())
