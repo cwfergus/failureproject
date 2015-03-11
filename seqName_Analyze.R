@@ -32,7 +32,7 @@ seqName_FR_Mods <-
         seqName_FR_raw_Mods %>% #data to use
         mutate(failure_rate = number_of_failures/times_made) %>% #add new variable that is
         #the number of failures variable / times made
-        arrange(desc(failure_rate)) %>% #arrange by this new Failure Rate variable
+        arrange(desc(number_of_failures)) %>% #arrange by this new Failure Rate variable
         select(c(1,4,5,2,3,6))  # Reorder the columns to look better
         
 # converts to regular Data.Frame
