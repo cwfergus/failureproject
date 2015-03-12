@@ -26,24 +26,25 @@ if (require(stringr)==FALSE) {
 #Sourcing the unqiue functions that are used in this script
 source('failurelistfunctions.R')
 #Makes user aware of any changes, and asks for acknowledgement.
-print("This Script was updated on 3/9/15, New export order is needed")
-readline("Please read the readme, and then hit enter...")
+
 readline("This Script was updated on 3/11/15, New export order is needed
 Please read the readme, and then hit enter...")
 
 #Asks the user for the name of the raw data file, and appends the name with its extension
 filename <- readline("What is the data file called?... ")
-filename <- paste(filename, ".tab", sep="")
+if (str_sub(filename, start=-4)!=".tab") {
+        filename <- paste(filename, ".tab", sep="")  
+}
+
 
 #Asks the user for their desired output name, and appends the name with the xlsx extension
-outputname <- readline("What is the output file called?...  ")
+outputname <- readline("What do you want the output file called? (don't add extension)...  ")
 outputnamexlsx <- paste(outputname, ".xlsx", sep="")
 
 #Asks the size of the data, to prevent over loading system + speed up
 data_size <- readline("Is this a year or more of data? If so, multiple excel files will be made
                       enter 1 (for yes) or 2 (for no)... ")
 
-print("Script is Running, please wait. May take up to 5 min for large data sets")
 announcement <- "Script is Running, please wait. May take up to 5 min for large data sets"
 print(announcement)
 
