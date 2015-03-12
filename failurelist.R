@@ -1,6 +1,7 @@
 #Updated 3/10/15
 
 #Failure List function
+print("Script is attempting to load required packages, will install if not available.")
 
 #The below portion checks for exsistance of packages, and either downloads or loads them
 if (require(dplyr)==FALSE){
@@ -27,6 +28,8 @@ source('failurelistfunctions.R')
 #Makes user aware of any changes, and asks for acknowledgement.
 print("This Script was updated on 3/9/15, New export order is needed")
 readline("Please read the readme, and then hit enter...")
+readline("This Script was updated on 3/11/15, New export order is needed
+Please read the readme, and then hit enter...")
 
 #Asks the user for the name of the raw data file, and appends the name with its extension
 filename <- readline("What is the data file called?... ")
@@ -41,6 +44,9 @@ data_size <- readline("Is this a year or more of data? If so, multiple excel fil
                       enter 1 (for yes) or 2 (for no)... ")
 
 print("Script is Running, please wait. May take up to 5 min for large data sets")
+announcement <- "Script is Running, please wait. May take up to 5 min for large data sets"
+print(announcement)
+
 #reads in the raw data file
 rawdata <- read.table(filename, #user specified name
                       sep="\t", #says that variables are seperated by TABS
