@@ -1,9 +1,12 @@
 Failure List
 Cameron Ferguson
 last updated: 3/10/15
-Version: 0.1.3.1
+Version: 0.1.3.2
 -------------------------------------------------------------------------------------
 Most Recent UPDATE:
+0.1.3.2
+Killed package install bug, updated README, updated script to be chatty, updated filename input to be less suscipable to user input error, clarified output file readline
+
 0.1.3.1
 Changed the order of the individual analyze scripts, to more accuratly represent usage. Mod now comes first. And updated README
 
@@ -23,20 +26,19 @@ How To Run
 
 This assumes you have already exported the data correctly. If you have yet to export the data, please pause here, and check out the raw file section before continuing.
 
-1) Set your working directory to the location of the scripts
-	a) To do this write setwd("script location path")
+1) Set your working directory to the location of the scripts/raw data
+	a) To do this write setwd("script location path") or use file>Change dir...
 		- script location path example: setwd("C:/Users/cferguson/Desktop/Failure_List")
 	b) If you have not typed in the path correctly you will get an error.
-	c) If you have RStudio, you can do this easily by navigating to the script folder in the files pane, and hitting more and choosing to change the setwd the the files pane location.
 
 2) Source the failurelist.R script with the following command:
 	source('failurelist.R')
 
-3) Enter the data file name. If it is not in the same folder as the script, you must put a path. DO NOT ADD THE EXTENSION. 
-	ex) If you data (lastyear.tab) is saved in a folder (called data) that is within the same folder as the script your filename would be: data/lastyear
+3) Enter the data file name. If it is not in the same folder as the script, you must put a path. You can add the extension or not.
+	ex) If your data (lastyear.tab) is saved in a folder (called data) that is within the same folder as the script your filename would be: data/lastyear
 	ex) If the data is just saved in the same folder your filename would be: lastyear
 
-4) Enter the name you want the output file to be called. Once again, DO NOT ADD AN EXTENSION. 
+4) Enter the name you want the output file to be called. 
 	If you want it saved in a different folder, make it a path.
 	ex) Saved in the same folder as the script: lastyearanalysis
 	ex) Saved in the data folder, where the input file is: data/lastyearanalysis
