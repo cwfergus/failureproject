@@ -27,7 +27,7 @@ if (require(stringr)==FALSE) {
 source('failurelistfunctions.R')
 #Makes user aware of any changes, and asks for acknowledgement.
 
-readline("This Script was updated on 3/11/15, New export order is needed
+readline("This Script was updated on 3/12/15, New export order/info is needed
 Please read the readme, and then hit enter...")
 
 #Asks the user for the name of the raw data file, and appends the name with its extension
@@ -42,7 +42,6 @@ outputname <- readline("What do you want the output file called? (don't add exte
 outputnamexlsx <- paste(outputname, ".xlsx", sep="")
 
 #Asks the size of the data, to prevent over loading system + speed up
-data_size <- readline("Is this a year or more of data? If so, multiple excel files will be made
 data_size <- readline("Is this a large data set? If so, multiple excel files will be made
                       enter 1 (for yes) or 2 (for no)... ")
 
@@ -59,7 +58,8 @@ rawdata <- read.table(filename, #user specified name
 
 #appends colnames to the data frame
 colnames(rawdata) <- c("Sequence_ID", 
-                       "Sequence_Name", 
+                       "Sequence_Name",
+                       "Sequence",
                        "Five_Prime_mod",
                        "Three_Prime_mod",
                        "Failure_Reason")

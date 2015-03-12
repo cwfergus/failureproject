@@ -4,6 +4,9 @@ last updated: 3/10/15
 Version: 0.1.3.2
 -------------------------------------------------------------------------------------
 Most Recent UPDATE:
+0.1.4.0
+Added Sequence Information to the SeqName and SeqID files. REQUIRES NEW EXPORT. Also changed wording on a few thing: output save for SeqName and SeqID is now outputname_SeqName, changed summary script for more accurate description of numbers. 
+
 0.1.3.2
 Killed package install bug, updated README, updated script to be chatty, updated filename input to be less suscipable to user input error, clarified output file readline
 
@@ -67,9 +70,10 @@ To generate the Raw File
 	11) Select the following Fields from the box on the left, and MOVE them to the box on the right. They must be in the following order:
 		a)Sets SSID Track::Sequence ID
 		b)Sets SSID Track::Sequence Name
-		c)Sets SSID Track::Five Mod
-		d)Sets SSID Track::Three Mod
-                e)Sets SSID Track::Notes
+                c)Sets SSID Track::Sequence
+		d)Sets SSID Track::Five Mod
+		e)Sets SSID Track::Three Mod
+                f)Sets SSID Track::Notes
 	12) Hit export
 	13) Wait for filemaker to export the data. This can take up to 10 minuites!
 
@@ -89,7 +93,7 @@ The following section is a barebones layout of the failurelist.R script:
 
 3) Next it asks for the user to input the filename and the output name, and adds extentions to each
 
-4) Next it asks for the user to say how large the data set is, in terms of TIME.
+4) Next it asks for the user to say how large the data set is.
 
 5) Now it reads in the raw data, adds column names, and converts the data frame into a special class of data frame.
 
