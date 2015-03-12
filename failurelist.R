@@ -4,7 +4,7 @@
 
 #The below portion checks for exsistance of packages, and either downloads or loads them
 if (require(dplyr)==FALSE){
-        install.packages(dplyr)
+        install.packages("dplyr")
         library(dplyr)
 } else {
         library(dplyr)
