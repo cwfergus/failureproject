@@ -43,6 +43,7 @@ outputnamexlsx <- paste(outputname, ".xlsx", sep="")
 
 #Asks the size of the data, to prevent over loading system + speed up
 data_size <- readline("Is this a year or more of data? If so, multiple excel files will be made
+data_size <- readline("Is this a large data set? If so, multiple excel files will be made
                       enter 1 (for yes) or 2 (for no)... ")
 
 announcement <- "Script is Running, please wait. May take up to 5 min for large data sets"

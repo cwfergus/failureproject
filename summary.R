@@ -22,17 +22,17 @@ failed_amount <- nrow(clean_failure)
 #creates a character list of names of summary information
 Catagory <- c("Total number of sequences analyzed:",
               "---",
-              "Not passed amount:",
-              "Percent Not Passed",
+              "# of Sequences with notes:",
+              "Percent with Notes",
               "---",
-              "Total number of failures and reassigns found:",
+              "# of failures, reassigns, and Ms Okays sequences:",
               "Percent failures, reassigns, and Ms Okays:",
               "---",
               "# of Reassigns:",
               "# of Ms Okays",
               "---",
-              "Total failed:",
-              "Percent Failed")
+              "# of failed sequences:",
+              "Percent Failed sequences")
 #creates a results list of numbers of summary information
 Result <- c(seq_amount, 
             " ",
