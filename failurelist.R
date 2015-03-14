@@ -72,9 +72,13 @@ not_passed <- clean_up()
 #Removes not failed sequences, that contain notes, using the not_failed function
 #see failurelistfunctions.R for details
 only_failed <- not_failed()
+
+
 #Aggregates the failure reasons, to enable correct grouping, using the failure_aggregation
 #function. See failurelistfunctions.R for details
 clean_failure_reassign_msokay <- failure_aggregation()
+
+source('impurity_Analyze.R')
 #Removes all Reassign notes from the data
 clean_failure_msokay <- reason_remover(clean_failure_reassign_msokay, "Reassigned")
 #removes all MS Okay notes from the data
