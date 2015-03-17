@@ -42,8 +42,8 @@ outputname <- readline("What do you want the output file called? (don't add exte
 outputnamexlsx <- paste(outputname, ".xlsx", sep="")
 
 #Asks the size of the data, to prevent over loading system + speed up
-data_size <- readline("Is this a large data set? If so, multiple excel files will be made
-                      enter 1 (for yes) or 2 (for no)... ")
+# data_size <- readline("Is this a large data set? If so, multiple excel files will be made
+#                       enter 1 (for yes) or 2 (for no)... ")
 
 announcement <- "Script is Running, please wait. May take up to 5 min for large data sets"
 print(announcement)
@@ -63,6 +63,13 @@ colnames(rawdata) <- c("Sequence_ID",
                        "Five_Prime_mod",
                        "Three_Prime_mod",
                        "Failure_Reason")
+
+if(nrow(rawdata) >= 20000) {
+        data_size = 1
+} else {
+        data_size = 2
+}
+
 # converts the data frame to the special tbl_df class, necessary for use with DPLYR functions
 raw_tbl_df <- tbl_df(rawdata)
 
