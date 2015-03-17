@@ -42,7 +42,7 @@ if (data_size == 1) {#if Large
 } else { #else small data:
         write.xlsx(sequence_FR,#data file
                    file=outputnamexlsx, #file name specified by user in failurelist.R
-                   sheetName="Sequence Name Failure Rate", #sheet name
+                   sheetName="Sequence Failure Rate", #sheet name
                    row.names=FALSE,#prevent row names
                    append=TRUE)#allow it to append to existing excel file.
 }
