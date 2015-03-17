@@ -24,7 +24,7 @@ if (require(stringr)==FALSE) {
 }
 
 #Sourcing the unqiue functions that are used in this script
-source('failurelistfunctions.R')
+source("Scripts/failurelistfunctions.R")
 #Makes user aware of any changes, and asks for acknowledgement.
 
 readline("This Script was updated on 3/12/15, New export order/info is needed
@@ -65,6 +65,8 @@ colnames(rawdata) <- c("Sequence_ID",
                        "Failure_Reason")
 # converts the data frame to the special tbl_df class, necessary for use with DPLYR functions
 raw_tbl_df <- tbl_df(rawdata)
+
+raw_tbl_df$Sequence <- toupper(raw_tbl_df$Sequence)
 #removes any observations that contain an NA in the Failure_Reason Variable.
 not_passed <- filter(raw_tbl_df, !is.na(Failure_Reason))
 #Cleans up the data, removing extra blank space and changing all notes to lower case.
@@ -78,7 +80,7 @@ only_failed <- not_failed()
 #function. See failurelistfunctions.R for details
 clean_failure_reassign_msokay <- failure_aggregation()
 
-source('impurity_Analyze.R')
+# source('Scripts/impurity_Analyze.R')
 #Removes all Reassign notes from the data
 clean_failure_msokay <- reason_remover(clean_failure_reassign_msokay, "Reassigned")
 #removes all MS Okay notes from the data
@@ -92,7 +94,7 @@ Failurelist_by_Reason <-
                                                 # occurs, writes new variable w/ data
         arrange(desc(number_of_failures), Failure_Reason) # arranges the data
 #Generates the summary excel sheet. see summary.R for details
-source('summary.R')
+source('Scripts/summary.R')
 #converts the data back to a normal data frame, from its previous tbl_df class
 class(Failurelist_by_Reason) <- "data.frame"
 #writes out the data to an excel sheet
@@ -103,11 +105,13 @@ write.xlsx(Failurelist_by_Reason,#the data
            append=TRUE) # It will add this sheet to an exsisting file if necessary.
 
 #Generates the mod analysis sheets, see the mod_analyze.R script for details.
-source('mod_Analyze.R')
+source('Scripts/mod_Analyze.R')
 #Generates the seqID sheets, see the seqID_Analyze.R script for details
-source('seqID_Analyze.R')
+source('Scripts/seqID_Analyze.R')
 #Generates the seqName Sheet, see seqName_Analyze.R script for details.
-source('seqName_Analyze.R')
+source('Scripts/seqName_Analyze.R')
+#Generates the Sequence analysis sheet.
+source('Scripts/sequence_Analyze.R')
 
 print("Finished! Check the folder for your excel files!")
 

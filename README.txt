@@ -4,6 +4,8 @@ last updated: 3/10/15
 Version: 0.1.3.2
 -------------------------------------------------------------------------------------
 Most Recent UPDATE:
+0.1.5.0
+Added a Sequence Analysis document, as the seqName was not as unique as I thought: Its customer choice! Which means it can be duplicated or redone or copied. Moved all but main script to their own folder, and changed name of main script. This just makes the directory cleaner and easier for end user work. 
 0.1.4.0
 Added Sequence Information to the SeqName and SeqID files. REQUIRES NEW EXPORT. Also changed wording on a few thing: output save for SeqName and SeqID is now outputname_SeqName, changed summary script for more accurate description of numbers. 
 

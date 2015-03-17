@@ -2,7 +2,7 @@
 #This function is used to clean up the raw data to enable easy manipulation
 clean_up <- function(){
         #converts failure reasons to lower case
-        not_passed$Failure_Reason <- tolower(not_passed$Failure_Reason) 
+        not_passed$Failure_Reason <- tolower(not_passed$Failure_Reason)
         #turns accidental double spaces into single spaces
         not_passed$Failure_Reason <- gsub("  ", " ", not_passed$Failure_Reason)
         #removes any extra space at the beginning or end of notes
@@ -158,25 +158,25 @@ failure_aggregation <- function(){
         only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Low Yield"
         
 
-#         #only_failed$Failure_Reason <- gsub("-1", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         #only_failed$Failure_Reason <- gsub("-2", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("-3", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("-4", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("-5", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("-6", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("-7", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("-8", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("-9", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("+1", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("+2", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("+3", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("+4", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("+5", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("+6", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason  <- gsub("+7", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("+8", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason <- gsub("+9", NA, only_failed$Failure_Reason, fixed=TRUE)
-#         only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Impurity Present"
+        only_failed$Failure_Reason <- gsub("-1", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("-2", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("-3", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("-4", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("-5", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("-6", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("-7", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("-8", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("-9", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("+1", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("+2", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("+3", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("+4", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("+5", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("+6", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason  <- gsub("+7", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("+8", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason <- gsub("+9", NA, only_failed$Failure_Reason, fixed=TRUE)
+        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Impurity Present"
         only_failed
         
 }
