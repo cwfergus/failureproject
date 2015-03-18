@@ -1,0 +1,22 @@
+msnotokay <- grep("ms n", only_failed$Failure_Reason)
+msokay <- grep("ms o", only_failed$Failure_Reason)
+reassigned <- grep("assig", only_failed$Failure_Reason)
+baseswap <- grep("base", only_failed$Failure_Reason)
+wrongmass <- grep("wrong m", only_failed$Failure_Reason)
+flushed <- grep("flush", only_failed$Failure_Reason)
+stellaris <- grep("3 stel", only_failed$Failure_Reason)
+stellaris <- append(grep("every sample", only_failed$Failure_Reason), stellaris)
+stellaris <- append(grep("all samples failed", only_failed$Failure_Reason), stellaris)
+stellaris <- append(grep("stellaris f", only_failed$Failure_Reason), stellaris)
+stellaris <- append(grep("more then three", only_failed$Failure_Reason), stellaris)
+stellaris <- append(grep("more than 3", only_failed$Failure_Reason), stellaris)
+extratet <- grep("extra tet", only_failed$Failure_Reason)
+bhq3 <- grep("bhq3", only_failed$Failure_Reason)
+bhq2 <- grep("bhq2", only_failed$Failure_Reason)
+bhq1 <- grep("bhq1", only_failed$Failure_Reason)
+poortet <- grep("tet", only_failed$Failure_Reason)
+
+only_failed[poortet,"Five_Prime_mod"] <- "Poor Tet"
+only_failed[bhq1,"Five_Prime_mod"] <- "Poor BHQ1"
+only_failed[bhq2,"Five_Prime_mod"] <- "Poor BHQ2"
+only_failed[bhq3,"Five_Prime_mod"] <- "Poor BHQ3"
