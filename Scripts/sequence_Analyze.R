@@ -1,6 +1,7 @@
-#Updated 3/10/15
+#Updated 4/1/15
 
 save_these=ls()
+
 
 
 sequence_counts <-
@@ -50,9 +51,11 @@ if (data_size == 1) {#if Large
                    append=TRUE)#allow it to append to existing excel file.
 }
 
+
 full_list <- ls()
 delete <- full_list[!full_list %in% save_these]
 rm(list=delete, delete, full_list)
+
 
 #write out the data to the excel file
 

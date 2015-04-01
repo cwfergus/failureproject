@@ -1,11 +1,10 @@
-#Updated 3/10/15
+#Updated 4/1/15
 
 #Failure List function
 print("Script is attempting to load required packages, will install if not available.")
 
 #The below portion checks for exsistance of packages, and either downloads or loads them
-source("Scripts/packageload.R")
-
+source('Scripts/packageload.R')
 
 #Sourcing the unqiue functions that are used in this script
 source("Scripts/failurelistfunctions.R")
@@ -25,6 +24,7 @@ if (str_sub(filename, start=-4)!=".tab") {
 outputname <- readline("What do you want the output file called? (don't add extension)...  ")
 outputnamexlsx <- paste(outputname, ".xlsx", sep="")
 outputnamerawcsv <- paste(outputname, "_raw", ".csv", sep="")
+
 
 #Asks the size of the data, to prevent over loading system + speed up
 # data_size <- readline("Is this a large data set? If so, multiple excel files will be made
@@ -51,7 +51,6 @@ colnames(rawdata) <- c("Sequence_ID",
                        "Instrument_Name",
                        "Location")
 
-if(nrow(rawdata) >= 10000) {
         data_size = 1
 } else {
         data_size = 2
@@ -65,6 +64,7 @@ raw_tbl_df <- mutate(raw_tbl_df, originalnote = Failure_Reason)
 raw_tbl_df$Sequence <- toupper(raw_tbl_df$Sequence)
 raw_tbl_df$Instrument_Name <- na.locf(raw_tbl_df$Instrument_Name, na.rm=FALSE)
 raw_tbl_df$Location <- na.locf(raw_tbl_df$Location, na.rm=FALSE)
+
 #removes any observations that contain an NA in the Failure_Reason Variable.
 not_passed <- filter(raw_tbl_df, !is.na(Failure_Reason))
 #Cleans up the data, removing extra blank space and changing all notes to lower case.
@@ -78,6 +78,7 @@ only_failed <- not_failed()
 #function. See failurelistfunctions.R for details
 everything_wnotes <- failure_aggregation()
 clean_failure_reassign_msokay <- reason_remover(everything_wnotes, "REMOVED")
+
 
 # source('Scripts/impurity_Analyze.R')
 #Removes all Reassign notes from the data
@@ -104,7 +105,8 @@ write.xlsx(Failurelist_by_Reason,#the data
            append=TRUE)# It will add this sheet to an exsisting file if necessary.
 
 write.csv(everything_wnotes,
-          file=outputnamerawcsv)
+          file=outputnamerawcsv) # It will add this sheet to an exsisting file if necessary.
+
 
 #Generates the mod analysis sheets, see the mod_analyze.R script for details.
 source('Scripts/mod_Analyze.R')
@@ -116,6 +118,7 @@ source('Scripts/seqName_Analyze.R')
 source('Scripts/sequence_Analyze.R')
 #Generates the Instrument Analysis sheet.
 source('Scripts/instrument_Analyze.R')
+
 
 print("Finished! Check the folder for your excel files!")
 

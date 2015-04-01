@@ -4,6 +4,7 @@
 
 save_these=ls()
 
+
 #generates al ist of the unique mod combinations, and counts the times they were made
 mod_counts <-
         raw_tbl_df %>% #data to pull from from failurelist.R
@@ -108,3 +109,4 @@ write.xlsx(mod3_FR,
 full_list <- ls()
 delete <- full_list[!full_list %in% save_these]
 rm(list=delete, delete, full_list)
+

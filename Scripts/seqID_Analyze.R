@@ -6,6 +6,7 @@
 
 save_these=ls()
 
+
 #Generates a list of the unique sequence ID's and the number of times made
 seqID_counts <-
         raw_tbl_df %>% #the data to pull from
@@ -61,8 +62,10 @@ if (data_size == 1) { #if large:
                    sheetName="Sequence ID Failure Rate", #sheet name
                    row.names=FALSE,#prevent row names
                    append=TRUE)#allow it to append to existing excel file.
+
 }
 
 full_list <- ls()
 delete <- full_list[!full_list %in% save_these]
 rm(list=delete, delete, full_list)
+

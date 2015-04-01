@@ -1,9 +1,11 @@
-#Updated 3/9/15
+#Updated 4/1/15
 
 # Data Summary
 # This script generates the summary sheet in the final excel file. It requies the majority
 #of failurelist.R to have been run prior to its opperation.
+
 save_these=ls()
+
 #counts the number of rows, and such the number of sequences, in the raw data
 seq_amount <- nrow(raw_tbl_df)
 #counts the number of rows in the not_passed data frame
@@ -57,6 +59,8 @@ write.xlsx(summary, #the data
            row.names=FALSE, #prevents attempting to assign row names
            append=TRUE) #append to an existing file.
 
+
 full_list <- ls()
 delete <- full_list[!full_list %in% save_these]
 rm(list=delete, delete, full_list)
+

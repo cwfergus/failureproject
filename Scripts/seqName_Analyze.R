@@ -1,5 +1,7 @@
-#Updated 3/10/15
+#Updated 4/1/15
+
 save_these=ls()
+
 
 seqName_counts <-
         raw_tbl_df %>% #the data to pull from
@@ -57,7 +59,9 @@ if (data_size == 1) {#if Large
 
 
 #write out the data to the excel file
+
 full_list <- ls()
 delete <- full_list[!full_list %in% save_these]
 rm(list=delete, delete, full_list)
+
 
