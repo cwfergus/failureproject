@@ -62,7 +62,9 @@ raw_tbl_df <- tbl_df(rawdata)
 raw_tbl_df <- mutate(raw_tbl_df, originalnote = Failure_Reason)
 
 raw_tbl_df$Sequence <- toupper(raw_tbl_df$Sequence)
+
 raw_tbl_df$Instrument_Name <- na.locf(raw_tbl_df$Instrument_Name, na.rm=FALSE)
+
 raw_tbl_df$Location <- na.locf(raw_tbl_df$Location, na.rm=FALSE)
 
 #removes any observations that contain an NA in the Failure_Reason Variable.
@@ -73,14 +75,12 @@ not_passed <- clean_up()
 #see failurelistfunctions.R for details
 only_failed <- not_failed()
 
-
 #Aggregates the failure reasons, to enable correct grouping, using the failure_aggregation
 #function. See failurelistfunctions.R for details
 everything_wnotes <- failure_aggregation()
+
 clean_failure_reassign_msokay <- reason_remover(everything_wnotes, "REMOVED")
 
-
-# source('Scripts/impurity_Analyze.R')
 #Removes all Reassign notes from the data
 clean_failure_msokay <- reason_remover(clean_failure_reassign_msokay, "Reassigned")
 #removes all MS Okay notes from the data
@@ -91,6 +91,7 @@ source('Scripts/summary.R')
 
 source('Scripts/failurereason_Analyze.R')
 
+write.csv(everything_wnotes, file=outputnamerawcsv) # It will add this sheet to an exsisting file if necessary.
 
 #Generates the mod analysis sheets, see the mod_analyze.R script for details.
 source('Scripts/mod_Analyze.R')
