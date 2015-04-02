@@ -2,55 +2,69 @@
 
 save_these=ls()
 
-raw_inst_count <- 
-        raw_tbl_df %>%
+#Cleans up instrument field, making divergent names more similar
+raw_inst_count <- inst_raw_clean(raw_tbl_df)
+#Adjust intrument names to remove certain charactersitic ex) C1 or C9
+name_adj_inst_count <- Inst_name_adjust(raw_inst_count)
+
+inst_count <- 
+        name_adj_inst_count %>%
         group_by(Instrument_Name) %>%
         summarize(Sequences_made = n())
+
+raw_fail_inst_count <- inst_raw_clean(clean_failure)
+fail_name_adju_inst_count <- Inst_name_adjust(raw_fail_inst_count)
 
 fail_inst_count <-
-        clean_failure %>%
+        fail_name_adju_inst_count %>%
         group_by(Instrument_Name) %>%
         summarize(Sequences_failed = n())
 
-inst_counts_raw <- merge(raw_inst_count, fail_inst_count, by="Instrument_Name", all.x=TRUE)
-        
-inst_counts_raw$Sequences_failed[is.na(inst_counts_raw$Sequences_failed)] <- 0
+inst_counts_final <- merge(inst_count, fail_inst_count, by="Instrument_Name", all.x=TRUE)       
+inst_counts_final$Sequences_failed[is.na(inst_counts_final$Sequences_failed)] <- 0
+inst_counts_final <- mutate(inst_counts_final, failure_rate = Sequences_failed/Sequences_made)
+inst_counts_final <- arrange(inst_counts_final, desc(failure_rate))
 
-inst_counts <- mutate(inst_counts_raw, failure_rate = Sequences_failed/Sequences_made)
+raw_inst_count_adjust <- raw_inst_count
+raw_inst_count_adjust$Instrument_Name <- gsub(" C", " c", raw_inst_count_adjust$Instrument_Name)
+raw_inst_count_adjust$Instrument_Name <- gsub("C", " c", raw_inst_count_adjust$Instrument_Name)
 
-
-raw_inst_loc_count <- 
-        raw_tbl_df %>%
+inst_loc_count <- 
+        raw_inst_count_adjust %>%
         group_by(Instrument_Name, Location) %>%
         summarize(Sequences_made = n())
 
+raw_fail_inst_count_adjust <- raw_fail_inst_count
+raw_fail_inst_count_adjust$Instrument_Name <- gsub(" C", " c", raw_fail_inst_count_adjust$Instrument_Name)
+raw_fail_inst_count_adjust$Instrument_Name <- gsub("C", " c", raw_fail_inst_count_adjust$Instrument_Name)
+
 fail_inst_loc_count <- 
-        clean_failure %>%
+        raw_fail_inst_count_adjust %>%
         group_by(Instrument_Name, Location) %>%
         summarize(Sequences_failed = n())
 
-inst_loc_counts_raw <- merge(raw_inst_loc_count, fail_inst_loc_count, all.x =TRUE)
-
+inst_loc_counts_raw <- merge(inst_loc_count, fail_inst_loc_count, all.x =TRUE)
 inst_loc_counts_raw$Sequences_failed[is.na(inst_loc_counts_raw$Sequences_failed)] <- 0
+inst_loc_counts_final <- mutate(inst_loc_counts_raw, failure_rate = Sequences_failed/Sequences_made)
+inst_loc_counts_final <- arrange(inst_loc_counts_final, desc(failure_rate))
 
-inst_loc_counts <- mutate(inst_loc_counts_raw, failure_rate = Sequences_failed/Sequences_made)
-        
 inst_failure_info <- 
-        clean_failure %>%
-        group_by(Instrument_Name, Location, Failure_Reason) %>%
-        summarize(Failed_reasons = n())
+        fail_name_adju_inst_count %>%
+        group_by(Instrument_Name, Failure_Reason) %>%
+        summarize(Number_failed = n())
 
 class(inst_failure_info) <- "data.frame"
+inst_failure_info <- arrange(inst_failure_info, desc(Number_failed))
 
 instoutputname <- paste(outputname, "_instrument", ".xlsx", sep="")
 
-write.xlsx(inst_counts,
+write.xlsx(inst_counts_final,
            instoutputname,
            sheetName="Instrument Failure Counts",
            row.names=FALSE,
            append=TRUE)
 
-write.xlsx(inst_loc_counts,
+write.xlsx(inst_loc_counts_final,
            instoutputname,
            sheetName="Instrument + Location Failure Counts",
            row.names=FALSE,
