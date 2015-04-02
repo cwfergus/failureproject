@@ -63,8 +63,8 @@ raw_tbl_df <- mutate(raw_tbl_df, originalnote = Failure_Reason)
 
 raw_tbl_df$Sequence <- toupper(raw_tbl_df$Sequence)
 
+raw_tbl_df$Instrument_Name <- toupper(raw_tbl_df$Instrument_Name)
 raw_tbl_df$Instrument_Name <- na.locf(raw_tbl_df$Instrument_Name, na.rm=FALSE)
-
 raw_tbl_df$Location <- na.locf(raw_tbl_df$Location, na.rm=FALSE)
 
 #removes any observations that contain an NA in the Failure_Reason Variable.
