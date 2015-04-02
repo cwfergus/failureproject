@@ -85,27 +85,11 @@ clean_failure_reassign_msokay <- reason_remover(everything_wnotes, "REMOVED")
 clean_failure_msokay <- reason_remover(clean_failure_reassign_msokay, "Reassigned")
 #removes all MS Okay notes from the data
 clean_failure <- reason_remover(clean_failure_msokay, "Ms Okay")
-#Groups, counts, and orders the data. Causes removal of all varialbes except Failure Reason
-#and the new number_of_failures column
-Failurelist_by_Reason <-
-        clean_failure %>% #runs the following functions on the clean_failure data frame
-        group_by(Failure_Reason) %>% # groups the data frame by failure_reason
-        summarize(number_of_failures = n()) %>% #counts the number of times a failure_reason
-                                                # occurs, writes new variable w/ data
-        arrange(desc(number_of_failures), Failure_Reason) # arranges the data
+
 #Generates the summary excel sheet. see summary.R for details
 source('Scripts/summary.R')
-#converts the data back to a normal data frame, from its previous tbl_df class
-class(Failurelist_by_Reason) <- "data.frame"
-#writes out the data to an excel sheet
-write.xlsx(Failurelist_by_Reason,#the data
-           file=outputnamexlsx, #the users specified outputname with the .xlsx extension
-           sheetName="Top Failure Reasons",#the sheet name
-           row.names=FALSE, #It won't try to add row names
-           append=TRUE)# It will add this sheet to an exsisting file if necessary.
 
-write.csv(everything_wnotes,
-          file=outputnamerawcsv) # It will add this sheet to an exsisting file if necessary.
+source('Scripts/failurereason_Analyze.R')
 
 
 #Generates the mod analysis sheets, see the mod_analyze.R script for details.
