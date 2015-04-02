@@ -50,7 +50,7 @@ colnames(rawdata) <- c("Sequence_ID",
                        "Failure_Reason",
                        "Instrument_Name",
                        "Location")
-
+if (nrow(rawdata) >= 10000){
         data_size = 1
 } else {
         data_size = 2
