@@ -24,16 +24,15 @@ outputname <- readline("What do you want the output file called? (don't add exte
 outputnamexlsx <- paste(outputname, ".xlsx", sep="")
 outputnamerawcsv <- paste(outputname, "_raw", ".csv", sep="")
 
-datachoice <- readline("What Analysis Files do you want? Every choice comes with Summary Page
-         1) Everything
-         2) Failure Reason + Mod Analyze
-         3) Seq ID 
-         4) Sequence Name
-         5) Sequence
-         6) Instrument
-         7) Failure change comparison
-         
-         Enter the number of your choice")
+Analysis_files <- c("Everything", "Failure Reason", 
+                    "Modification Analysis", "Sequence ID Analysis", 
+                    "Sequence Name Analysis", "Sequence Analysis", 
+                    "Instrument Analysis", "Failure Change comparison")
+
+Analysis_files <- data.frame(Analysis_files)
+
+print(Analysis_files)
+datachoice <- readline("Enter the number of what analysis you want... ")
 
 
 announcement <- "Script is Running, please wait. May take up to 5 min for large data sets"
@@ -56,7 +55,7 @@ colnames(rawdata) <- c("Sequence_ID",
                        "Failure_Reason",
                        "Instrument_Name",
                        "Location")
-if (nrow(rawdata) >= 10000){
+if (datachoice == 1 | datachoice == 8){
         data_size = 1
 } else {
         data_size = 2
@@ -97,23 +96,25 @@ clean_failure <- reason_remover(clean_failure_msokay, "Ms Okay")
 #Generates the summary excel sheet. see summary.R for details
 source('Scripts/summary.R')
 # 
-if (datachoice == 1 | datachoice == 2) {
-        source('Scripts/failurereason_Analyze.R') 
-        source('Scripts/mod_Analyze.R')
+if (datachoice == 2 | datachoice == 1) {
+        source('Scripts/failurereason_Analyze.R')
 }
 if (datachoice == 3 | datachoice == 1) {
+        source('Scripts/mod_Analyze.R')
+}
+if (datachoice == 4 | datachoice == 1) {
         source('Scripts/seqID_Analyze.R')  
 } 
-if (datachoice == 4 | datachoice == 1) {
+if (datachoice == 5 | datachoice == 1) {
         source('Scripts/seqName_Analyze.R')
 } 
-if(datachoice == 5 | datachoice == 1) {
+if (datachoice == 6 | datachoice == 1) {
         source('Scripts/sequence_Analyze.R')
 } 
-if(datachoice == 6 | datachoice ==1) {
+if (datachoice == 7 | datachoice == 1) {
         source('Scripts/instrument_Analyze.R')
 } 
-if(datachoice == 7 | datachoice == 1) {
+if (datachoice == 8 | datachoice == 1) {
         write.csv(everything_wnotes, file=outputnamerawcsv)
 }
 
