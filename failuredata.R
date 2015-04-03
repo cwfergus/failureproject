@@ -56,16 +56,18 @@ if (nrow(rawdata) >= 10000){
         data_size = 2
 }
 
+rawdata <-data.frame(lapply(rawdata, function(v){
+        if (is.character(v)) {
+                return(toupper(v))
+        } else return(v)
+}))
+
+rawdata$Instrument_Name <- na.locf(rawdata$Instrument_Name, na.rm=FALSE)
+rawdata$Location <- na.locf(rawdata$Location, na.rm=FALSE)
+rawdata <- mutate(rawdata, originalnote = Failure_Reason)
 # converts the data frame to the special tbl_df class, necessary for use with DPLYR functions
+
 raw_tbl_df <- tbl_df(rawdata)
-
-raw_tbl_df <- mutate(raw_tbl_df, originalnote = Failure_Reason)
-
-raw_tbl_df$Sequence <- toupper(raw_tbl_df$Sequence)
-
-raw_tbl_df$Instrument_Name <- toupper(raw_tbl_df$Instrument_Name)
-raw_tbl_df$Instrument_Name <- na.locf(raw_tbl_df$Instrument_Name, na.rm=FALSE)
-raw_tbl_df$Location <- na.locf(raw_tbl_df$Location, na.rm=FALSE)
 
 #removes any observations that contain an NA in the Failure_Reason Variable.
 not_passed <- filter(raw_tbl_df, !is.na(Failure_Reason))
