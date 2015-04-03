@@ -57,25 +57,43 @@ class(inst_failure_info) <- "data.frame"
 inst_failure_info <- arrange(inst_failure_info, desc(Number_failed))
 
 instoutputname <- paste(outputname, "_instrument", ".xlsx", sep="")
-
-write.xlsx(inst_counts_final,
-           instoutputname,
-           sheetName="Instrument Failure Counts",
-           row.names=FALSE,
-           append=TRUE)
-
-write.xlsx(inst_loc_counts_final,
-           instoutputname,
-           sheetName="Instrument + Location Failure Counts",
-           row.names=FALSE,
-           append=TRUE)
-
-write.xlsx(inst_failure_info,
-           instoutputname,
-           sheetName="Instrument Failure Reasons",
-           row.names=FALSE,
-           append=TRUE)
-
+if (data_size == 1) {
+        write.xlsx(inst_counts_final,
+                   instoutputname,
+                   sheetName="Instrument Failure Counts",
+                   row.names=FALSE,
+                   append=TRUE)
+        
+        write.xlsx(inst_loc_counts_final,
+                   instoutputname,
+                   sheetName="Instrument + Location Failure Counts",
+                   row.names=FALSE,
+                   append=TRUE)
+        
+        write.xlsx(inst_failure_info,
+                   instoutputname,
+                   sheetName="Instrument Failure Reasons",
+                   row.names=FALSE,
+                   append=TRUE)
+} else {
+        write.xlsx(inst_counts_final,
+                   outputnamexlsx,
+                   sheetName="Instrument Failure Counts",
+                   row.names=FALSE,
+                   append=TRUE)
+        
+        write.xlsx(inst_loc_counts_final,
+                   outputnamexlsx,
+                   sheetName="Instrument + Location Failure Counts",
+                   row.names=FALSE,
+                   append=TRUE)
+        
+        write.xlsx(inst_failure_info,
+                   outputnamexlsx,
+                   sheetName="Instrument Failure Reasons",
+                   row.names=FALSE,
+                   append=TRUE) 
+}
 
 
 

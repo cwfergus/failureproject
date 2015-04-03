@@ -87,24 +87,46 @@ class(mod_FR) <- "data.frame"
 class(mod5_FR) <- "data.frame"
 class(mod3_FR) <- "data.frame"
 
-write.xlsx(mod_FR,
-           file=outputnamexlsx,
-           sheetName="Both Mod Failure Rate",
-           row.names=FALSE,
-           append=TRUE)
 
-write.xlsx(mod5_FR,
-           file=outputnamexlsx,
-           sheetName="Five Prime Mod Failure Rate",
-           row.names=FALSE,
-           append=TRUE)
-
-write.xlsx(mod3_FR,
-           file=outputnamexlsx,
-           sheetName="Three Prime Mod Failure Rate",
-           row.names=FALSE,
-           append=TRUE)
-
+if (data_size == 1) { #if large:
+        modoutputname <- paste(outputname, "_mod", ".xlsx", sep="") #.csv ext
+        write.xlsx(mod_FR,
+                   file=modoutputname,
+                   sheetName="Both Mod Failure Rate",
+                   row.names=FALSE,
+                   append=TRUE)
+        
+        write.xlsx(mod5_FR,
+                   file=modoutputname,
+                   sheetName="Five Prime Mod Failure Rate",
+                   row.names=FALSE,
+                   append=TRUE)
+        
+        write.xlsx(mod3_FR,
+                   file=modoutputname,
+                   sheetName="Three Prime Mod Failure Rate",
+                   row.names=FALSE,
+                   append=TRUE) #converts NA's to blank boxes
+} else { #if small data file:
+        write.xlsx(mod_FR,
+                   file=outputnamexlsx,
+                   sheetName="Both Mod Failure Rate",
+                   row.names=FALSE,
+                   append=TRUE)
+        
+        write.xlsx(mod5_FR,
+                   file=outputnamexlsx,
+                   sheetName="Five Prime Mod Failure Rate",
+                   row.names=FALSE,
+                   append=TRUE)
+        
+        write.xlsx(mod3_FR,
+                   file=outputnamexlsx,
+                   sheetName="Three Prime Mod Failure Rate",
+                   row.names=FALSE,
+                   append=TRUE)#allow it to append to existing excel file.
+        
+}
 
 full_list <- ls()
 delete <- full_list[!full_list %in% save_these]
