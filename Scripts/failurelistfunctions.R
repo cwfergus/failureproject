@@ -225,15 +225,19 @@ test_write_out <- function(variablename, outputname="test.csv"){
 inst_raw_clean <- function(dataset){
         dataset$Instrument_Name <- gsub("/", " ", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("-", "", dataset$Instrument_Name)
+        dataset$Instrument_Name <- gsub("#", "", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("H-6", "H6", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("XPP", "X", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("XP", "X", dataset$Instrument_Name)
+        dataset$Instrument_Name <- gsub(" PLATINUM", "", dataset$Instrument_Name)
+        dataset$Instrument_Name <- gsub(" GOLD", "", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("IIII", "4", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("III", "3", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("II", "2", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("I", "1", dataset$Instrument_Name)
-        dataset$Instrument_Name <- gsub("MGM", "MM", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("MM ", "MM", dataset$Instrument_Name)
+        dataset$Instrument_Name <- gsub("MGM ", "MM", dataset$Instrument_Name)
+        
         dataset
 }
 
@@ -266,6 +270,31 @@ Inst_name_adjust <- function(dataset2){
         dataset2$Instrument_Name <- gsub("MM1", NA, dataset2$Instrument_Name)
         dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "mm1"
         
+        dataset2$Instrument_Name <- gsub("MGM12", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM12"
+        dataset2$Instrument_Name <- gsub("MGM11", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM11"
+        dataset2$Instrument_Name <- gsub("MGM10", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM10"
+        dataset2$Instrument_Name <- gsub("MGM9", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM9"
+        dataset2$Instrument_Name <- gsub("MGM8", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM8"
+        dataset2$Instrument_Name <- gsub("MGM7", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM7"
+        dataset2$Instrument_Name <- gsub("MGM6", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM6"
+        dataset2$Instrument_Name <- gsub("MGM5", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM5"
+        dataset2$Instrument_Name <- gsub("MGM4", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM4"
+        dataset2$Instrument_Name <- gsub("MGM3", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM3"
+        dataset2$Instrument_Name <- gsub("MGM2", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM2"
+        dataset2$Instrument_Name <- gsub("MGM1", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "MGM1"
+        
         
         dataset2$Instrument_Name <- gsub("X14", NA, dataset2$Instrument_Name)
         dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "x14"
@@ -295,6 +324,31 @@ Inst_name_adjust <- function(dataset2){
         dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "x2"
         dataset2$Instrument_Name <- gsub("X1", NA, dataset2$Instrument_Name)
         dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "x1"
+        
+        dataset2$Instrument_Name <- gsub("SAM 12", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 12"
+        dataset2$Instrument_Name <- gsub("SAM 11", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 11"
+        dataset2$Instrument_Name <- gsub("SAM 10", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 10"
+        dataset2$Instrument_Name <- gsub("SAM 9", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 9"
+        dataset2$Instrument_Name <- gsub("SAM 8", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 8"
+        dataset2$Instrument_Name <- gsub("SAM 7", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 7"
+        dataset2$Instrument_Name <- gsub("SAM 6", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 6"
+        dataset2$Instrument_Name <- gsub("SAM 5", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 5"
+        dataset2$Instrument_Name <- gsub("SAM 4", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 4"
+        dataset2$Instrument_Name <- gsub("SAM 3", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 3"
+        dataset2$Instrument_Name <- gsub("SAM 2", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 2"
+        dataset2$Instrument_Name <- gsub("SAM 1", NA, dataset2$Instrument_Name)
+        dataset2$Instrument_Name[is.na(dataset2$Instrument_Name)] <- "SAM 1"
         dataset2
 }
         
