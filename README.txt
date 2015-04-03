@@ -1,28 +1,23 @@
 Failure List
 Cameron Ferguson
-last updated: 3/10/15
-Version: 0.1.3.2
+last updated: 4/2/15
+Version: 0.1.6.0
 -------------------------------------------------------------------------------------
 Most Recent UPDATE:
-0.1.5.0
-Added a Sequence Analysis document, as the seqName was not as unique as I thought: Its customer choice! Which means it can be duplicated or redone or copied. Moved all but main script to their own folder, and changed name of main script. This just makes the directory cleaner and easier for end user work. 
-0.1.4.0
-Added Sequence Information to the SeqName and SeqID files. REQUIRES NEW EXPORT. Also changed wording on a few thing: output save for SeqName and SeqID is now outputname_SeqName, changed summary script for more accurate description of numbers. 
+0.1.6.4
+Added a new user input, allowing the User to specify what analysese they want, so that it doesn't just give all the excel files every time. If you choose all analysese you get all of them as seperate files, if you choose a specific one, you get the summary page and then your choosen analysis
+0.1.6.1
+Made adjustments to the Instrument Analysis script, to better group instruments
+0.1.6.0
+Made some major adjustments in the last few weeks, none which were added to read me so here goes...
+Biggest change: NEW EXPORT ORDER. See RAW file, export section for details. Added an instrument analysis script/file. this is still a major work in progress, and will be the head of changes. I also cleaned up the main script, moving package loading to its own script, removed the Failure Reason analysis part to its own script for consistancy, added some new clean up functions for the failuredatafunctions script, for the instrument analysis. I also added a RAW export, that contains the original note and the changed note or the word removed, to enable people to easily check my work.
 
-0.1.3.2
-Killed package install bug, updated README, updated script to be chatty, updated filename input to be less suscipable to user input error, clarified output file readline
-
-0.1.3.1
-Changed the order of the individual analyze scripts, to more accuratly represent usage. Mod now comes first. And updated README
-
-0.1.3.0
-Added a Data Size option to menu, and dramatically increased performance using write.csv instead of write.xlsx for LARGE data sets. This does however cause multiple final files to be made.
 -------------------------------------------------------------------------------------
 Script Summary
 
-This collection of scripts take a raw .tab file (exported from filemaker), reads the data into R, performs several analyses, and returns an excel file.
+This collection of scripts take a raw .tab file (exported from filemaker), reads the data into R, performs several analyses, and returns the requested excel files
 
-To see information on the raw file, the script layouts, or the excel file, check out their respective sections in this readme.
+To see information on the raw file, the script layouts, or the excel files, check out their respective sections in this readme.
 
 For information into the actual raw data, the different precursor files, the assumptions made in analysis, and the final data see the Codebook
 
@@ -34,10 +29,10 @@ This assumes you have already exported the data correctly. If you have yet to ex
 1) Set your working directory to the location of the scripts/raw data
 	a) To do this write setwd("script location path") or use file>Change dir...
 		- script location path example: setwd("C:/Users/cferguson/Desktop/Failure_List")
-	b) If you have not typed in the path correctly you will get an error.
+	b) If you have not typed in the path correctly you will get an error. If you have changed to an incorrect directory you won't get an error till the next step
 
-2) Source the failurelist.R script with the following command:
-	source('failurelist.R')
+2) Source the failuredata.R script with the following command:
+	source('failuredata.R')
 
 3) Enter the data file name. If it is not in the same folder as the script, you must put a path. You can add the extension or not.
 	ex) If your data (lastyear.tab) is saved in a folder (called data) that is within the same folder as the script your filename would be: data/lastyear
@@ -48,9 +43,11 @@ This assumes you have already exported the data correctly. If you have yet to ex
 	ex) Saved in the same folder as the script: lastyearanalysis
 	ex) Saved in the data folder, where the input file is: data/lastyearanalysis
 
-5) Wait a maximum of 30 secounds. If the file has not appeared at the chosen location, and no errors have appeared, something is wrong!	
+5) Specify which analysis you want, by typing the number corresponding to your choice and hitting enter. You will always be given the Summary page.
 
-6) Open the excel file and enjoy the data! 
+5) Wait a maximum of 2 min. If the file/s has not appeared at the chosen location, and no errors have appeared, something is wrong!	
+
+6) Open the excel file/s and enjoy the data! 
 
 --------------------------------------------------------------------------------------
 Raw File
@@ -58,26 +55,32 @@ Raw File
 The Raw File is the data file that you will feed into R in order to get the excel file. It is exported from Filemaker, and has the extension .tab You must either remember the location of the Raw File or save it to the same location as the R script in order for the script to work.
 
 To generate the Raw File
-	1) Go to Custom Oligo Tracking in FileMaker
-	2) Go to the Details View (option is in the Top Left)
-	3) Hit Find
-	4) Enter the desired dates in the Final QC End box. To generate a range put in a date followed by ... followed by another date.
-	ex) if I wanted data for the whole of 2014 I would enter: 1/1/14...12/31/14
-	5) Enter completed into the Final QC Current Status box. This insures you find only sequences that have compeleted Final QC
-	6) Enter qc set in the notes section of the Final QC section. This insures you do not find GMP sequences.
-	7) Hit Find
-	8) Go to the Seq List View (option is in the Top left)
-	9) Hit File>Export Records...
-	10) Save the data in the same folder as the script, or at least remember where you put it. You must also remember the name you choose.
-	11) Select the following Fields from the box on the left, and MOVE them to the box on the right. They must be in the following order:
+	1) Search however you want.
+	2) Go to the Custom Oligo Tracking details view
+	3) Hit File>Export Records...
+	4) Save the data in the same folder as the script, or at least remember where you put it. You must also remember the name you choose.
+	5)Select the following Fields from the box on the left, and MOVE them to the box on the right.
+                a)Synthesis Instrument
+                b)Synthesis Deck Position
+	6)Using the drop down field in the top left, change to related tables: Sets SSID Track
+	7) Select the following Fields from the box on the left, and move them to the box on the right.          
+                a)Sets SSID Track::Sequence ID
+        	b)Sets SSID Track::Sequence Name
+                c)Sets SSID Track::Sequence
+		d)Sets SSID Track::Five Mod
+		e)Sets SSID Track::Three Mod
+                f)Sets SSID Track::Notes
+	8) Reorder the fields on the right to the following order
 		a)Sets SSID Track::Sequence ID
 		b)Sets SSID Track::Sequence Name
                 c)Sets SSID Track::Sequence
 		d)Sets SSID Track::Five Mod
 		e)Sets SSID Track::Three Mod
                 f)Sets SSID Track::Notes
-	12) Hit export
-	13) Wait for filemaker to export the data. This can take up to 10 minuites!
+                g)Synthesis Instrument
+                h)Synthesis Dec Position
+	9) Hit export
+	10) Wait for filemaker to export the data. This can take up to 10 minuites!
 
 Once filemaker has finished, you now have the raw data! Hopefully you saved this in the same folder as the script.If not I suggest you move it.If you really don't want to move it, then you need to know the file path, and you will have to enter it for the filename.
 
@@ -89,15 +92,17 @@ Script Layouts
 
 The following section is a barebones layout of the failurelist.R script:
 
-1) The script begins by checking if the user has the required R packages, and installs them if they do not.
+1) The script begins by checking if the user has the required R packages, and installs them if they do not (packageload.R)
 
-2) Next it sources some custome functions used in this script, from failurelistfunctions.R
+2) Next it sources some custom functions used in this script, from failurelistfunctions.R
 
-3) Next it asks for the user to input the filename and the output name, and adds extentions to each
+3) Next it asks for the user to input the filename and the output name, and adds extentions to each. It also asks which analysis the user wants.
 
-4) Next it asks for the user to say how large the data set is.
+4) Next it checks how large the data is.
 
 5) Now it reads in the raw data, adds column names, and converts the data frame into a special class of data frame.
+
+6) It then runs the raw_tbl_df 
 
 6) Next all sequences that do not have anything in the notes section are removed. This is assumed to remove all sequences that passed.
 
@@ -208,6 +213,20 @@ The excel file currently has the following sheets, each of which represents a sl
 It can easily be sorted in anyway you want. 
 -----------------------------------------------------------------
 UPDATES
+
+0.1.5.0
+Added a Sequence Analysis document, as the seqName was not as unique as I thought: Its customer choice! Which means it can be duplicated or redone or copied. Moved all but main script to their own folder, and changed name of main script. This just makes the directory cleaner and easier for end user work. 
+0.1.4.0
+Added Sequence Information to the SeqName and SeqID files. REQUIRES NEW EXPORT. Also changed wording on a few thing: output save for SeqName and SeqID is now outputname_SeqName, changed summary script for more accurate description of numbers. 
+
+0.1.3.2
+Killed package install bug, updated README, updated script to be chatty, updated filename input to be less suscipable to user input error, clarified output file readline
+
+0.1.3.1
+Changed the order of the individual analyze scripts, to more accuratly represent usage. Mod now comes first. And updated README
+
+0.1.3.0
+Added a Data Size option to menu, and dramatically increased performance using write.csv instead of write.xlsx for LARGE data sets. This does however cause multiple final files to be made.
 
 0.1.2.0
 Export items and order is different, in order to make a more logical export order, and
