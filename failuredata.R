@@ -9,7 +9,6 @@ source('Scripts/packageload.R')
 #Sourcing the unqiue functions that are used in this script
 source("Scripts/failurelistfunctions.R")
 #Makes user aware of any changes, and asks for acknowledgement.
-
 readline("This Script was updated on 4/1/15, New export order/info is needed
 Please read the readme, and then hit enter...")
 
@@ -25,10 +24,17 @@ outputname <- readline("What do you want the output file called? (don't add exte
 outputnamexlsx <- paste(outputname, ".xlsx", sep="")
 outputnamerawcsv <- paste(outputname, "_raw", ".csv", sep="")
 
+datachoice <- readline("What Analysis Files do you want? Every choice comes with Summary Page
+         1) Everything
+         2) Failure Reason + Mod Analyze
+         3) Seq ID 
+         4) Sequence Name
+         5) Sequence
+         6) Instrument
+         7) Failure change comparison
+         
+         Enter the number of your choice")
 
-#Asks the size of the data, to prevent over loading system + speed up
-# data_size <- readline("Is this a large data set? If so, multiple excel files will be made
-#                       enter 1 (for yes) or 2 (for no)... ")
 
 announcement <- "Script is Running, please wait. May take up to 5 min for large data sets"
 print(announcement)
@@ -90,21 +96,26 @@ clean_failure <- reason_remover(clean_failure_msokay, "Ms Okay")
 
 #Generates the summary excel sheet. see summary.R for details
 source('Scripts/summary.R')
-
-source('Scripts/failurereason_Analyze.R')
-
-write.csv(everything_wnotes, file=outputnamerawcsv) # It will add this sheet to an exsisting file if necessary.
-
-#Generates the mod analysis sheets, see the mod_analyze.R script for details.
-source('Scripts/mod_Analyze.R')
-#Generates the seqID sheets, see the seqID_Analyze.R script for details
-source('Scripts/seqID_Analyze.R')
-#Generates the seqName Sheet, see seqName_Analyze.R script for details.
-source('Scripts/seqName_Analyze.R')
-#Generates the Sequence analysis sheet.
-source('Scripts/sequence_Analyze.R')
-#Generates the Instrument Analysis sheet.
-source('Scripts/instrument_Analyze.R')
+# 
+if (datachoice == 1 | datachoice == 2) {
+        source('Scripts/failurereason_Analyze.R') 
+        source('Scripts/mod_Analyze.R')
+}
+if (datachoice == 3 | datachoice == 1) {
+        source('Scripts/seqID_Analyze.R')  
+} 
+if (datachoice == 4 | datachoice == 1) {
+        source('Scripts/seqName_Analyze.R')
+} 
+if(datachoice == 5 | datachoice == 1) {
+        source('Scripts/sequence_Analyze.R')
+} 
+if(datachoice == 6 | datachoice ==1) {
+        source('Scripts/instrument_Analyze.R')
+} 
+if(datachoice == 7 | datachoice == 1) {
+        write.csv(everything_wnotes, file=outputnamerawcsv)
+}
 
 
 print("Finished! Check the folder for your excel files!")
