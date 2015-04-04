@@ -12,7 +12,7 @@ inst_count <-
         group_by(Instrument_Name) %>%
         summarize(Sequences_made = n())
 
-raw_fail_inst_count <- inst_raw_clean(clean_failure)
+raw_fail_inst_count <- inst_raw_clean(clean_failure_msokay)
 fail_name_adju_inst_count <- Inst_name_adjust(raw_fail_inst_count)
 
 fail_inst_count <-
