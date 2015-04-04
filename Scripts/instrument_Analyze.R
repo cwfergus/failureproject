@@ -56,6 +56,37 @@ inst_failure_info <-
 class(inst_failure_info) <- "data.frame"
 inst_failure_info <- arrange(inst_failure_info, desc(Number_failed))
 
+SSIDInst<- 
+        fail_name_adju_inst_count %>%
+        group_by(Instrument_Name, Failure_Reason, Sequence_Set) %>%
+        summarise_each(funs(n())) %>%
+        within(Combined <- paste(Instrument_Name, Failure_Reason, sep = " "))
+
+
+SSIDtable <- data.frame(Instrument_and_Reason = NA, Failed_Sequence_Sets = NA)
+
+picker <-
+        inst_failure_info %>%
+        within(Combined <- paste(Instrument_Name, Failure_Reason, sep = " "))
+
+
+pick_list <- picker$Combined
+
+for (i in 1:length(pick_list)) {
+        pick <- pick_list[[i]]
+        spots <- grep(pick, SSIDInst$Combined)
+        sequence_sets <- (SSIDInst$Sequence_Set[spots])
+        sequence_sets <- str_c(sequence_sets, collapse = " ")
+        row <- append(pick, sequence_sets)
+        SSIDtable[i,] <- row
+}
+
+merger <- within(inst_failure_info, Instrument_and_Reason <- paste(Instrument_Name, Failure_Reason, sep = " "))
+
+SSIDtable <- merge(SSIDtable, merger)
+SSIDtable <- select(SSIDtable, Instrument_and_Reason, Number_failed, Failed_Sequence_Sets)
+
+
 instoutputname <- paste(outputname, "_instrument", ".xlsx", sep="")
 if (data_size == 1) {
         write.xlsx(inst_counts_final,
@@ -73,6 +104,11 @@ if (data_size == 1) {
         write.xlsx(inst_failure_info,
                    instoutputname,
                    sheetName="Instrument Failure Reasons",
+                   row.names=FALSE,
+                   append=TRUE)
+        write.xlsx(SSIDtable,
+                   instoutputname,
+                   sheetName="Instrument, Failure, SSID's",
                    row.names=FALSE,
                    append=TRUE)
 } else {
@@ -93,6 +129,11 @@ if (data_size == 1) {
                    sheetName="Instrument Failure Reasons",
                    row.names=FALSE,
                    append=TRUE) 
+        write.xlsx(SSIDtable,
+                   outputnamexlsx,
+                   sheetName="Instrument, Failure, SSID's",
+                   row.names=FALSE,
+                   append=TRUE)
 }
 
 
