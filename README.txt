@@ -1,9 +1,11 @@
 Failure List
 Cameron Ferguson
 last updated: 4/2/15
-Version: 0.1.6.0
+Version: 0.1.6.5
 -------------------------------------------------------------------------------------
 Most Recent UPDATE:
+0.1.6.5
+Added a Sequence Set analysis view for the Instrument Analysis, showing the sequence sets that have failed on a given instrument.
 0.1.6.4
 Added a new user input, allowing the User to specify what analysese they want, so that it doesn't just give all the excel files every time. If you choose all analysese you get all of them as seperate files, if you choose a specific one, you get the summary page and then your choosen analysis
 0.1.6.1
