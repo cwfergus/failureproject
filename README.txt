@@ -64,6 +64,7 @@ To generate the Raw File
 	5)Select the following Fields from the box on the left, and MOVE them to the box on the right.
                 a)Synthesis Instrument
                 b)Synthesis Deck Position
+                c)Sequence Set ID
 	6)Using the drop down field in the top left, change to related tables: Sets SSID Track
 	7) Select the following Fields from the box on the left, and move them to the box on the right.          
                 a)Sets SSID Track::Sequence ID
