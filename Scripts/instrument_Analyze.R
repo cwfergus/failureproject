@@ -85,7 +85,7 @@ merger <- within(inst_failure_info, Instrument_and_Reason <- paste(Instrument_Na
 
 SSIDtable <- merge(SSIDtable, merger)
 SSIDtable <- select(SSIDtable, Instrument_and_Reason, Number_failed, Failed_Sequence_Sets)
-Instrument_failure_SSID <- arrange(SSIDtable, desc(Number_failed))
+Instrument_Failure_SSID <- arrange(SSIDtable, desc(Number_failed))
 
 instoutputname <- paste(outputname, "_instrument", ".xlsx", sep="")
 if (data_size == 1) {
@@ -124,12 +124,12 @@ if (data_size == 1) {
                    row.names=FALSE,
                    append=TRUE)
         
-        write.xlsx(inst_failure_info,
+        write.xlsx(Instrument_Failure_Reasons,
                    outputnamexlsx,
                    sheetName="Instrument Failure Reasons",
                    row.names=FALSE,
                    append=TRUE) 
-        write.xlsx(SSIDtable,
+        write.xlsx(Instrument_Failure_SSID,
                    outputnamexlsx,
                    sheetName="Instrument, Failure, SSID's",
                    row.names=FALSE,
