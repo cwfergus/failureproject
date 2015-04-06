@@ -1,18 +1,12 @@
 Failure List
 Cameron Ferguson
-last updated: 4/2/15
+last updated: 4/6/15
 Version: 0.1.6.5
 -------------------------------------------------------------------------------------
 Most Recent UPDATE:
 0.1.6.5
-Added a Sequence Set analysis view for the Instrument Analysis, showing the sequence sets that have failed on a given instrument.
-0.1.6.4
-Added a new user input, allowing the User to specify what analysese they want, so that it doesn't just give all the excel files every time. If you choose all analysese you get all of them as seperate files, if you choose a specific one, you get the summary page and then your choosen analysis
-0.1.6.1
-Made adjustments to the Instrument Analysis script, to better group instruments
-0.1.6.0
-Made some major adjustments in the last few weeks, none which were added to read me so here goes...
-Biggest change: NEW EXPORT ORDER. See RAW file, export section for details. Added an instrument analysis script/file. this is still a major work in progress, and will be the head of changes. I also cleaned up the main script, moving package loading to its own script, removed the Failure Reason analysis part to its own script for consistancy, added some new clean up functions for the failuredatafunctions script, for the instrument analysis. I also added a RAW export, that contains the original note and the changed note or the word removed, to enable people to easily check my work.
+Added a Sequence Set analysis view for the Instrument Analysis, showing the sequence sets that have failed on a given instrument. Be aware of the new export order/fields in 0.1.6
+
 
 -------------------------------------------------------------------------------------
 Script Summary
@@ -54,7 +48,7 @@ This assumes you have already exported the data correctly. If you have yet to ex
 --------------------------------------------------------------------------------------
 Raw File
 
-The Raw File is the data file that you will feed into R in order to get the excel file. It is exported from Filemaker, and has the extension .tab You must either remember the location of the Raw File or save it to the same location as the R script in order for the script to work.
+The Raw File is the data file that you will feed into R in order to get the excel file. It is exported from Filemaker, and has the extension .tab. You must either remember the location of the Raw File or save it to the same location as the R script in order for the script to work.
 
 To generate the Raw File
 	1) Search however you want.
@@ -94,78 +88,101 @@ It is also possible to open this raw file in notebook. You shouldn't need to do 
 ----------------------------------------------------------------------------------------
 Script Layouts
 
-The following section is a barebones layout of the failurelist.R script:
+failurelist.R
 
 1) The script begins by checking if the user has the required R packages, and installs them if they do not (packageload.R)
 
 2) Next it sources some custom functions used in this script, from failurelistfunctions.R
 
-3) Next it asks for the user to input the filename and the output name, and adds extentions to each. It also asks which analysis the user wants.
+3) Next it asks for the user to input the filename and the output name, and adds extentions to each. 
 
-4) Next it checks how large the data is.
+4) Next it prints out a table of options, asking the user what analysis they want
 
-5) Now it reads in the raw data, adds column names, and converts the data frame into a special class of data frame.
+5) Now it reads in the raw data and adds column names.
 
-6) It then runs the raw_tbl_df 
+6) Now the raw data is cleaned up, changing everything to Upper Case, filling down missing Instruments, Locations, and SSIDs.
 
-6) Next all sequences that do not have anything in the notes section are removed. This is assumed to remove all sequences that passed.
+7) Next it adds another column, by simply duplicating the notes field and calling it Originalnote
 
-7) Next it that through the clean_up function, which removes extra space and converts everything to lower case
+8) Now all sequences that do not have anything in the notes section are removed. This is assumed to remove all sequences that passed.
 
-8) It runs that file through the not_failed function, which removes sequences with notes that don't relate to failures 
+9) Next it that through the clean_up function, which removes extra space and converts failure reasons to lover case.
+
+10) It runs that file through the not_failed function, which changed specific notes to REMOVED.
 	-except Reassign and Ms Okay
 
-9) Then that file is passed to the failure_aggregation function, which attempts to assign common failure notes to the sequences
+11) Then that file is passed to the failure_aggregation function, which attempts to assign common failure notes to the sequences
 
-10) Now the Reassigned notes are removed
+12) Now the Removed notes are removed
 
-11) Now the Ms Okay notes are removed. These are both removed seperatly to enable counting
+13) Now the Reassign and then the Ms Okay notes are removed. These are both removed seperatly to enable counting, and use of Ms Okay in instrument a.
 
-12) The clean_failure file now should contain only failures, and a large number of the failure reasons should be similar.
+14) The clean_failure file now should contain only failures, and a large number of the failure reasons should be similar.
 
-13) The clean_failure file is now grouped_by Failure reasons, and then the number of items in each group (ie the number of each Failure Reason) is counted. A new file is spit out with the Failure Reason, and its count arranged in greatest to least.
+15) Now the Summary script is run
 
-14) Now the Summary script is run
+16) Now depending on the user's choice at the beginning, one or multiple Analysis scripts are run.
 
-15) Now the data frame is converted back into a regular data frame (see 4)
+17) A final message tells the user the script is Finished
 
-16) And then it is written into an excel spreadsheet.
-
-17) Next the mod_Analyze.R script is run.
-
-18) Next the seqID_Analyze.R script is run
-
-19) Next the seqName_Analyze.R script is run
-
-20) Finally it removes everything from memory (NOTE: I have commented this line, to enable editors to see all stages of data generation. But the final version will do this)
+18) Finally it removes everything from memory (NOTE: I have commented this line, to enable editors to see all stages of data generation. But the final version will do this)
 
 ----
-The following is a barebones layout of the failurelistfunctions.R script:
+packageload.R
 
-The failurelistfunctions.R script is a collection of custom functions, written to clean up the failurelist.R script, and make it more readable.
+This script checks to see if certain packages required by this collection of scripts are installed by the User, installs them if they are not, and then loads the packages. It users a series of if required statements to download/load the packages. 
+
+Currently 4 packages are required:
+dplyr: Used to counts, group, and arrange data
+xlsx : Used to write out excel files
+stringr: Used to manipulate character strings to different cases, remove spaces, etc
+zoo: Used to fill down items in a table.
+
+----
+failurelistfunctions.R
+
+The failurelistfunctions.R script is a collection of custom functions, used within individual analyses.
 
 clean_up: This functions converts all notes to lower case, converts any double spaces to a single space, and trims any extra space around notes.This is necessary to enable easy data manipulation
 
-not_failed: This function removes specific notes from the data. The phrases have been chosen to represent notes that are frequently addedbut don't actually represent a failure.If new notes are found that don't represent failures another line can be easily added using copy and paste.It is assumed that the end result of this function is a file that does not contain any NON failures (except ms okay and Reassign)
+not_failed: This function changes specific notes to REMOVED to enable easy removal of specific sequences. The phrases have been chosen to represent notes that are frequently added but don't actually represent a failure.If new notes are found that don't represent failures another line can be easily added using copy and paste.It is assumed that the end result of this function is a file that does not contain any NON failures (except ms okay and Reassign). The function now also changes a few notes (ms okay, ms not okay, reassign) to their collected note (see failure_aggregation for details).
                 	ex non-failures) recombine, wobble okay, or stellaris okay
 
-reason_remover: This function removes specific reasons from the data. This can be used to enable singular removal of reasons, and is used in the failurelist.R script to remove Reassign and Ms Okay notes seperately
+reason_remover: This function removes specific reasons from the data. This can be used to enable singular removal of reasons, and is used in the failurelist.R script to remove Removed, Reassign, and Ms Okay notes seperately.
 
 failure_aggregation: This function attempts to change divergent failure note for identical failures into identical notes for identical failuresIt is mostly necessary due to inconsistant failure naming, as well as occasional misspellings. Once again it is very easy to add another failure note, or failure note variation using copy and paste
 
-write_outtest: This function is used for the testing of the data and is never naturally called in any of the scripts. Instead it is used as a diagnostic function, to enable testers to view precursors to the final data file. To run it, simply type in the R console:
+test_write_out: This function is used for the testing of the data and is never naturally called in any of the scripts. Instead it is used as a diagnostic function, to enable testers to view precursors to the final data file. To run it, simply type in the R console:
 
-write_outtest(variablename= (the precursor dataframe you want to export), outputname= (the name you want it saved as with .xlsx))
+write_outtest(variablename= (the precursor dataframe you want to export), outputname= (the name you want it saved as with .csv))
 	
-	ex) write_outtest(clean_failure, clean_failuretest.xlsx)
+	ex) write_outtest(clean_failure, clean_failuretest.csv)
+
+inst_raw_clean: This function does a similar job to clean_up, but on the Instrument Name field, removing certain characters and renaming others.
+
+Inst_name_adjust: This function does a similar job to failure_aggregation, but on the Instrument Name field.
 
 ----
-The following is a barebones layout of the summary.R script:
+Summary.R
 
 The summary.R script is used to create a summary sheet, which provides basic information about the raw data analyzed, and the end results.It basically counts the numbers of rows (ie number of sequences) in precursor files. Then it creates a data frame of those numbers, using the summary function, and writes that data frame to the excel file.
 
 ----
-The following is a barebones layout of the seqID_Analyze.R script:
+failurereason_Analyze.R
+
+This script begins by grouping the clean_failure data frame by Failure_Reason, couting the number of failures in each group, and reporting the failure reason and the number of occurances. This table is then written out. 
+
+----
+mod_Analyze.R
+
+This script creates a few sheets, that show the failure rate per mod combination, per five prime mod, and per three prime mod. It works pretty similarly to the seqID_Analyze.R script, and each analysis within it is near identical.
+
+It generates the list of all unique mod combinations, and a list of all mod combinations that failed. It merges those lists, retaining combinations that NEVER failed. Finally it calulates the failure rate, orders if by failure rate, and removes any that equal 1.
+
+This is done for the combinations, for the five prime mod, and for the three prime mod. Each of these generates a data frame with mods and failure rates. Each of these data frames are written to the excel file.
+
+----
+seqID_Analyze.R
 
 This script creates a sheet that shows the failure rate of specific sequence ID's and their respective modifications.
 
@@ -185,38 +202,67 @@ Next it grabs the top 2 percent of failure rates
 
 Finally it reads this into the excel file.
 
----
-The following is a barebones layout of the mod_Analyze.R script:
+----
+seqName_Analyze.R
 
-This script creates a few sheets, that show the failure rate per mod combination, per five prime mod, and per three prime mod. It works pretty similarly to the seqID_Analyze.R script, and each analysis within it is near identical.
+This script works almost exactly the same as the seqID_Analyze.R script, except with Sequence Name being the grouping/counting factor. 
 
-It generates the list of all unique mod combinations, and a list of all mod combinations that failed. It merges those lists, retaining combinations that NEVER failed. Finally it calulates the failure rate, orders if by failure rate, and removes any that equal 1.
 
-This is done for the combinations, for the five prime mod, and for the three prime mod. Each of these generates a data frame with mods and failure rates. Each of these data frames are written to the excel file.
+----
+sequence_Analyze.R
+
+Once again, it works almost exactly the same as the seqID_Analyze.R script
+
+----
+instrument_Analyze.R
+
+This script is slightly more complicated due to its use of a new Character field: Instrument Name
+
+The script begins by running the inst_raw_clean and inst_name_adjust functions on the raw_tbl_df data frame. 
+
+Next it does a similar analysis to the failure_reason Analyze.R script, but using the Instrument field as a result. However it also counts the number of times a machine was used as well.
+
+Now it does this again, but uses the unmodified instrument names and groups via instrument name and location.
+
+The third table it makes is just a list of instruments and their failure reasons.
+
+Next is the most complicated analysis so far:
+1) It makes a grouped/counted table of the instrument using adjusted names, grouped via Instrument name, Failure Reason, and SSID: SSIDinst
+	This table has a column where the Instrument name and Failure reason and combined and seperated by a " "
+2) It makes an empty final data table, with two columns Instrument_and_Reason and Failed_Sequence_Sets.
+3) Now it takes the third final table (inst_failure_info) and merges the instrument name and failure reason columns, and makes a Picker table
+4) Nower it makes a pick_list, taking just the now merged column. 
+5) Now a for loop, running through every value in the pick list it:
+	a) finds the column number
+	b) finds the spot that that instrument/failure reason is in the SSIDinst table
+	c) using the spots, it grabs the sequence sets corresponding to those instruments/failure reasons
+	d) it then combines all the sequence sets into one character string, with a " " seperating each
+	e) Finally it appends the sequence sets and the 'pick' (the intrument name/ reason combined column)
+	f) Now it slots this into the empty final data table
+6) Next the counted fields are added to give a number failed per instrument per failure
+
+Now all of these tables are written out as a single xlsx file.
+
 
 --------------------------------------------------------------------------------------------------------
 Final File(s)
 	
-The excel file is written out at the end of the failurelist.R script. It writes out the file to the same directory the script is in, unless otherwise specified. It uses the output name given by the users.If the Users says that the data is large (inputs 1 at beginning) then the script will generate 3 excel files. This is noted below
+The final file or files that are written out depends on the Users choice at the beginning. They can choose to either run every analysis on the data or just one. If they choose everything then a collection of xlsx and csv files will be written out depending on wether the analysis included multiple tabs or not. The one that is just their choosen name is a summary document, the others will all contain a _analysisname tag.
 
-The excel file currently has the following sheets, each of which represents a slightly different analysis 
-1) summary: contains summary info of the analyses, generated by summary.R
+If the user chooses to run a specific analysis the final file will contain a summary tab, made using summary.R and the analysis tab/s. 
 
-2) Top Failure Reasons: contains a table of the failure reasons and the number of times each occurs, generated by failurelist.R
+Excel files can be easily manipulated/sorted and played with. Also a large number of people know how to work with them. This is why excel files were choosen as the final format. 
 
-3) Both Mod Failure Rate: Each mod pair and its failure rate, generated by mod_analyze.R
-
-4) Five Prime Mod Failure Rate: Each Five prime mod and its failure rate, generated by mod_analyze.R
-
-5) Three Prime Mod failure rate: each Three prime mod and its failure rate, generated by mod_analyze.R
-
-6) SeqID Failure Rate: the failure rate of each Sequence ID. Sometimes its own excel file, depending on data size. Generated by seqID_Analyze.R
-
-7) SeqName Failure Rate: The failure rate of each Sequence Name. Sometimes its own excel file, depending on data size. Generated by seqName_Analyze.R
-
-It can easily be sorted in anyway you want. 
 -----------------------------------------------------------------
 UPDATES
+
+0.1.6.4
+Added a new user input, allowing the User to specify what analysese they want, so that it doesn't just give all the excel files every time. If you choose all analysese you get all of them as seperate files, if you choose a specific one, you get the summary page and then your choosen analysis
+0.1.6.1
+Made adjustments to the Instrument Analysis script, to better group instruments
+0.1.6.0
+Made some major adjustments in the last few weeks, none which were added to read me so here goes...
+Biggest change: NEW EXPORT ORDER. See RAW file, export section for details. Added an instrument analysis script/file. this is still a major work in progress, and will be the head of changes. I also cleaned up the main script, moving package loading to its own script, removed the Failure Reason analysis part to its own script for consistancy, added some new clean up functions for the failuredatafunctions script, for the instrument analysis. I also added a RAW export, that contains the original note and the changed note or the word removed, to enable people to easily check my work.
 
 0.1.5.0
 Added a Sequence Analysis document, as the seqName was not as unique as I thought: Its customer choice! Which means it can be duplicated or redone or copied. Moved all but main script to their own folder, and changed name of main script. This just makes the directory cleaner and easier for end user work. 
