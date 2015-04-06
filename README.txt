@@ -82,6 +82,7 @@ To generate the Raw File
                 f)Sets SSID Track::Notes
                 g)Synthesis Instrument
                 h)Synthesis Dec Position
+                i)Sequence Set ID
 	9) Hit export
 	10) Wait for filemaker to export the data. This can take up to 10 minuites!
 
