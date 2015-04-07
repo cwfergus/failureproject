@@ -1,73 +1,73 @@
 #Character Clean up function
 #This function is used to clean up the raw data to enable easy manipulation
-clean_up <- function(){
+note_clean_up <- function(dataset){
         #converts failure reasons to lower case
-        not_passed$Failure_Reason <- tolower(not_passed$Failure_Reason)
+        dataset$Failure_Reason <- tolower(dataset$Failure_Reason)
         #turns accidental double spaces into single spaces
-        not_passed$Failure_Reason <- gsub("  ", " ", not_passed$Failure_Reason)
+        dataset$Failure_Reason <- gsub("  ", " ", dataset$Failure_Reason)
         #removes any extra space at the beginning or end of notes
-        not_passed$Failure_Reason <- str_trim(not_passed$Failure_Reason)
-        not_passed
+        dataset$Failure_Reason <- str_trim(dataset$Failure_Reason)
+        dataset
 }
 
 #None Failure removal
 #Intended to remove most sequences that did not actually failed by have notes in their
 #failure Reason section.
-not_failed <- function(){
+not_failed <- function(dataset){
         #changes any notes with the letters "see" to NA
-        not_passed$Failure_Reason <- gsub("ms n", NA, not_passed$Failure_Reason)
+        dataset$Failure_Reason <- gsub("ms n", NA, dataset$Failure_Reason)
         #changes any notes that are NA to "Ms NOT Okay"
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "Ms NOT Okay"
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Ms NOT Okay"
         #etc #etc #etc
-        not_passed$Failure_Reason <- gsub("ms o", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "Ms Okay"
+        dataset$Failure_Reason <- gsub("ms o", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Ms Okay"
         
-        not_passed$Failure_Reason <- gsub("assig", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "Reassigned"
+        dataset$Failure_Reason <- gsub("assig", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Reassigned"
         
-        not_passed$Failure_Reason <- gsub("yield", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason <- gsub("yeild", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason <- gsub("no dn", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "Low Yield"
+        dataset$Failure_Reason <- gsub("yield", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("yeild", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("no dn", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Low Yield"
         
-        not_passed$Failure_Reason <- gsub("see", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("see", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
         
-        not_passed$Failure_Reason <- gsub("extra material", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("extra material", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("archive material", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("archive material", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("collection", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("collection", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("stellaris o", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("stellaris o", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("pass", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("pass", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("wobble o", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("wobble o", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("wobbles o", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("wobbles o", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("recheck", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("recheck", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("relot", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("relot", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("re-lot", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("re-lot", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
-        not_passed$Failure_Reason <- gsub("comb", NA, not_passed$Failure_Reason)
-        not_passed$Failure_Reason[is.na(not_passed$Failure_Reason)] <- "REMOVED"
+        dataset$Failure_Reason <- gsub("comb", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         #removes any that have NA for the failure reason.
-        not_passed
+        dataset
 }
  # this function is used to remove specific failure reasons from the data
 reason_remover <- function(dataframe, reason) {
@@ -77,141 +77,141 @@ reason_remover <- function(dataframe, reason) {
 
 #Failure aggregation
 #Used to attempt to provide common failure reason notes to divergent failure reason notes.
-failure_aggregation <- function(){
+failure_aggregation <- function(dataset){
         # finds anything with the characters "ms n" and changes the note to NA
-        only_failed$Failure_Reason <- gsub("ms n", NA, only_failed$Failure_Reason)
+        dataset$Failure_Reason <- gsub("ms n", NA, dataset$Failure_Reason)
         #changes any notes that are NA to "Ms NOT Okay"
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Ms NOT Okay"
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Ms NOT Okay"
         #etc #etc #etc
-        only_failed$Failure_Reason <- gsub("ms o", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Ms Okay"
+        dataset$Failure_Reason <- gsub("ms o", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Ms Okay"
         
-        only_failed$Failure_Reason <- gsub("assig", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Reassigned"
+        dataset$Failure_Reason <- gsub("assig", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Reassigned"
         
-        only_failed$Failure_Reason <- gsub("base", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Base-swap"
+        dataset$Failure_Reason <- gsub("base", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Base-swap"
         
-        only_failed$Failure_Reason <- gsub("wrong m", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Wrong Mass"
+        dataset$Failure_Reason <- gsub("wrong m", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Wrong Mass"
         
-        only_failed$Failure_Reason <- gsub("flush", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Flushed"
+        dataset$Failure_Reason <- gsub("flush", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Flushed"
         
-        only_failed$Failure_Reason <- gsub("3 stel", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("every sample", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("all samples failed", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("stellaris f", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("more then three", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("more than 3", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Stellaris failures"
+        dataset$Failure_Reason <- gsub("3 stel", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("every sample", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("all samples failed", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("stellaris f", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("more then three", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("more than 3", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Stellaris failures"
         
-        only_failed$Failure_Reason <- gsub("extra tet", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Extra TET coupled"
+        dataset$Failure_Reason <- gsub("extra tet", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Extra TET coupled"
         
-        only_failed$Failure_Reason <- gsub("bhq3", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("bhq-3", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Poor BHQ3 coupling"
+        dataset$Failure_Reason <- gsub("bhq3", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("bhq-3", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Poor BHQ3 coupling"
         
-        only_failed$Failure_Reason <- gsub("bhq2", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("bhq-2", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Poor BHQ2 coupling"
+        dataset$Failure_Reason <- gsub("bhq2", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("bhq-2", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Poor BHQ2 coupling"
         
-        only_failed$Failure_Reason <- gsub("bhq1", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("bhq-1", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Poor BHQ1 coupling"
+        dataset$Failure_Reason <- gsub("bhq1", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("bhq-1", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Poor BHQ1 coupling"
         
-        only_failed$Failure_Reason <- gsub("tet", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Poor TET"
+        dataset$Failure_Reason <- gsub("tet", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Poor TET"
         
-        only_failed$Failure_Reason <- gsub("extra fam", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Extra FAM coupled"
+        dataset$Failure_Reason <- gsub("extra fam", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Extra FAM coupled"
         
-        only_failed$Failure_Reason <- gsub("fam", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Poor FAM"
+        dataset$Failure_Reason <- gsub("fam", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Poor FAM"
         
-        only_failed$Failure_Reason <- gsub("biotin", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Poor Biotin Coupling"
+        dataset$Failure_Reason <- gsub("biotin", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Poor Biotin Coupling"
         
-        only_failed$Failure_Reason <- gsub("contamin", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Contamination"
+        dataset$Failure_Reason <- gsub("contamin", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Contamination"
         
-        only_failed$Failure_Reason <- gsub("fluor", "Poor Fluorescense", only_failed$Failure_Reason)
+        dataset$Failure_Reason <- gsub("fluor", "Poor Fluorescense", dataset$Failure_Reason)
         
-        only_failed$Failure_Reason <- gsub("impurity", "ImPurity", only_failed$Failure_Reason)
+        dataset$Failure_Reason <- gsub("impurity", "ImPurity", dataset$Failure_Reason)
         
-        only_failed$Failure_Reason <- gsub("purity", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Poor Purity"
+        dataset$Failure_Reason <- gsub("purity", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Poor Purity"
         
-        only_failed$Failure_Reason <- gsub("n-", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "N- failure"
+        dataset$Failure_Reason <- gsub("n-", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "N- failure"
         
-        only_failed$Failure_Reason <- gsub("syn", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Synthesis Failure"
+        dataset$Failure_Reason <- gsub("syn", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Synthesis Failure"
         
-        only_failed$Failure_Reason <- gsub("colum", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Column Issue"
+        dataset$Failure_Reason <- gsub("colum", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Column Issue"
         
-        only_failed$Failure_Reason <- gsub("flp", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("no pro", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "No FLP"
+        dataset$Failure_Reason <- gsub("flp", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("no pro", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "No FLP"
         
-        only_failed$Failure_Reason <- gsub("dmt", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "DMT left on"
-        
-
-        
-        only_failed$Failure_Reason <- gsub("depur", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Depurination"
-        
-        only_failed$Failure_Reason <- gsub("mmt", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "MMT left on"
-        
-        only_failed$Failure_Reason <- gsub("phosp", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Poor Phosphate Coupling"
-        
-        only_failed$Failure_Reason <- gsub("poor j", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Poor Joe coupling"
-        
-        only_failed$Failure_Reason <- gsub("incom", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("acetyl", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("benz", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("cyano", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("deprot", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Incomplete Deprotection"
-        
-        only_failed$Failure_Reason <- gsub("dye", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Dye failure"
-        
-        only_failed$Failure_Reason <- gsub("scram", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Plate Scrambled"
-        
-        only_failed$Failure_Reason <- gsub("yield", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("yeild", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason <- gsub("no dn", NA, only_failed$Failure_Reason)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Low Yield"
+        dataset$Failure_Reason <- gsub("dmt", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "DMT left on"
         
 
-        only_failed$Failure_Reason <- gsub("-1", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("-2", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("-3", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("-4", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("-5", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("-6", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("-7", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("-8", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("-9", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("+1", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("+2", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("+3", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("+4", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("+5", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("+6", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason  <- gsub("+7", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("+8", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason <- gsub("+9", NA, only_failed$Failure_Reason, fixed=TRUE)
-        only_failed$Failure_Reason[is.na(only_failed$Failure_Reason)] <- "Impurity Present"
-        only_failed
+        
+        dataset$Failure_Reason <- gsub("depur", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Depurination"
+        
+        dataset$Failure_Reason <- gsub("mmt", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "MMT left on"
+        
+        dataset$Failure_Reason <- gsub("phosp", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Poor Phosphate Coupling"
+        
+        dataset$Failure_Reason <- gsub("poor j", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Poor Joe coupling"
+        
+        dataset$Failure_Reason <- gsub("incom", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("acetyl", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("benz", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("cyano", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("deprot", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Incomplete Deprotection"
+        
+        dataset$Failure_Reason <- gsub("dye", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Dye failure"
+        
+        dataset$Failure_Reason <- gsub("scram", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Plate Scrambled"
+        
+        dataset$Failure_Reason <- gsub("yield", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("yeild", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason <- gsub("no dn", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Low Yield"
+        
+
+        dataset$Failure_Reason <- gsub("-1", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("-2", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("-3", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("-4", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("-5", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("-6", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("-7", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("-8", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("-9", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("+1", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("+2", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("+3", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("+4", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("+5", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("+6", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason  <- gsub("+7", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("+8", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason <- gsub("+9", NA, dataset$Failure_Reason, fixed=TRUE)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "Impurity Present"
+        dataset
         
 }
 

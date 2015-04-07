@@ -7,7 +7,7 @@ save_these=ls()
 
 #generates al ist of the unique mod combinations, and counts the times they were made
 mod_counts <-
-        raw_tbl_df %>% #data to pull from from failurelist.R
+        clean_raw %>% #data to pull from from failurelist.R
         group_by(Five_Prime_mod, Three_Prime_mod) %>% #group by 5' and 3' mod
         summarize(times_made = n()) %>% #count times exist, make new variable
         arrange(desc(times_made)) # sort via times_made
@@ -36,7 +36,7 @@ mod_FR <-
 ###
 
 mod5_counts <-
-        raw_tbl_df %>%
+        clean_raw %>%
         group_by(Five_Prime_mod) %>%
         summarize(times_made = n()) %>%
         arrange(desc(times_made))
@@ -60,7 +60,7 @@ mod5_FR <-
 ###
 
 mod3_counts <-
-        raw_tbl_df %>%
+        clean_raw %>%
         group_by(Three_Prime_mod) %>%
         summarize(times_made = n()) %>%
         arrange(desc(times_made))

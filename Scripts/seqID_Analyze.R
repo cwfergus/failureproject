@@ -9,7 +9,7 @@ save_these=ls()
 
 #Generates a list of the unique sequence ID's and the number of times made
 seqID_counts <-
-        raw_tbl_df %>% #the data to pull from
+        clean_raw %>% #the data to pull from
         group_by(Sequence_ID) %>% #group the data by sequence ID
         summarize(times_made = n()) %>% #Count each time a unique Sequence ID exists and
                                         #make a new variable with that info
@@ -25,7 +25,7 @@ seqID_failure_counts <-
 
 #Generates a list of the unique sequence ID's and their modifications
 seqID_info <-
-        raw_tbl_df %>% #data to pull from
+        clean_raw %>% #data to pull from
         group_by(Sequence_ID, Five_Prime_mod, Three_Prime_mod, Sequence) %>% #group by seqID, 5'mod, 3'
         summarise_each(funs(n())) %>% #collapse the data by seqID, so no duplicates
         select(Sequence_ID, Five_Prime_mod, Three_Prime_mod, Sequence) #select just certain variables

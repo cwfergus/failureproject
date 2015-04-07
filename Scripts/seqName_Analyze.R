@@ -4,7 +4,7 @@ save_these=ls()
 
 
 seqName_counts <-
-        raw_tbl_df %>% #the data to pull from
+        clean_raw %>% #the data to pull from
         group_by(Sequence_Name) %>% #group the data by sequence ID
         summarize(times_made = n()) %>% #Count each time a unique Sequence ID exists and
         #make a new variable with that info
@@ -18,7 +18,7 @@ seqName_failure_counts <-
         arrange(desc(number_of_failures)) #arrange via the number of failures
 
 seqName_info <-
-        raw_tbl_df %>% #data to pull from
+        clean_raw %>% #data to pull from
         group_by(Sequence_Name, Five_Prime_mod, Three_Prime_mod, Sequence) %>% #group by seqID, 5'mod, 3'
         summarise_each(funs(n())) %>% #collapse the data by seqName, so no duplicates
         select(Sequence_Name, Five_Prime_mod, Three_Prime_mod, Sequence) #select just certain variables

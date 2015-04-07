@@ -76,17 +76,24 @@ rawdata <- mutate(rawdata, originalnote = Failure_Reason)
 
 raw_tbl_df <- tbl_df(rawdata)
 
+clean_raw <- 
+        raw_tbl_df %>%
+        note_clean_up() %>%
+        inst_raw_clean() %>%
+        Inst_name_adjust()
+        
+
 #removes any observations that contain an NA in the Failure_Reason Variable.
-not_passed <- filter(raw_tbl_df, !is.na(Failure_Reason))
+not_passed <- filter(clean_raw, !is.na(Failure_Reason))
 #Cleans up the data, removing extra blank space and changing all notes to lower case.
-not_passed <- clean_up()
+
 #Removes not failed sequences, that contain notes, using the not_failed function
 #see failurelistfunctions.R for details
-only_failed <- not_failed()
+only_failed <- not_failed(not_passed)
 
 #Aggregates the failure reasons, to enable correct grouping, using the failure_aggregation
 #function. See failurelistfunctions.R for details
-everything_wnotes <- failure_aggregation()
+everything_wnotes <- failure_aggregation(only_failed)
 
 clean_failure_reassign_msokay <- reason_remover(everything_wnotes, "REMOVED")
 

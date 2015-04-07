@@ -5,7 +5,7 @@ save_these=ls()
 
 
 sequence_counts <-
-        raw_tbl_df %>% #the data to pull from
+        clean_raw %>% #the data to pull from
         group_by(Sequence, Five_Prime_mod, Three_Prime_mod) %>% #group the data by sequence ID
         summarize(times_made = n()) %>% #Count each time a unique Sequence ID exists and
         #make a new variable with that info

@@ -7,7 +7,7 @@
 save_these=ls()
 
 #counts the number of rows, and such the number of sequences, in the raw data
-seq_amount <- nrow(raw_tbl_df)
+seq_amount <- nrow(clean_raw)
 #counts the number of rows in the not_passed data frame
 not_passed_amount <- nrow(not_passed)
 

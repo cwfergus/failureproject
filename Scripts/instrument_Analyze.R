@@ -3,20 +3,17 @@
 save_these=ls()
 
 #Cleans up instrument field, making divergent names more similar
-raw_inst_count <- inst_raw_clean(raw_tbl_df)
-#Adjust intrument names to remove certain charactersitic ex) C1 or C9
-name_adj_inst_count <- Inst_name_adjust(raw_inst_count)
 
+
+#take adjusted instrument names table, group via I name, count number per group
 inst_count <- 
-        name_adj_inst_count %>%
+        clean_raw %>%
         group_by(Instrument_Name) %>%
         summarize(Sequences_made = n())
 
-raw_fail_inst_count <- inst_raw_clean(clean_failure_msokay)
-fail_name_adju_inst_count <- Inst_name_adjust(raw_fail_inst_count)
 
 fail_inst_count <-
-        fail_name_adju_inst_count %>%
+        clean_failure_msokay %>%
         group_by(Instrument_Name) %>%
         summarize(Sequences_failed = n())
 
@@ -25,18 +22,12 @@ inst_counts_final$Sequences_failed[is.na(inst_counts_final$Sequences_failed)] <-
 inst_counts_final <- mutate(inst_counts_final, failure_rate = Sequences_failed/Sequences_made)
 inst_counts_final <- arrange(inst_counts_final, desc(failure_rate))
 
-raw_inst_count_adjust <- raw_inst_count
-raw_inst_count_adjust$Instrument_Name <- gsub(" C", " c", raw_inst_count_adjust$Instrument_Name)
-raw_inst_count_adjust$Instrument_Name <- gsub("C", " c", raw_inst_count_adjust$Instrument_Name)
 
 inst_loc_count <- 
         raw_inst_count_adjust %>%
         group_by(Instrument_Name, Location) %>%
         summarize(Sequences_made = n())
 
-raw_fail_inst_count_adjust <- raw_fail_inst_count
-raw_fail_inst_count_adjust$Instrument_Name <- gsub(" C", " c", raw_fail_inst_count_adjust$Instrument_Name)
-raw_fail_inst_count_adjust$Instrument_Name <- gsub("C", " c", raw_fail_inst_count_adjust$Instrument_Name)
 
 fail_inst_loc_count <- 
         raw_fail_inst_count_adjust %>%
@@ -49,7 +40,7 @@ inst_loc_counts_final <- mutate(inst_loc_counts_raw, failure_rate = Sequences_fa
 inst_loc_counts_final <- arrange(inst_loc_counts_final, desc(failure_rate))
 
 inst_failure_info <- 
-        fail_name_adju_inst_count %>%
+        clean_failure_msokay %>%
         group_by(Instrument_Name, Failure_Reason) %>%
         summarize(Number_failed = n())
 
@@ -57,7 +48,7 @@ class(inst_failure_info) <- "data.frame"
 Instrument_Failure_Reasons <- arrange(inst_failure_info, desc(Number_failed))
 
 SSIDInst<- 
-        fail_name_adju_inst_count %>%
+        clean_failure_msokay %>%
         group_by(Instrument_Name, Failure_Reason, Sequence_Set) %>%
         summarise_each(funs(n())) %>%
         within(Combined <- paste(Instrument_Name, Failure_Reason, sep = " "))
