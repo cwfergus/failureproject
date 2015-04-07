@@ -23,14 +23,37 @@ inst_counts_final <- mutate(inst_counts_final, failure_rate = Sequences_failed/S
 inst_counts_final <- arrange(inst_counts_final, desc(failure_rate))
 
 
+
+
+
+
+allspots <- 1:nrow(clean_raw)
+supersamspots <- grep("SAM", clean_raw$Instrument_Name)
+notSSspots <- allspots[!allspots %in% supersamspots]
+
+locationremoved <- clean_raw
+
+for (i in notSSspots) {
+        locationremoved[i, "Location"] <- NA
+}
+
 inst_loc_count <- 
-        raw_inst_count_adjust %>%
+        locationremoved %>%
         group_by(Instrument_Name, Location) %>%
         summarize(Sequences_made = n())
 
+allspots <- 1:nrow(clean_failure_msokay)
+supersamspots <- grep("SAM", clean_failure_msokay$Instrument_Name)
+notSSspots <- allspots[!allspots %in% supersamspots]
+
+locationremoved2 <- clean_failure_msokay
+
+for (i in notSSspots) {
+        locationremoved2[i, "Location"] <- NA
+}
 
 fail_inst_loc_count <- 
-        raw_fail_inst_count_adjust %>%
+        locationremoved2 %>%
         group_by(Instrument_Name, Location) %>%
         summarize(Sequences_failed = n())
 
