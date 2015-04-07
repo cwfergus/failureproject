@@ -80,7 +80,7 @@ clean_raw <-
         raw_tbl_df %>%
         note_clean_up() %>%
         inst_raw_clean() %>%
-        Inst_name_adjust()
+        inst_name_adjust()
         
 
 #removes any observations that contain an NA in the Failure_Reason Variable.

@@ -104,7 +104,7 @@ SSID_inst<-
 SSIDtable <- data.frame(Instrument_and_Reason = NA, Failed_Sequence_Sets = NA)
 
 picker <-
-        inst_fail_info %>%
+        inst_fail_reasons_final %>%
         within(Instrument_and_Reason <- paste(Instrument_Name, Failure_Reason, sep = " "))
 
 
@@ -124,8 +124,8 @@ SSIDtable <- merge(SSIDtable, picker)
 
 fail_inst_SSID_final <- 
         SSIDtable %>%
-        select(Instrument_and_Reason, Number_failed, Failed_Sequence_Sets) %>%
-        arrange(desc(Number_failed))
+        select(Instrument_and_Reason, Number_Failed, Failed_Sequence_Sets) %>%
+        arrange(desc(Number_Failed))
 
 #####
 # The below section writes out the data
