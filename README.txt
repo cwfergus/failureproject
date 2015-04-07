@@ -1,12 +1,11 @@
 Failure List
 Cameron Ferguson
-last updated: 4/6/15
-Version: 0.1.6.5
+last updated: 4/7/15
+Version: 0.1.6.6
 -------------------------------------------------------------------------------------
 Most Recent UPDATE:
-0.1.6.5
-Added a Sequence Set analysis view for the Instrument Analysis, showing the sequence sets that have failed on a given instrument. Be aware of the new export order/fields in 0.1.6
-
+0.1.6.6
+Made several internal changes to the way the script works, just to clean it up and make it easier to read. Names of functions, variables, and columns were changed. Some of the processes were shorterened, as I had missed obvious things in my rush to complete the Instrument Analysis.
 
 -------------------------------------------------------------------------------------
 Script Summary
@@ -160,7 +159,7 @@ write_outtest(variablename= (the precursor dataframe you want to export), output
 
 inst_raw_clean: This function does a similar job to clean_up, but on the Instrument Name field, removing certain characters and renaming others.
 
-Inst_name_adjust: This function does a similar job to failure_aggregation, but on the Instrument Name field.
+inst_name_adjust: This function does a similar job to failure_aggregation, but on the Instrument Name field.
 
 ----
 Summary.R
@@ -216,13 +215,11 @@ Once again, it works almost exactly the same as the seqID_Analyze.R script
 ----
 instrument_Analyze.R
 
-This script is slightly more complicated due to its use of a new Character field: Instrument Name
+This script is s does a similar analysis to the failurereason_Analyze.R script, but using the Instrument field as a result. However it also counts the number of times a machine was used as well.
 
-The script begins by running the inst_raw_clean and inst_name_adjust functions on the raw_tbl_df data frame. 
+It first generates a table showing the Failure Rate for each instrument, similar to the SeqID Analysis.
 
-Next it does a similar analysis to the failure_reason Analyze.R script, but using the Instrument field as a result. However it also counts the number of times a machine was used as well.
-
-Now it does this again, but uses the unmodified instrument names and groups via instrument name and location.
+Next it generates a table showing the Failure Rate for each instrument, and for super sams, each position. To do this the locations for every other machine is deleted using a loop on a vector full of row numbers corresponding to non-super sam instruments. 
 
 The third table it makes is just a list of instruments and their failure reasons.
 
@@ -256,16 +253,22 @@ Excel files can be easily manipulated/sorted and played with. Also a large numbe
 -----------------------------------------------------------------
 UPDATES
 
+0.1.6.5
+Added a Sequence Set analysis view for the Instrument Analysis, showing the sequence sets that have failed on a given instrument. Be aware of the new export order/fields in 0.1.6
+
 0.1.6.4
 Added a new user input, allowing the User to specify what analysese they want, so that it doesn't just give all the excel files every time. If you choose all analysese you get all of them as seperate files, if you choose a specific one, you get the summary page and then your choosen analysis
+
 0.1.6.1
 Made adjustments to the Instrument Analysis script, to better group instruments
+
 0.1.6.0
 Made some major adjustments in the last few weeks, none which were added to read me so here goes...
 Biggest change: NEW EXPORT ORDER. See RAW file, export section for details. Added an instrument analysis script/file. this is still a major work in progress, and will be the head of changes. I also cleaned up the main script, moving package loading to its own script, removed the Failure Reason analysis part to its own script for consistancy, added some new clean up functions for the failuredatafunctions script, for the instrument analysis. I also added a RAW export, that contains the original note and the changed note or the word removed, to enable people to easily check my work.
 
 0.1.5.0
 Added a Sequence Analysis document, as the seqName was not as unique as I thought: Its customer choice! Which means it can be duplicated or redone or copied. Moved all but main script to their own folder, and changed name of main script. This just makes the directory cleaner and easier for end user work. 
+
 0.1.4.0
 Added Sequence Information to the SeqName and SeqID files. REQUIRES NEW EXPORT. Also changed wording on a few thing: output save for SeqName and SeqID is now outputname_SeqName, changed summary script for more accurate description of numbers. 
 
