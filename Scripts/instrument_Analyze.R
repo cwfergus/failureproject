@@ -1,11 +1,10 @@
 #Instrument Failure Rate Counting
 
-save_these=ls()
+save_these=ls() #generates a list of variables to keep at end of script
 
-#Cleans up instrument field, making divergent names more similar
-
-
-#take adjusted instrument names table, group via I name, count number per group
+#####
+# The below section generates a table showing the Failure rate for a specific Instrument
+#####
 inst_count <- 
         clean_raw %>% #take clean raw data
         group_by(Instrument_Name) %>% #group via Instrument Name
@@ -16,17 +15,33 @@ fail_inst_count <-
         clean_failure_msokay %>% #take failures + ms okay sequences
         group_by(Instrument_Name) %>% #Group via Instrument Name
         summarize(Sequences_Failed = n()) #Count # of seqs in each group
+#merge together the tow instrument counts, all and failed.
+all_inst_counts <- merge(inst_count, fail_inst_count, by="Instrument_Name", all.x=TRUE)       
+#replace NA's with 0's for failure rate math
+all_inst_counts$Sequences_Failed[is.na(all_inst_counts$Sequences_Failed)] <- 0
+
 inst_counts_final <- 
         all_inst_counts %>% #take all intrument counts
         #add a column that is the failure rate
         mutate(Failure_Rate = Sequences_Failed/Sequences_Made) %>% 
         arrange(desc(Failure_Rate)) #sort largest to smallest failure rate
+#####
+# The below section generates a table that shows the failure rate for each location in each machine
+##### 
+
+
+#Generate vector of row numbers in the raw data
 allspots <- 1:nrow(clean_raw)
+#Find the row numbers with Super Sams as the instruments
 supersamspots <- grep("SAM", clean_raw$Instrument_Name)
+#Remove the super sam rows from the all rows
 notSSspots <- allspots[!allspots %in% supersamspots]
 
+#Duplicate the raw data so we can mess with it
 all_inst_select_loc <- clean_raw
 
+#remove the location field for all machines other than super sams.
+#Done using the notSSspots vector made above
 for (i in notSSspots) {
         all_inst_select_loc[i, "Location"] <- NA
 }
@@ -36,6 +51,7 @@ inst_loc_count <-
         group_by(Instrument_Name, Location) %>% #Group via Insturment and Location
         summarize(Sequences_Made = n()) #Count number of items per group
 
+#repeate above location removal but only for failed sequences
 failedspots <- 1:nrow(clean_failure_msokay) 
 failedsupersamspots <- grep("SAM", clean_failure_msokay$Instrument_Name)
 failednotSSspots <- allspots[!allspots %in% supersamspots]
@@ -51,6 +67,10 @@ fail_inst_loc_count <-
         group_by(Instrument_Name, Location) %>%
         summarize(Sequences_Failed = n())
 
+#make inclusive table with failure counts and made counts
+all_inst_loc_counts<- merge(inst_loc_count, fail_inst_loc_count, all.x =TRUE)
+#replace NA's with 0's to make it look better
+all_inst_loc_counts$Sequences_Failed[is.na(all_inst_loc_counts$Sequences_Failed)] <- 0
 
 
 inst_loc_counts_final <- 
@@ -58,6 +78,9 @@ inst_loc_counts_final <-
         mutate(Failure_Rate = Sequences_Failed/Sequences_Made) %>% #Add failure rate column
         arrange(desc(Failure_Rate)) # Sort via failure rate
 
+#####
+# the below area generates a table which shows the number of a specific failure per instrument
+#####
 inst_fail_reasons_final <- 
         clean_failure_msokay %>% #take all failed+MS Okay sequences
         group_by(Instrument_Name, Failure_Reason) %>% #group via Inst name & Failure R
@@ -65,6 +88,12 @@ inst_fail_reasons_final <-
         arrange(desc(Number_Failed))
 
 class(inst_fail_reasons_final) <- "data.frame" #switch to data frame for xlsx writeout
+
+#####
+#The below section generates a table showing the SSIDs for each Failure reason and Instrument combination. It also shows
+# the number of failures for the combination, but not each SSID
+#####
+
 SSID_inst<- 
         clean_failure_msokay %>%
         group_by(Instrument_Name, Failure_Reason, Sequence_Set) %>%
@@ -98,6 +127,9 @@ fail_inst_SSID_final <-
         select(Instrument_and_Reason, Number_failed, Failed_Sequence_Sets) %>%
         arrange(desc(Number_failed))
 
+#####
+# The below section writes out the data
+#####
 instoutputname <- paste(outputname, "_instrument", ".xlsx", sep="")
 if (data_size == 1) {
         write.xlsx(inst_counts_final,
@@ -147,8 +179,9 @@ if (data_size == 1) {
                    append=TRUE)
 }
 
-
-
+#####
+# The below section removes script specific variables
+#####
 full_list <- ls()
 delete <- full_list[!full_list %in% save_these]
 rm(list=delete, delete, full_list)
