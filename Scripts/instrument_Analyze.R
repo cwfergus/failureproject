@@ -7,99 +7,96 @@ save_these=ls()
 
 #take adjusted instrument names table, group via I name, count number per group
 inst_count <- 
-        clean_raw %>%
-        group_by(Instrument_Name) %>%
-        summarize(Sequences_made = n())
+        clean_raw %>% #take clean raw data
+        group_by(Instrument_Name) %>% #group via Instrument Name
+        summarize(Sequences_Made = n()) #Counts the # of items in each group
 
 
 fail_inst_count <-
-        clean_failure_msokay %>%
-        group_by(Instrument_Name) %>%
-        summarize(Sequences_failed = n())
-
-inst_counts_final <- merge(inst_count, fail_inst_count, by="Instrument_Name", all.x=TRUE)       
-inst_counts_final$Sequences_failed[is.na(inst_counts_final$Sequences_failed)] <- 0
-inst_counts_final <- mutate(inst_counts_final, failure_rate = Sequences_failed/Sequences_made)
-inst_counts_final <- arrange(inst_counts_final, desc(failure_rate))
-
-
-
-
-
-
+        clean_failure_msokay %>% #take failures + ms okay sequences
+        group_by(Instrument_Name) %>% #Group via Instrument Name
+        summarize(Sequences_Failed = n()) #Count # of seqs in each group
+inst_counts_final <- 
+        all_inst_counts %>% #take all intrument counts
+        #add a column that is the failure rate
+        mutate(Failure_Rate = Sequences_Failed/Sequences_Made) %>% 
+        arrange(desc(Failure_Rate)) #sort largest to smallest failure rate
 allspots <- 1:nrow(clean_raw)
 supersamspots <- grep("SAM", clean_raw$Instrument_Name)
 notSSspots <- allspots[!allspots %in% supersamspots]
 
-locationremoved <- clean_raw
+all_inst_select_loc <- clean_raw
 
 for (i in notSSspots) {
-        locationremoved[i, "Location"] <- NA
+        all_inst_select_loc[i, "Location"] <- NA
 }
 
 inst_loc_count <- 
-        locationremoved %>%
-        group_by(Instrument_Name, Location) %>%
-        summarize(Sequences_made = n())
+        all_inst_select_loc %>% #take now modified raw data
+        group_by(Instrument_Name, Location) %>% #Group via Insturment and Location
+        summarize(Sequences_Made = n()) #Count number of items per group
 
-allspots <- 1:nrow(clean_failure_msokay)
-supersamspots <- grep("SAM", clean_failure_msokay$Instrument_Name)
-notSSspots <- allspots[!allspots %in% supersamspots]
+failedspots <- 1:nrow(clean_failure_msokay) 
+failedsupersamspots <- grep("SAM", clean_failure_msokay$Instrument_Name)
+failednotSSspots <- allspots[!allspots %in% supersamspots]
 
-locationremoved2 <- clean_failure_msokay
+fail_inst_select_loc <- clean_failure_msokay
 
 for (i in notSSspots) {
-        locationremoved2[i, "Location"] <- NA
+        fail_inst_select_loc[i, "Location"] <- NA
 }
 
 fail_inst_loc_count <- 
-        locationremoved2 %>%
+        fail_inst_select_loc %>%
         group_by(Instrument_Name, Location) %>%
-        summarize(Sequences_failed = n())
+        summarize(Sequences_Failed = n())
 
-inst_loc_counts_raw <- merge(inst_loc_count, fail_inst_loc_count, all.x =TRUE)
-inst_loc_counts_raw$Sequences_failed[is.na(inst_loc_counts_raw$Sequences_failed)] <- 0
-inst_loc_counts_final <- mutate(inst_loc_counts_raw, failure_rate = Sequences_failed/Sequences_made)
-inst_loc_counts_final <- arrange(inst_loc_counts_final, desc(failure_rate))
 
-inst_failure_info <- 
-        clean_failure_msokay %>%
-        group_by(Instrument_Name, Failure_Reason) %>%
-        summarize(Number_failed = n())
 
-class(inst_failure_info) <- "data.frame"
-Instrument_Failure_Reasons <- arrange(inst_failure_info, desc(Number_failed))
+inst_loc_counts_final <- 
+        all_inst_loc_counts %>% #take the inclusive intstrument location coutns
+        mutate(Failure_Rate = Sequences_Failed/Sequences_Made) %>% #Add failure rate column
+        arrange(desc(Failure_Rate)) # Sort via failure rate
 
-SSIDInst<- 
+inst_fail_reasons_final <- 
+        clean_failure_msokay %>% #take all failed+MS Okay sequences
+        group_by(Instrument_Name, Failure_Reason) %>% #group via Inst name & Failure R
+        summarize(Number_Failed = n()) %>% #count # of items in each group
+        arrange(desc(Number_Failed))
+
+class(inst_fail_reasons_final) <- "data.frame" #switch to data frame for xlsx writeout
+SSID_inst<- 
         clean_failure_msokay %>%
         group_by(Instrument_Name, Failure_Reason, Sequence_Set) %>%
         summarise_each(funs(n())) %>%
-        within(Combined <- paste(Instrument_Name, Failure_Reason, sep = " "))
+        within(Instrument_and_Reason <- paste(Instrument_Name, Failure_Reason, sep = " "))
 
 
 SSIDtable <- data.frame(Instrument_and_Reason = NA, Failed_Sequence_Sets = NA)
 
 picker <-
-        inst_failure_info %>%
-        within(Combined <- paste(Instrument_Name, Failure_Reason, sep = " "))
+        inst_fail_info %>%
+        within(Instrument_and_Reason <- paste(Instrument_Name, Failure_Reason, sep = " "))
 
 
-pick_list <- picker$Combined
+pick_list <- picker$Instrument_and_Reason
 
 for (i in 1:length(pick_list)) {
         pick <- pick_list[[i]]
-        spots <- grep(pick, SSIDInst$Combined)
-        sequence_sets <- (SSIDInst$Sequence_Set[spots])
+        spots <- grep(pick, SSID_inst$Instrument_and_Reason)
+        sequence_sets <- (SSID_inst$Sequence_Set[spots])
         sequence_sets <- str_c(sequence_sets, collapse = " ")
         row <- append(pick, sequence_sets)
         SSIDtable[i,] <- row
 }
 
-merger <- within(inst_failure_info, Instrument_and_Reason <- paste(Instrument_Name, Failure_Reason, sep = " "))
 
-SSIDtable <- merge(SSIDtable, merger)
-SSIDtable <- select(SSIDtable, Instrument_and_Reason, Number_failed, Failed_Sequence_Sets)
-Instrument_Failure_SSID <- arrange(SSIDtable, desc(Number_failed))
+SSIDtable <- merge(SSIDtable, picker)
+
+fail_inst_SSID_final <- 
+        SSIDtable %>%
+        select(Instrument_and_Reason, Number_failed, Failed_Sequence_Sets) %>%
+        arrange(desc(Number_failed))
 
 instoutputname <- paste(outputname, "_instrument", ".xlsx", sep="")
 if (data_size == 1) {
@@ -115,12 +112,12 @@ if (data_size == 1) {
                    row.names=FALSE,
                    append=TRUE)
         
-        write.xlsx(Instrument_Failure_Reasons,
+        write.xlsx(inst_fail_reasons_final,
                    instoutputname,
                    sheetName="Instrument Failure Reasons",
                    row.names=FALSE,
                    append=TRUE)
-        write.xlsx(Instrument_Failure_SSID,
+        write.xlsx(fail_inst_SSID_final,
                    instoutputname,
                    sheetName="Instrument, Failure, SSID's",
                    row.names=FALSE,
@@ -138,12 +135,12 @@ if (data_size == 1) {
                    row.names=FALSE,
                    append=TRUE)
         
-        write.xlsx(Instrument_Failure_Reasons,
+        write.xlsx(inst_fail_reasons_final,
                    outputnamexlsx,
                    sheetName="Instrument Failure Reasons",
                    row.names=FALSE,
                    append=TRUE) 
-        write.xlsx(Instrument_Failure_SSID,
+        write.xlsx(fail_inst_SSID_final,
                    outputnamexlsx,
                    sheetName="Instrument, Failure, SSID's",
                    row.names=FALSE,
