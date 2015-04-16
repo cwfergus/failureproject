@@ -184,3 +184,21 @@ full_list <- ls()
 delete <- full_list[!full_list %in% save_these]
 rm(list=delete, delete, full_list)
 
+##### Testing Area ####
+clean_failure_msokay$Synthesis_Date <- as.Date(clean_failure_msokay$Synthesis_Date, format = "%m/%d/%Y")
+
+fail_inst_synDate_count <- 
+        clean_failure_msokay %>%
+        group_by(Instrument_Name, Synthesis_Date) %>%
+        summarize(Number_Failed = n())
+
+class(clean_failure_msokay) <- "data.frame"
+
+split <- split(clean_failure_msokay, clean_failure_msokay$Instrument_Name)
+
+mgm3 <- split$MGM3
+mgm3 <- select(mgm3, Synthesis_Date)
+counts <- table(mgm3$Synthesis_Date)
+
+barplot(counts, main = "Failures per Day on MGM3", names.arg=c("3/3", "3/4", "3/5", "3/6", "3/7", "3/10", "3/11", "3/12", "3/13", "3/17", "3/18", "3/19", "3/20", "3/21", "3/24", "3/25", "3/27", "3/28", "3/31"))
+
