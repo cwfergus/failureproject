@@ -191,33 +191,37 @@ clean_raw$Synthesis_Date <- as.Date(clean_raw$Synthesis_Date, format = "%m/%d/%Y
 inst_synDate_count <-
         clean_raw %>%
         group_by(Instrument_Name, Synthesis_Date) %>%
-        summarize(Number_Made = n()) 
+        summarize(Sequences_Made = n()) 
 
 fail_inst_synDate_count <- 
         clean_failure_msokay %>%
         group_by(Instrument_Name, Synthesis_Date) %>%
-        summarize(Number_Failed = n())
-
-all_inst_synDate_counts <- merge(inst_synDate_count, fail_inst_synDate_count, all.x = TRUE)
-
-
+        summarize(Sequences_Failed = n())
 inst_synDate_count$Instrument_Name <- as.factor(inst_synDate_count$Instrument_Name)
 fail_inst_synDate_count$Instrument_Name <- as.factor(fail_inst_synDate_count$Instrument_Name)
+
+all_inst_synDate_counts <- merge(inst_synDate_count, fail_inst_synDate_count, all.x = TRUE)
+all_inst_synDate_counts$Sequences_Failed[is.na(all_inst_synDate_counts$Sequences_Failed)] <- 0
+
+inst_Date_final <-
+        all_inst_synDate_counts %>%
+        mutate(Failure_Rate = Sequences_Failed/Sequences_Made*100)
+inst_Date_final[order(inst_Date_final$Synthesis_Date),] -> inst_Date_final
+inst_Date_final <- inst_Date_final[350:436,]
+
 #qplot(Synthesis_Date, Number_Made, data=inst_synDate_count, facets=.~Instrument_Name)
 
-plotbase <- ggplot(fail_inst_synDate_count, aes(Synthesis_Date, Number_Failed))
+plotbase <- ggplot(inst_Date_final, aes(Synthesis_Date, Failure_Rate))
 
 plotbase + geom_point(aes(color=Instrument_Name))
 
 plotbase + geom_point(aes(color=Instrument_Name)) + facet_wrap(~Instrument_Name, scale ="free")
+plotbase + geom_point(aes(color=Instrument_Name)) + facet_wrap(~Instrument_Name) + stat_smooth(method="loess", se=FALSE, aes(color=Instrument_Name))
 
-class(clean_failure_msokay) <- "data.frame"
+library(plyr)
+library(gridExtra)
 
-split <- split(clean_failure_msokay, clean_failure_msokay$Instrument_Name)
-
-mgm3 <- split$MGM3
-mgm3 <- select(mgm3, Synthesis_Date)
-counts <- table(mgm3$Synthesis_Date)
-
-barplot(counts, main = "Failures per Day on MGM3", names.arg=c("3/3", "3/4", "3/5", "3/6", "3/7", "3/10", "3/11", "3/12", "3/13", "3/17", "3/18", "3/19", "3/20", "3/21", "3/24", "3/25", "3/27", "3/28", "3/31"))
-
+plotbase + geom_point(aes(color=Instrument_Name)) + geom_smooth(method="loess", se=FALSE) + expand_limits(y=c(0,100)) ->p
+plots <- dlply(inst_Date_final, "Instrument_Name", "%+%", e1 = p)
+ml = do.call(marrangeGrob, c(plots, list(nrow=1, ncol=1)))
+ggsave("multipage.pdf", ml)
