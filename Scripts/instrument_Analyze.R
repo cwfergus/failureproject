@@ -186,11 +186,24 @@ rm(list=delete, delete, full_list)
 
 ##### Testing Area ####
 clean_failure_msokay$Synthesis_Date <- as.Date(clean_failure_msokay$Synthesis_Date, format = "%m/%d/%Y")
+clean_raw$Synthesis_Date <- as.Date(clean_raw$Synthesis_Date, format = "%m/%d/%Y")
+
+inst_synDate_count <-
+        clean_raw %>%
+        group_by(Instrument_Name, Synthesis_Date) %>%
+        summarize(Number_Made = n()) 
 
 fail_inst_synDate_count <- 
         clean_failure_msokay %>%
         group_by(Instrument_Name, Synthesis_Date) %>%
         summarize(Number_Failed = n())
+
+all_inst_synDate_counts <- merge(inst_synDate_count, fail_inst_synDate_count, all.x = TRUE)
+
+inst_synDate_count[order(inst_synDate_count$Synthesis_Date),] -> ordered
+
+inst_synDate_count$Instrument_Name <- as.factor(inst_synDate_count$Instrument_Name)
+qplot(Synthesis_Date, Number_Made, data=inst_synDate_count, facets=.~Instrument_Name)
 
 class(clean_failure_msokay) <- "data.frame"
 
