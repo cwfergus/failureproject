@@ -202,7 +202,14 @@ all_inst_synDate_counts <- merge(inst_synDate_count, fail_inst_synDate_count, al
 
 
 inst_synDate_count$Instrument_Name <- as.factor(inst_synDate_count$Instrument_Name)
-qplot(Synthesis_Date, Number_Made, data=inst_synDate_count, facets=.~Instrument_Name)
+fail_inst_synDate_count$Instrument_Name <- as.factor(fail_inst_synDate_count$Instrument_Name)
+#qplot(Synthesis_Date, Number_Made, data=inst_synDate_count, facets=.~Instrument_Name)
+
+plotbase <- ggplot(fail_inst_synDate_count, aes(Synthesis_Date, Number_Failed))
+
+plotbase + geom_point(aes(color=Instrument_Name))
+
+plotbase + geom_point(aes(color=Instrument_Name)) + facet_wrap(~Instrument_Name, scale ="free")
 
 class(clean_failure_msokay) <- "data.frame"
 
