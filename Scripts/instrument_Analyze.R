@@ -200,7 +200,6 @@ fail_inst_synDate_count <-
 
 all_inst_synDate_counts <- merge(inst_synDate_count, fail_inst_synDate_count, all.x = TRUE)
 
-inst_synDate_count[order(inst_synDate_count$Synthesis_Date),] -> ordered
 
 inst_synDate_count$Instrument_Name <- as.factor(inst_synDate_count$Instrument_Name)
 qplot(Synthesis_Date, Number_Made, data=inst_synDate_count, facets=.~Instrument_Name)
