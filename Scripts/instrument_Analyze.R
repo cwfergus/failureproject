@@ -54,11 +54,11 @@ inst_loc_count <-
 #repeate above location removal but only for failed sequences
 failedspots <- 1:nrow(clean_failure_msokay) 
 failedsupersamspots <- grep("SAM", clean_failure_msokay$Instrument_Name)
-failednotSSspots <- allspots[!allspots %in% supersamspots]
+failednotSSspots <- failedspots[!failedspots %in% failedsupersamspots]
 
 fail_inst_select_loc <- clean_failure_msokay
 
-for (i in notSSspots) {
+for (i in failednotSSspots) {
         fail_inst_select_loc[i, "Location"] <- NA
 }
 
