@@ -2,9 +2,9 @@
 
 save_these=ls() #generates a list of variables to keep at end of script
 
-#####
+##### Instrument Failure Rate #####
 # The below section generates a table showing the Failure rate for a specific Instrument
-#####
+
 inst_count <- 
         clean_raw %>% #take clean raw data
         group_by(Instrument_Name) %>% #group via Instrument Name
@@ -25,9 +25,9 @@ inst_counts_final <-
         #add a column that is the failure rate
         mutate(Failure_Rate = Sequences_Failed/Sequences_Made) %>% 
         arrange(desc(Failure_Rate)) #sort largest to smallest failure rate
-#####
+##### Instrument + Location Failure Rate ####
 # The below section generates a table that shows the failure rate for each location in each machine
-##### 
+
 
 
 #Generate vector of row numbers in the raw data
@@ -78,9 +78,9 @@ inst_loc_counts_final <-
         mutate(Failure_Rate = Sequences_Failed/Sequences_Made) %>% #Add failure rate column
         arrange(desc(Failure_Rate)) # Sort via failure rate
 
-#####
+##### Failure Types per instrument ####
 # the below area generates a table which shows the number of a specific failure per instrument
-#####
+
 inst_fail_reasons_final <- 
         clean_failure_msokay %>% #take all failed+MS Okay sequences
         group_by(Instrument_Name, Failure_Reason) %>% #group via Inst name & Failure R
@@ -89,10 +89,9 @@ inst_fail_reasons_final <-
 
 class(inst_fail_reasons_final) <- "data.frame" #switch to data frame for xlsx writeout
 
-#####
+##### Failure Reasons and SSID for each Instrument ####
 #The below section generates a table showing the SSIDs for each Failure reason and Instrument combination. It also shows
 # the number of failures for the combination, but not each SSID
-#####
 
 SSID_inst<- 
         clean_failure_msokay %>%
@@ -127,9 +126,8 @@ fail_inst_SSID_final <-
         select(Instrument_and_Reason, Number_Failed, Failed_Sequence_Sets) %>%
         arrange(desc(Number_Failed))
 
-#####
-# The below section writes out the data
-#####
+##### Data Write out ####
+
 instoutputname <- paste(outputname, "_instrument", ".xlsx", sep="")
 if (data_size == 1) {
         write.xlsx(inst_counts_final,
@@ -179,9 +177,9 @@ if (data_size == 1) {
                    append=TRUE)
 }
 
-#####
+##### Enviornment Cleanup ####
 # The below section removes script specific variables
-#####
+
 full_list <- ls()
 delete <- full_list[!full_list %in% save_these]
 rm(list=delete, delete, full_list)
