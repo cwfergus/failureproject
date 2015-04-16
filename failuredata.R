@@ -55,7 +55,8 @@ colnames(rawdata) <- c("Sequence_ID",
                        "Failure_Reason",
                        "Instrument_Name",
                        "Location",
-                       "Sequence_Set")
+                       "Sequence_Set",
+                       "Synthesis_Date")
 if (datachoice == 1 | datachoice == 8){
         data_size = 1
 } else {
@@ -64,13 +65,14 @@ if (datachoice == 1 | datachoice == 8){
 
 rawdata <-data.frame(lapply(rawdata, function(v){
         if (is.character(v)) {
-                return(toupper(v))
+                return(as.character(toupper(v)))
         } else return(v)
 }))
 
 rawdata$Instrument_Name <- na.locf(rawdata$Instrument_Name, na.rm=FALSE)
 rawdata$Location <- na.locf(rawdata$Location, na.rm=FALSE)
 rawdata$Sequence_Set <- na.locf(rawdata$Sequence_Set, na.rm=FALSE)
+rawdata$Synthesis_Date <- na.locf(rawdata$Synthesis_Date)
 rawdata <- mutate(rawdata, originalnote = Failure_Reason)
 # converts the data frame to the special tbl_df class, necessary for use with DPLYR functions
 
