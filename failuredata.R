@@ -134,7 +134,7 @@ if (datachoice == 8 | datachoice == 1) {
 print("Finished! Check the folder for your excel files!")
 
 #Removes everything from R memory.
-#rm(list=ls())
+rm(list=ls())
 
 
 
