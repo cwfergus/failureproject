@@ -9,7 +9,7 @@ source('Scripts/packageload.R')
 #Sourcing the unqiue functions that are used in this script
 source("Scripts/failurelistfunctions.R")
 #Makes user aware of any changes, and asks for acknowledgement.
-readline("This Script was updated on 4/1/15, New export order/info is needed
+readline("This Script was updated on 4/15/15, New export order/info is needed
 Please read the readme, and then hit enter...")
 
 #Asks the user for the name of the raw data file, and appends the name with its extension
