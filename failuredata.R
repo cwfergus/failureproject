@@ -124,6 +124,7 @@ if (datachoice == 6 | datachoice == 1) {
 } 
 if (datachoice == 7 | datachoice == 1) {
         source('Scripts/instrument_Analyze.R')
+        source('Scripts//instrumentgraphing.R')
 } 
 if (datachoice == 8 | datachoice == 1) {
         write.csv(everything_wnotes, file=outputnamerawcsv)
