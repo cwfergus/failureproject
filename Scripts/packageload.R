@@ -23,3 +23,15 @@ if (require(zoo)==FALSE) {
 } else {
         library(zoo)
 }
+if (require(ggplot2)==FALSE) {
+        install.packages("ggplot2")
+        library(ggplot2)
+} else {
+        library(ggplot2)
+}
+if (require(scales)==FALSE) {
+        install.packages("scales")
+        library(scales)
+} else {
+        library(scales)
+}

@@ -24,8 +24,6 @@ inst_Date_final <-
         all_inst_synDate_counts %>%
         mutate(Failure_Rate = Sequences_Failed/Sequences_Made*100)
 
-library(ggplot2)
-library(scales)
 
 ##### Every Machine Dashboard Plotting ####
 
