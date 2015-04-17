@@ -29,16 +29,16 @@ library(scales)
 
 ##### Every Machine Dashboard Plotting ####
 
+# 
+# plotbase <- ggplot(inst_Date_final, aes(Synthesis_Date, Failure_Rate, label=Sequences_Made))
+# 
+# plotbase + 
+#         geom_point(aes(color=Instrument_Name)) + 
+#         facet_wrap(~Instrument_Name) + 
+#         stat_smooth(method="loess", se=FALSE, aes(color=Instrument_Name)) + 
+#         geom_text(vjust=-2, size=2)
 
-plotbase <- ggplot(inst_Date_final, aes(Synthesis_Date, Failure_Rate, label=Sequences_Made))
-
-plotbase + 
-        geom_point(aes(color=Instrument_Name)) + 
-        facet_wrap(~Instrument_Name) + 
-        stat_smooth(method="loess", se=FALSE, aes(color=Instrument_Name)) + 
-        geom_text(vjust=-2, size=2)
-
-##### Select by Instrument list  Dashboard Plotting ####
+##### Select by Instrument list, divide by instrument class Dashboard Plotting ####
 
 read.table('Internaldata/instrumentlist.tab', sep="\t", header=TRUE) -> instrumentlist
 
@@ -76,50 +76,55 @@ for (i in 1:length(split)) {
 }
 dev.off()
         
-        
-        
-plotbase <- ggplot(selectinst, aes(Synthesis_Date, Failure_Rate, label=Sequences_Made))
-plotbase + 
-        geom_point(aes(color=Instrument_Name)) +
-        facet_wrap(~Instrument_Name) +
-        geom_text(vjust=-0.5 , size=4) + 
-        coord_cartesian(ylim=-5:110) + 
-        geom_line(aes(color=Instrument_Name)) + 
-        scale_x_date(labels=date_format("%m/%d")) + 
-        labs(title="Failure Rate by Machine Over time", 
-             x = "Synthesis Start Date", 
-             y = "Failure Percentage")
-dev.off()
+##### Select by Instrument List, Dashboard plotting ####        
+# read.table('Internaldata/instrumentlist.tab', sep="\t", header=TRUE) -> instrumentlist
+# 
+# as.character(instrumentlist[,1]) -> instrumentlistvector
+# 
+# inst_Date_final[inst_Date_final$Instrument_Name %in% instrumentlistvector,] -> selectinst
+# 
+# plotbase <- ggplot(selectinst, aes(Synthesis_Date, Failure_Rate, label=Sequences_Made))
+# plotbase + 
+#         geom_point(aes(color=Instrument_Name)) +
+#         facet_wrap(~Instrument_Name) +
+#         geom_text(vjust=-0.5 , size=4) + 
+#         coord_cartesian(ylim=-5:110) + 
+#         geom_line(aes(color=Instrument_Name)) + 
+#         scale_x_date(labels=date_format("%m/%d")) + 
+#         labs(title="Failure Rate by Machine Over time", 
+#              x = "Synthesis Start Date", 
+#              y = "Failure Percentage")
+# dev.off()
 
 ##### Select by number sequences made Dashboard Plotting ####
-instrument_list <-
-        inst_Date_final %>%
-        group_by(Instrument_Name) %>%
-        summarize(Sum_Seq_Made = sum(Sequences_Made)) %>%
-        filter(Sum_Seq_Made >= 10)
-
-as.character(instrument_list$Instrument_Name) -> instrument_list
-
-inst_Date_final[inst_Date_final$Instrument_Name %in% instrument_list,] -> select_inst
-
-plotbase <- ggplot(select_inst, aes(Synthesis_Date, Failure_Rate, label=Sequences_Made))
-
-plotbase +
-        geom_point(aes(color=Instrument_Name)) +
-        facet_wrap(~Instrument_Name) +
-        stat_smooth(method="loess", se=FALSE, aes(color=Instrument_Name)) +
-        geom_text(vjust=-2, size=3)
+# instrument_list <-
+#         inst_Date_final %>%
+#         group_by(Instrument_Name) %>%
+#         summarize(Sum_Seq_Made = sum(Sequences_Made)) %>%
+#         filter(Sum_Seq_Made >= 10)
+# 
+# as.character(instrument_list$Instrument_Name) -> instrument_list
+# 
+# inst_Date_final[inst_Date_final$Instrument_Name %in% instrument_list,] -> select_inst
+# 
+# plotbase <- ggplot(select_inst, aes(Synthesis_Date, Failure_Rate, label=Sequences_Made))
+# 
+# plotbase +
+#         geom_point(aes(color=Instrument_Name)) +
+#         facet_wrap(~Instrument_Name) +
+#         stat_smooth(method="loess", se=FALSE, aes(color=Instrument_Name)) +
+#         geom_text(vjust=-2, size=3)
 
 ##### Mulitpage Plotting ####
-library(plyr)
-library(gridExtra)
-
-p <- 
-        plotbase + 
-        geom_point(aes(color=Instrument_Name)) +
-        geom_smooth(method="loess", se=FALSE) + 
-        expand_limits(y=c(0,100)) + 
-        geom_text(vjust=2, size=4)
-plots <- dlply(inst_Date_final, "Instrument_Name", "%+%", e1 = p)
-ml = do.call(marrangeGrob, c(plot, list(nrow=1, ncol=1)))
-ggsave("multipage.pdf", ml)
+# library(plyr)
+# library(gridExtra)
+# 
+# p <- 
+#         plotbase + 
+#         geom_point(aes(color=Instrument_Name)) +
+#         geom_smooth(method="loess", se=FALSE) + 
+#         expand_limits(y=c(0,100)) + 
+#         geom_text(vjust=2, size=4)
+# plots <- dlply(inst_Date_final, "Instrument_Name", "%+%", e1 = p)
+# ml = do.call(marrangeGrob, c(plot, list(nrow=1, ncol=1)))
+# ggsave("multipage.pdf", ml)
