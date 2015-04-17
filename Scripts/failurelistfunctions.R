@@ -238,11 +238,11 @@ inst_raw_clean <- function(dataset){
         dataset$Instrument_Name <- gsub("MM ", "MM", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("MGM ", "MGM", dataset$Instrument_Name)
         dataset$Instrument_Name <- gsub("SAM 12", NA, dataset$Instrument_Name)
-        dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "SAM 12"
+        dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "SAM_12"
         dataset$Instrument_Name <- gsub("SAM 11", NA, dataset$Instrument_Name)
-        dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "SAM 11"
+        dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "SAM_11"
         dataset$Instrument_Name <- gsub("SAM 10", NA, dataset$Instrument_Name)
-        dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "SAM 10"
+        dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "SAM_10"
         dataset$Instrument_Name <- gsub("SAM 9", NA, dataset$Instrument_Name)
         dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "SAM 9"
         dataset$Instrument_Name <- gsub("SAM 8", NA, dataset$Instrument_Name)
@@ -268,6 +268,8 @@ inst_name_adjust <- function(dataset){
         dataset$Instrument_Name <- gsub("H6", NA, dataset$Instrument_Name)
         dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "h6"
         
+        dataset$Instrument_Name <- gsub("MM192", NA, dataset$Instrument_Name)
+        dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "mm192"
         dataset$Instrument_Name <- gsub("MM12", NA, dataset$Instrument_Name)
         dataset$Instrument_Name[is.na(dataset$Instrument_Name)] <- "mm12"
         dataset$Instrument_Name <- gsub("MM11", NA, dataset$Instrument_Name)
