@@ -1,11 +1,10 @@
 Failure List
 Cameron Ferguson
 last updated: 4/7/15
-Version: 0.1.6.6
+Version: 0.1.7.0
 -------------------------------------------------------------------------------------
 Most Recent UPDATE:
-0.1.6.6
-Made several internal changes to the way the script works, just to clean it up and make it easier to read. Names of functions, variables, and columns were changed. Some of the processes were shorterened, as I had missed obvious things in my rush to complete the Instrument Analysis.
+Added a graphing to the Instrument Analysis. A new script provides a pdf file that shows failure rate for each machine split out by machine class, all over time. Which is why Synthesis Start Date must now be included as an export field.
 
 -------------------------------------------------------------------------------------
 Script Summary
@@ -58,6 +57,7 @@ To generate the Raw File
                 a)Synthesis Instrument
                 b)Synthesis Deck Position
                 c)Sequence Set ID
+                d)Synthesis Start Date
 	6)Using the drop down field in the top left, change to related tables: Sets SSID Track
 	7) Select the following Fields from the box on the left, and move them to the box on the right.          
                 a)Sets SSID Track::Sequence ID
@@ -76,6 +76,7 @@ To generate the Raw File
                 g)Synthesis Instrument
                 h)Synthesis Dec Position
                 i)Sequence Set ID
+                j)Synthesis Start Date
 	9) Hit export
 	10) Wait for filemaker to export the data. This can take up to 10 minuites!
 
@@ -240,6 +241,14 @@ Next is the most complicated analysis so far:
 
 Now all of these tables are written out as a single xlsx file.
 
+----
+instrument_graphing.R
+
+Generates a pdf file with several plots, all depicting failure rate over time by machine, broken down by machine class.
+
+The script begins by converting fields to dates and factors ...
+
+ILL FINISH THIS SECTION LATER.
 
 --------------------------------------------------------------------------------------------------------
 Final File(s)
@@ -252,6 +261,9 @@ Excel files can be easily manipulated/sorted and played with. Also a large numbe
 
 -----------------------------------------------------------------
 UPDATES
+
+0.1.6.6
+Made several internal changes to the way the script works, just to clean it up and make it easier to read. Names of functions, variables, and columns were changed. Some of the processes were shorterened, as I had missed obvious things in my rush to complete the Instrument Analysis.
 
 0.1.6.5
 Added a Sequence Set analysis view for the Instrument Analysis, showing the sequence sets that have failed on a given instrument. Be aware of the new export order/fields in 0.1.6
