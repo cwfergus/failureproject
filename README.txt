@@ -2,11 +2,11 @@ Failure List
 Cameron Ferguson
 last updated: 4/15/15
 Version: 0.1.7.0
--------------------------------------------------------------------------------------
+---------------------------------------------------
 Most Recent UPDATE:
 Added a graphing to the Instrument Analysis. A new script provides a pdf file that shows failure rate for each machine split out by machine class, all over time. Which is why Synthesis Start Date must now be included as an export field.
 
--------------------------------------------------------------------------------------
+----------------------------------------------------
 Script Summary
 
 This collection of scripts take a raw .tab file (exported from filemaker), reads the data into R, performs several analyses, and returns the requested excel files
@@ -15,7 +15,7 @@ To see information on the raw file, the script layouts, or the excel files, chec
 
 For information into the actual raw data, the different precursor files, the assumptions made in analysis, and the final data see the Codebook
 
-------------------------------------------------------------------------------------------
+----------------------------------------------------
 How To Run
 
 This assumes you have already exported the data correctly. If you have yet to export the data, please pause here, and check out the raw file section before continuing.
@@ -43,7 +43,7 @@ This assumes you have already exported the data correctly. If you have yet to ex
 
 6) Open the excel file/s and enjoy the data! 
 
---------------------------------------------------------------------------------------
+-------------------------------------------------
 Raw File
 
 The Raw File is the data file that you will feed into R in order to get the excel file. It is exported from Filemaker, and has the extension .tab. You must either remember the location of the Raw File or save it to the same location as the R script in order for the script to work.
@@ -85,7 +85,7 @@ Once filemaker has finished, you now have the raw data! Hopefully you saved this
 It is also possible to open this raw file in notebook. You shouldn't need to do this, but it must be nice to know you can!
 
 
-----------------------------------------------------------------------------------------
+-----------------------------------------------
 Script Layouts
 
 failurelist.R
