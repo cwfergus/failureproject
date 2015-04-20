@@ -32,7 +32,7 @@ Analysis_files <- c("Everything", "Failure Reason",
 Analysis_files <- data.frame(Analysis_files)
 
 print(Analysis_files)
-datachoice <- readline("Enter the number of what analysis you want... ")
+datachoice <- readline("Enter the number of the analysis you want... ")
 
 
 announcement <- "Script is Running, please wait. May take up to 5 min for large data sets"
