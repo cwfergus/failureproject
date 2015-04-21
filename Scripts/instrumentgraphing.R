@@ -75,7 +75,47 @@ for (i in 1:length(split)) {
         print(plot)
 }
 dev.off()
-        
+  
+##### Year long instrument graphing, showing avg failure rate ####
+# read.table('Internaldata/instrumentlist.tab', sep="\t", header=TRUE) -> instrumentlist
+# 
+# as.character(instrumentlist[,1]) -> instrumentlistvector
+# 
+# inst_Date_final[inst_Date_final$Instrument_Name %in% instrumentlistvector,] -> selectinst
+# 
+# merge(selectinst, instrumentlist) -> merged
+# 
+# split(merged, merged$Instrument_Name) -> split
+# 
+# levels(merged$Instrument_Name) -> list
+# 
+# outputnamepdf <- paste(outputname, "_instrumentplots.pdf", sep="")
+# pdf(file=outputnamepdf)
+# for (i in 1:length(split)) {
+#         data_frame <- as.data.frame(split[i])
+#         if (nrow(data_frame) > 0) {
+#                 colnames(data_frame) <- c("Instrument_Name",
+#                                           "Synthesis_Date",
+#                                           "Sequences_Made",
+#                                           "Sequences_Failed",
+#                                           "Failure_Rate",
+#                                           "Instrument_Class")
+#                 plotbase <- ggplot(data_frame, aes(Synthesis_Date, Failure_Rate, label=Sequences_Made))
+#                 plotname <- list[i]
+#                 plotoutname <- paste( plotname, ".pdf", sep ="")
+#                 titlename <- paste(plotname, "Failure Rate over time", sep = " ")
+#                 plot<-plotbase + 
+#                         geom_point(aes(color=Instrument_Name)) +
+#                         facet_wrap(~Instrument_Name) +
+#                         coord_cartesian(ylim=-5:110) + 
+#                         stat_smooth(aes(color=Instrument_Name), method="lm") + 
+#                         scale_x_date(breaks = date_breaks("months"), labels=date_format("%b")) + 
+#                         labs(title=titlename, x = "Synthesis Start Date", y = "Failure Percentage")
+#                 print(plot)
+#         }
+# }
+# dev.off()
+
 ##### Select by Instrument List, Dashboard plotting ####        
 # read.table('Internaldata/instrumentlist.tab', sep="\t", header=TRUE) -> instrumentlist
 # 
