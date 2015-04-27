@@ -49,6 +49,9 @@ not_failed <- function(dataset){
         dataset$Failure_Reason <- gsub("pass", NA, dataset$Failure_Reason)
         dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
+        dataset$Failure_Reason <- gsub("^wobble$", NA, dataset$Failure_Reason)
+        dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
+        
         dataset$Failure_Reason <- gsub("wobble o", NA, dataset$Failure_Reason)
         dataset$Failure_Reason[is.na(dataset$Failure_Reason)] <- "REMOVED"
         
