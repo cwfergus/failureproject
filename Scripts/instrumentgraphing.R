@@ -71,7 +71,8 @@ for (i in 1:length(split)) {
                 coord_cartesian(ylim=-5:110) + 
                 geom_line(aes(color=Instrument_Name)) + 
                 scale_x_date(labels=date_format("%m/%d")) + 
-                labs(title=titlename, x = "Synthesis Start Date", y = "Failure Percentage")
+                labs(title=titlename, x = "Synthesis Start Date", y = "Failure Percentage") +
+                theme(axis.text.x = element_text(angle=90))
         print(plot)
 }
 dev.off()
