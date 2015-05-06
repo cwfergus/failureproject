@@ -20,9 +20,17 @@ failures_msokay_amount <- nrow(clean_failure_msokay)
 #counts the number of rows in the failures data frame.
 failed_amount <- nrow(clean_failure)
 
+#Finds the date range
+begin_date <- min(clean_raw$Synthesis_Date)
+begin_date <- format(begin_date, format = "%m/%d/%Y") 
+end_date <- max(clean_raw$Synthesis_Date)
+end_date <- format(end_date, format = "%m/%d/%Y") 
+date_range <- paste(begin_date, end_date, sep=" to ")
 
 #creates a character list of names of summary information
-Catagory <- c("Total number of sequences analyzed:",
+Catagory <- c("Date Range:",
+              "---",
+              "Total number of sequences analyzed:",
               "---",
               "# of Sequences with notes:",
               "Percent with Notes",
@@ -36,7 +44,9 @@ Catagory <- c("Total number of sequences analyzed:",
               "# of failed sequences:",
               "Percent Failed sequences")
 #creates a results list of numbers of summary information
-Result <- c(seq_amount, 
+Result <- c(date_range,
+            " ",
+            seq_amount, 
             " ",
             not_passed_amount,
             not_passed_amount/seq_amount*100, #calculates not_passed %
