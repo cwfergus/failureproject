@@ -73,6 +73,7 @@ rawdata$Instrument_Name <- na.locf(rawdata$Instrument_Name, na.rm=FALSE)
 rawdata$Location <- na.locf(rawdata$Location, na.rm=FALSE)
 rawdata$Sequence_Set <- na.locf(rawdata$Sequence_Set, na.rm=FALSE)
 rawdata$Synthesis_Date <- na.locf(rawdata$Synthesis_Date)
+rawdata$Synthesis_Date <- as.Date(rawdata$Synthesis_Date, format = "%m/%d/%Y")
 rawdata <- mutate(rawdata, originalnote = Failure_Reason)
 # converts the data frame to the special tbl_df class, necessary for use with DPLYR functions
 

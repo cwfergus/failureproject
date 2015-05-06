@@ -2,9 +2,6 @@
 
 ##### Data Generation ####
 
-clean_failure_msokay$Synthesis_Date <- as.Date(clean_failure_msokay$Synthesis_Date, format = "%m/%d/%Y")
-clean_raw$Synthesis_Date <- as.Date(clean_raw$Synthesis_Date, format = "%m/%d/%Y")
-
 inst_synDate_count <-
         clean_raw %>%
         group_by(Instrument_Name, Synthesis_Date) %>%
