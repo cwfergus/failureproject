@@ -51,7 +51,7 @@ class(seqID_FR_info) <- "data.frame"
 
 #Writes out in two different ways depending on Data Size. 
 if (data_size == 1) { #if large:
-        outputname3 <- paste(outputname, "_seqID", ".csv", sep="") #.csv ext
+        outputname3 <- paste(outputfolder, "\\", outputname, "_seqID", ".csv", sep="") #.csv ext
         write.csv(seqID_FR_info, #uses write.csv as it is WAY faster
                   file=outputname3,
                   row.names=FALSE,

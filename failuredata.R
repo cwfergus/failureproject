@@ -9,20 +9,25 @@ source('Scripts/packageload.R')
 #Sourcing the unqiue functions that are used in this script
 source("Scripts/failurelistfunctions.R")
 #Makes user aware of any changes, and asks for acknowledgement.
-readline("This Script was updated on 4/15/15, New export order/info is needed
+readline("This Script was updated on 6/3/15, Script now runs interactively
 Please read the readme, and then hit enter...")
 
+
 #Asks the user for the name of the raw data file, and appends the name with its extension
-filename <- readline("What is the data file called?... ")
-if (str_sub(filename, start=-4)!=".tab") {
-        filename <- paste(filename, ".tab", sep="")  
-}
+# filename <- readline("What is the data file called?... ")
+# if (str_sub(filename, start=-4)!=".tab") {
+#         filename <- paste(filename, ".tab", sep="")  
+# }
+
+filename <- choose.files(caption = "Select Filemaker Export File")
 
 
 #Asks the user for their desired output name, and appends the name with the xlsx extension
+outputfolder <- choose.dir(default = "C:/Users/", caption = "Choose folder you want data saved to")
+
 outputname <- readline("What do you want the output file called? (don't add extension)...  ")
-outputnamexlsx <- paste(outputname, ".xlsx", sep="")
-outputnamerawcsv <- paste(outputname, "_raw", ".csv", sep="")
+outputnamexlsx <- paste(outputfolder, "\\", outputname, ".xlsx", sep="")
+outputnamerawcsv <- paste(outputfolder, "\\", outputname, "_raw", ".csv", sep="")
 
 Analysis_files <- c("Everything", "Failure Reason", 
                     "Modification Analysis", "Sequence ID Analysis", 

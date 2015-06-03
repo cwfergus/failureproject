@@ -10,7 +10,7 @@ Failurelist_by_Reason <-
 class(Failurelist_by_Reason) <- "data.frame"
 #writes out the data to an excel sheet
 if (data_size == 1) { #if large:
-        reasonoutputname <- paste(outputname, "_FailureReason", ".csv", sep="") #.csv ext
+        reasonoutputname <- paste(outputfolder, "\\", outputname, "_FailureReason", ".csv", sep="") #.csv ext
         write.csv(Failurelist_by_Reason, #uses write.csv as it is WAY faster
                   file=reasonoutputname,
                   row.names=FALSE,

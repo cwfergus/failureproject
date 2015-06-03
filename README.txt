@@ -1,10 +1,10 @@
 Failure List
 Cameron Ferguson
-last updated: 4/15/15
-Version: 0.1.7.0
+last updated: 6/3/15
+Version: 0.1.8.0
 ---------------------------------------------------
 Most Recent UPDATE:
-Added a graphing to the Instrument Analysis. A new script provides a pdf file that shows failure rate for each machine split out by machine class, all over time. Which is why Synthesis Start Date must now be included as an export field.
+Script now works interactively asking a user to select the raw filemaker export file and then to select the folder they want the data to be saved. 
 
 ----------------------------------------------------
 Script Summary
@@ -28,9 +28,7 @@ This assumes you have already exported the data correctly. If you have yet to ex
 2) Source the failuredata.R script with the following command:
 	source('failuredata.R')
 
-3) Enter the data file name. If it is not in the same folder as the script, you must put a path. You can add the extension or not.
-	ex) If your data (lastyear.tab) is saved in a folder (called data) that is within the same folder as the script your filename would be: data/lastyear
-	ex) If the data is just saved in the same folder your filename would be: lastyear
+3) Choose the filemaker export file you created earlier. Then choose the folder you want the final data to be saved in.
 
 4) Enter the name you want the output file to be called. 
 	If you want it saved in a different folder, make it a path.
@@ -261,6 +259,9 @@ Excel files can be easily manipulated/sorted and played with. Also a large numbe
 
 -----------------------------------------------------------------
 UPDATES
+
+0.1.7.0
+Added a graphing to the Instrument Analysis. A new script provides a pdf file that shows failure rate for each machine split out by machine class, all over time. Which is why Synthesis Start Date must now be included as an export field.
 
 0.1.6.6
 Made several internal changes to the way the script works, just to clean it up and make it easier to read. Names of functions, variables, and columns were changed. Some of the processes were shorterened, as I had missed obvious things in my rush to complete the Instrument Analysis.

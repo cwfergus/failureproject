@@ -47,7 +47,7 @@ split(merged, merged$Instrument_Class) -> split
 
 levels(merged$Instrument_Class) -> list
 
-outputnamepdf <- paste(outputname, "_instrumentplots.pdf", sep="")
+outputnamepdf <- paste(outputfolder, "\\", outputname, "_instrumentplots.pdf", sep="")
 pdf(file=outputnamepdf)
 for (i in 1:length(split)) {
         data_frame <- as.data.frame(split[i])

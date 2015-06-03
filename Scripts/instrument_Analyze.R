@@ -128,7 +128,7 @@ fail_inst_SSID_final <-
 
 ##### Data Write out ####
 
-instoutputname <- paste(outputname, "_instrument", ".xlsx", sep="")
+instoutputname <- paste(outputfolder, "\\", outputname, "_instrument", ".xlsx", sep="")
 if (data_size == 1) {
         write.xlsx(inst_counts_final,
                    instoutputname,

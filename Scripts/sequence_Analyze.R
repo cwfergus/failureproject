@@ -37,7 +37,7 @@ sequence_FR <-
 class(sequence_FR) <- "data.frame"
 #Writes out in two ways depending on data size
 if (data_size == 1) {#if Large
-        outputname2 <- paste(outputname, "_sequence", ".csv", sep="") #.csv file
+        outputname2 <- paste(outputfolder, "\\", outputname, "_sequence", ".csv", sep="") #.csv file
         write.csv(sequence_FR, #uses write.csv as way faster
                   file=outputname2,
                   row.names=FALSE,

@@ -89,7 +89,7 @@ class(mod3_FR) <- "data.frame"
 
 
 if (data_size == 1) { #if large:
-        modoutputname <- paste(outputname, "_mod", ".xlsx", sep="") #.csv ext
+        modoutputname <- paste(outputfolder, "\\", outputname, "_mod", ".xlsx", sep="") #.csv ext
         write.xlsx(mod_FR,
                    file=modoutputname,
                    sheetName="Both Mod Failure Rate",
